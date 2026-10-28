@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>Gmail · Angella Smith (HRBP)</title>
+<style>
+:root{color-scheme:light;--bg:#f6f8fc;--sf:#ffffff;--tx:#1f1f1f;--mu:#444746;--mu2:#5f6368;--bd:#e0e3e7;--sel:#d3e3fd;--hv:#eaf1fb;--hv2:#f2f6fc;--rd:#d93025;--ac:#0b57d0;--ok:#188038;--okbg:#e6f4ea;--wn:#8a5300;--wnbg:#fef3d6;--cmp:#c2e7ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 "Google Sans",Roboto,system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+button{font:inherit;color:inherit}
+svg.i{width:20px;height:20px;fill:currentColor;flex:none;display:block}
+.ib{width:40px;height:40px;border-radius:50%;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--mu)}
+.ib:hover{background:rgba(68,71,70,.08)}
+.ib.sm{width:32px;height:32px}.ib.sm svg.i{width:18px;height:18px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+
+/* top bar */
+.top{display:flex;align-items:center;gap:8px;padding:8px 16px 8px 8px;height:64px}
+.logo{display:flex;align-items:center;gap:6px;font-size:22px;color:var(--mu);min-width:200px;padding-left:4px}
+.logo svg{width:32px;height:24px}
+.search{flex:1;max-width:720px;display:flex;align-items:center;gap:10px;height:48px;padding:0 6px 0 4px;border-radius:24px;background:#e9eef6;color:var(--mu)}
+.search span{flex:1}
+.acct{margin-left:auto;display:flex;align-items:center;gap:4px}
+.acct .who{display:flex;flex-direction:column;align-items:flex-end;margin-right:6px;line-height:1.2}
+.acct .who b{font-size:13px;font-weight:500}.acct .who small{color:var(--mu2);font-size:12px}
+.av{width:32px;height:32px;border-radius:50%;color:#fff;display:grid;place-items:center;font-weight:500;font-size:14px;flex:none}
+.av.lg{width:40px;height:40px;font-size:16px}
+
+/* layout */
+.lay{display:grid;grid-template-columns:256px 1fr;padding:0 16px 16px 0;height:calc(100vh - 64px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:520px}
+.nav{padding:4px 0 0}
+.compose{display:inline-flex;align-items:center;gap:12px;background:var(--cmp);color:#001d35;border:0;border-radius:16px;height:56px;padding:0 24px 0 18px;font-weight:500;margin:0 0 16px 8px;cursor:pointer;box-shadow:none;transition:box-shadow .15s}
+.compose:hover{box-shadow:0 1px 3px rgba(60,64,67,.3),0 4px 8px 3px rgba(60,64,67,.15)}
+.compose svg.i{width:24px;height:24px}
+.nav .f{display:flex;align-items:center;gap:18px;width:calc(100% - 12px);height:32px;border:0;background:none;color:var(--tx);padding:0 12px 0 26px;border-radius:0 16px 16px 0;cursor:pointer;text-align:left;font-size:14px}
+.nav .f:hover{background:rgba(31,31,31,.06)}
+.nav .f.on{background:var(--sel);font-weight:700;color:#001d35}
+.nav .f span:nth-child(2){flex:1}
+.nav .f small{font-size:12px;font-weight:700}
+.pane{background:var(--sf);border-radius:16px;min-height:0;overflow:hidden;display:grid;grid-template-columns:minmax(280px,400px) 1fr}
+.list{border-right:1px solid var(--bd);overflow-y:auto;min-height:0}
+.tool{display:flex;align-items:center;gap:4px;padding:4px 8px;border-bottom:1px solid var(--bd);height:48px}
+.tool .lbl{font-size:12px;color:var(--mu2);margin-left:auto;padding-right:8px}
+.msg{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #f1f3f4;background:none;color:var(--tx);padding:10px 16px 10px 20px;cursor:pointer;position:relative}
+.msg:hover{box-shadow:inset 1px 0 0 #dadce0,inset -1px 0 0 #dadce0,0 1px 2px 0 rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15);z-index:1}
+.msg.on{background:#c2dbff}
+.msg .fr{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.msg .fr b{font-weight:400}.msg.unread .fr b,.msg.unread .sub,.msg.unread .tm{font-weight:700;color:var(--tx)}
+.msg.unread{background:var(--sf)}.msg:not(.unread):not(.on){background:#f2f6fc}
+.msg .tm{font-size:12px;color:var(--mu2);white-space:nowrap}
+.msg .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg .sn{color:var(--mu2);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg .clip{display:inline-flex;align-items:center;gap:4px;margin-top:6px;border:1px solid #dadce0;border-radius:16px;padding:2px 10px 2px 6px;font-size:12px;color:var(--mu)}
+.msg .clip i{display:inline-block;width:14px;height:14px;border-radius:2px;background:var(--rd)}
+
+/* reading pane */
+.read{overflow-y:auto;min-height:0;padding:0 0 40px}
+.rtool{display:flex;align-items:center;gap:2px;padding:4px 8px;height:48px;position:sticky;top:0;background:var(--sf);z-index:2}
+.rtool .back{display:none}
+.subj{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 24px 18px 72px}
+.subj h1{margin:0;font-size:22px;font-weight:400;line-height:1.35}
+.lbl-chip{font-size:12px;background:#ddd;color:#444;border-radius:4px;padding:0 6px}
+.mail{display:grid;grid-template-columns:40px 1fr;gap:0 16px;padding:0 24px 0 16px}
+.mhd{display:flex;align-items:flex-start;gap:8px;min-height:40px}
+.mhd .who{flex:1;min-width:0}
+.mhd .who b{font-weight:700;font-size:14px}.mhd .who .em{color:var(--mu2);font-size:12px;margin-left:4px}
+.mhd .to{color:var(--mu2);font-size:12px;display:flex;align-items:center;gap:2px}
+.mhd .to svg{width:16px;height:16px}
+.mhd .tm{color:var(--mu2);font-size:12px;white-space:nowrap;padding-top:2px}
+.mhd .acts{display:flex;align-items:center;margin-top:-6px}
+.tag{display:inline-block;font-size:11px;border-radius:4px;padding:0 6px;background:var(--okbg);color:var(--ok);margin-left:8px;font-weight:500}
+.body{max-width:720px;padding:14px 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.55}
+.body p{margin:0 0 12px}
+.body a{color:var(--ac)}
+.thread-sep{border:0;border-top:1px solid var(--bd);margin:16px 24px 16px 72px}
+
+/* attachments */
+.attwrap{margin:8px 0 6px;padding-top:14px;border-top:1px solid #e9eaed;max-width:760px}
+.atthd{font-size:14px;color:var(--mu);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.atthd b{font-weight:500;color:var(--tx)}
+.atthd small{color:var(--mu2);font-size:12px;display:inline-flex;align-items:center;gap:4px}
+.atts{display:flex;flex-wrap:wrap;gap:12px}
+.att{position:relative;width:180px;height:122px;border:1px solid #e0e0e0;border-radius:6px;overflow:hidden;cursor:pointer;background:#f1f3f4;padding:0;text-align:left}
+.att img{position:absolute;inset:0;width:100%;height:calc(100% - 34px);object-fit:cover;object-position:top center}
+.att .cap{position:absolute;left:0;right:0;bottom:0;height:34px;background:#f5f5f5;display:flex;align-items:center;gap:8px;padding:0 10px;font-size:12.5px;font-weight:500;color:var(--tx)}
+.att .cap span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdfic{width:16px;height:16px;flex:none;border-radius:2px;background:#ea4335;color:#fff;font:700 6px/16px Arial,sans-serif;text-align:center;letter-spacing:-.2px}
+.att .hov{position:absolute;inset:0;background:rgba(32,33,36,.72);color:#fff;display:none;flex-direction:column;justify-content:space-between;padding:10px}
+.att:hover .hov,.att:focus-visible .hov{display:flex}
+.att .hov b{font-weight:500;font-size:13px;word-break:break-all;line-height:1.3}
+.att .hov small{opacity:.85;font-size:12px}
+.att .hov .dl{align-self:flex-end;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:grid;place-items:center;color:#fff}
+
+/* reply buttons and inline reply */
+.rbtns{display:flex;gap:12px;padding:20px 24px 0 72px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 20px 0 14px;border:1px solid #747775;border-radius:18px;background:var(--sf);color:var(--mu);font-weight:500;cursor:pointer}
+.pill:hover{background:#f3f6fb}
+.pill svg.i{width:18px;height:18px}
+.rbox{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:20px 24px 0 16px}
+.rcard{border-radius:8px;box-shadow:0 1px 2px 0 rgba(60,64,67,.3),0 2px 6px 2px rgba(60,64,67,.15);background:var(--sf);display:flex;flex-direction:column;min-width:0}
+.rhd{display:flex;align-items:center;gap:6px;padding:6px 8px 4px 8px;min-height:44px;flex-wrap:wrap}
+.rmode{display:inline-flex;align-items:center;gap:0;border:0;background:none;color:var(--mu);border-radius:4px;padding:4px;cursor:pointer}
+.rmode:hover{background:rgba(68,71,70,.08)}
+.rmode svg.i{width:20px;height:20px}.rmode svg.c{width:18px;height:18px;fill:currentColor}
+.chipr{display:inline-flex;align-items:center;gap:6px;height:28px;border-radius:14px;background:#e8f0fe;color:#1f1f1f;padding:0 10px 0 2px;font-size:13.5px}
+.chipr .av{width:24px;height:24px;font-size:11px}
+.rto{flex:1;min-width:160px;border:0;outline:0;padding:6px 4px;font:inherit;background:none}
+.rbody{border:0;outline:0;resize:none;width:100%;min-height:180px;max-height:60vh;padding:6px 16px 10px;font:14px/1.6 Arial,Helvetica,sans-serif;color:var(--tx);background:none;overflow-y:auto}
+.trim{margin:0 16px 10px;width:28px;height:14px;border:0;border-radius:7px;background:#e8eaed;color:var(--mu);font:700 11px/10px Arial;padding:0 0 4px;cursor:pointer}
+.quoted{display:none;margin:0 16px 12px;padding-left:12px;border-left:1px solid #ccc;color:var(--mu2);font:13px/1.5 Arial,sans-serif}
+.quoted.on{display:block}
+.rfoot,.cfoot{display:flex;align-items:center;gap:2px;padding:8px 8px 10px 16px}
+.sendg{display:inline-flex;height:36px;border-radius:18px;overflow:hidden;margin-right:10px;flex:none}
+.sendg button{border:0;background:var(--ac);color:#fff;cursor:pointer;font-weight:500}
+.sendg .send{padding:0 16px 0 20px;font-size:14px}
+.sendg .caret{width:30px;display:grid;place-items:center;border-left:1px solid rgba(255,255,255,.35)}
+.sendg button:hover{background:#0a4dbb;box-shadow:0 1px 3px rgba(60,64,67,.3)}
+.sendg .caret svg{width:20px;height:20px;fill:#fff}
+.tb-ic{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.spacer{flex:1}
+
+/* compose window (bottom right, like Gmail) */
+.cw{position:fixed;right:16px;bottom:0;width:560px;max-width:calc(100vw - 24px);height:min(600px,calc(100vh - 80px));background:var(--sf);border-radius:8px 8px 0 0;box-shadow:0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12),0 5px 5px -3px rgba(0,0,0,.2);display:none;flex-direction:column;z-index:40;overflow:hidden}
+.cw.on{display:flex}
+.cw.min{height:40px}
+.cw.min .cbody,.cw.min .crow,.cw.min .cfoot{display:none}
+.cw.max{right:50%;bottom:50%;transform:translate(50%,50%);width:min(1100px,calc(100vw - 80px));height:calc(100vh - 80px);border-radius:8px}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:39;display:none}
+.scrim.on{display:block}
+.chd{display:flex;align-items:center;height:40px;padding:0 6px 0 16px;background:var(--hv2);font-size:14px;font-weight:500;cursor:default;flex:none}
+.chd span{flex:1}
+.chd .ib{width:28px;height:28px;color:var(--mu)}
+.chd .ib svg.i{width:18px;height:18px}
+.crow{display:flex;align-items:center;gap:8px;margin:0 16px;border-bottom:1px solid #f1f3f4;min-height:40px;flex:none}
+.crow label{color:var(--mu2);font-size:14px;min-width:0}
+.crow input,.crow select{flex:1;border:0;background:none;outline:0;padding:8px 0;font:inherit;color:var(--tx);min-width:0}
+.crow .ccb{color:var(--mu);font-size:14px;margin-left:auto;white-space:nowrap}
+.cbody{flex:1;min-height:0;border:0;outline:0;resize:none;padding:12px 16px;font:14px/1.6 Arial,Helvetica,sans-serif;color:var(--tx);background:none;width:100%}
+
+/* PDF viewer (Gmail attachment preview) */
+.pv{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.88);display:none;flex-direction:column}
+.pv.on{display:flex}
+.pvh{display:flex;align-items:center;gap:8px;height:64px;padding:0 12px;color:#fff;flex:none;background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,0))}
+.pvh .ib{color:#fff}.pvh .ib:hover{background:rgba(255,255,255,.12)}
+.pvh .nm{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;min-width:0}
+.pvh .nm span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pvh .pdfic{width:20px;height:20px;font-size:7px;line-height:20px}
+.pvh a.ib{text-decoration:none}
+.pvb{flex:1;overflow:auto;padding:8px 16px 90px}
+.pvb img{display:block;margin:0 auto 16px;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.5);height:auto;transition:width .15s}
+.pvf{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;background:rgba(32,33,36,.92);color:#e8eaed;border-radius:8px;padding:4px 8px;font-size:13px;z-index:61}
+.pvf .ib{width:32px;height:32px;color:#e8eaed}.pvf .ib:hover{background:rgba(255,255,255,.12)}
+.pvf .sep{width:1px;height:20px;background:#5f6368;margin:0 6px}
+
+/* misc content styles used in messages */
+.chk{list-style:none;margin:6px 0 16px;padding:0}
+.chk li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--bd)}
+.chk li:last-child{border-bottom:0}
+.box{width:20px;height:20px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none;margin-top:1px}
+.box.todo{background:none;border:2px solid var(--wn);color:var(--wn)}
+.todo-row{background:var(--wnbg);border-radius:8px;padding:10px 12px!important;border-bottom:0!important}
+.foot{margin-top:20px;font-size:12px;color:var(--mu2);border-top:1px solid var(--bd);padding-top:10px}
+.apbtn{display:inline-block;background:#0b57d0;color:#fff!important;border-radius:6px;padding:10px 22px;font-weight:600;text-decoration:none}
+.apbtn:hover{filter:brightness(1.1)}
+.empty{padding:40px;text-align:center;color:var(--mu2)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:24px;bottom:24px;background:#303030;color:#f2f2f2;padding:14px 24px;border-radius:4px;font-size:14px;z-index:70;display:none;box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px rgba(0,0,0,.14)}
+.toast.on{display:block}
+.rs{position:fixed;left:12px;bottom:6px;background:none;border:0;color:var(--mu2);font-size:12px;text-decoration:underline;cursor:pointer;z-index:5}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+@media (max-width:900px){
+ .logo{min-width:0}.logo b{display:none}.acct .who{display:none}
+ .lay{grid-template-columns:1fr;padding:0 8px 8px;height:auto;min-height:0}
+ .nav{display:flex;gap:4px;overflow-x:auto;align-items:center;padding-bottom:8px}
+ .compose{height:44px;margin:0 6px 0 0;padding:0 16px}
+ .nav .f{width:auto;border-radius:16px;white-space:nowrap;gap:8px;padding:0 12px}
+ .pane{grid-template-columns:1fr;min-height:70vh}.read{display:none}
+ .pane.reading .list{display:none}.pane.reading .read{display:block}.rtool .back{display:grid}
+ .subj{margin-left:16px}.rbtns{padding-left:16px}.thread-sep{margin-left:16px}
+ .mail,.rbox{grid-template-columns:32px 1fr;gap:0 10px;padding:0 12px}
+ .cw{right:0;max-width:100vw;width:100vw;height:calc(100vh - 40px)}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+ <symbol id="i-tune" viewBox="0 0 24 24"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></symbol>
+ <symbol id="i-help" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></symbol>
+ <symbol id="i-gear" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></symbol>
+ <symbol id="i-apps" viewBox="0 0 24 24"><path d="M6 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 12c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0-6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4-8c0 1.1.9 2 2 2s2-.9 2-2-.9-2-2-2-2 .9-2 2zm-4 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/></symbol>
+ <symbol id="i-pen" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a.996.996 0 0 0 0-1.41l-2.34-2.34a.996.996 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></symbol>
+ <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M19 3H4.99c-1.11 0-1.98.89-1.98 2L3 19c0 1.1.88 2 1.99 2H19c1.1 0 2-.9 2-2V5c0-1.11-.9-2-2-2zm0 12h-4c0 1.66-1.35 3-3 3s-3-1.34-3-3H4.99V5H19v10z"/></symbol>
+ <symbol id="i-star" viewBox="0 0 24 24"><path d="M22 9.24l-7.19-.62L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.63-7.03L22 9.24zM12 15.4l-3.76 2.27 1-4.28-3.32-2.88 4.38-.38L12 6.1l1.71 4.04 4.38.38-3.32 2.88 1 4.28L12 15.4z"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></symbol>
+ <symbol id="i-send" viewBox="0 0 24 24"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></symbol>
+ <symbol id="i-draft" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></symbol>
+ <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></symbol>
+ <symbol id="i-more" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></symbol>
+ <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol>
+ <symbol id="i-archive" viewBox="0 0 24 24"><path d="m20.54 5.23-1.39-1.68C18.88 3.21 18.47 3 18 3H6c-.47 0-.88.21-1.16.55L3.46 5.23C3.17 5.57 3 6.02 3 6.5V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6.5c0-.48-.17-.93-.46-1.27zM12 17.5 6.5 12H10v-2h4v2h3.5L12 17.5zM5.12 5l.81-1h12l.94 1H5.12z"/></symbol>
+ <symbol id="i-delete" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></symbol>
+ <symbol id="i-reply" viewBox="0 0 24 24"><path d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-11z"/></symbol>
+ <symbol id="i-forward" viewBox="0 0 24 24"><path d="M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z"/></symbol>
+ <symbol id="i-drop" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></symbol>
+ <symbol id="i-format" viewBox="0 0 24 24"><path d="M5 17v2h14v-2H5zm4.5-4.2h5l.9 2.2h2.1L12.75 4h-1.5L6.5 15h2.1l.9-2.2zM12 5.98 13.87 11h-3.74L12 5.98z"/></symbol>
+ <symbol id="i-attach" viewBox="0 0 24 24"><path d="M16.5 6v11.5c0 2.21-1.79 4-4 4s-4-1.79-4-4V5a2.5 2.5 0 0 1 5 0v10.5c0 .55-.45 1-1 1s-1-.45-1-1V6H10v9.5a2.5 2.5 0 0 0 5 0V5c0-2.21-1.79-4-4-4S7 2.79 7 5v12.5c0 3.04 2.46 5.5 5.5 5.5s5.5-2.46 5.5-5.5V6h-1.5z"/></symbol>
+ <symbol id="i-link" viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol>
+ <symbol id="i-emoji" viewBox="0 0 24 24"><path d="M15.5 11a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-7 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm3.49-9C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-2.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/></symbol>
+ <symbol id="i-drive" viewBox="0 0 24 24"><path d="M7.71 3.5 1.15 15l3.43 6 6.55-11.5L7.71 3.5zm1.57 0 6.56 11.5H22.7L16.14 3.5H9.28zM15.11 16.5H8.25L4.82 22.5h13.71l-3.42-6z"/></symbol>
+ <symbol id="i-photo" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></symbol>
+ <symbol id="i-lock" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM9 8V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9z"/></symbol>
+ <symbol id="i-sign" viewBox="0 0 24 24"><path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83a.996.996 0 0 0 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/></symbol>
+ <symbol id="i-min" viewBox="0 0 24 24"><path d="M6 19h12v2H6z"/></symbol>
+ <symbol id="i-full" viewBox="0 0 24 24"><path d="M21 11V3h-8l3.29 3.29-10 10L3 13v8h8l-3.29-3.29 10-10z"/></symbol>
+ <symbol id="i-close" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></symbol>
+ <symbol id="i-download" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></symbol>
+ <symbol id="i-print" viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></symbol>
+ <symbol id="i-open" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></symbol>
+ <symbol id="i-zin" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></symbol>
+ <symbol id="i-zout" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></symbol>
+</svg>
+
+<div class="top">
+  <button class="ib" aria-label="Main menu"><svg class="i"><use href="#i-menu"/></svg></button>
+  <div class="logo"><svg viewBox="52 42 88 66" aria-hidden="true"><path fill="#4285f4" d="M58 108h14V74L52 59v43c0 3.32 2.69 6 6 6"/><path fill="#34a853" d="M120 108h14c3.32 0 6-2.69 6-6V59l-20 15"/><path fill="#fbbc04" d="M120 48v26l20-15v-8c0-7.42-8.47-11.65-14.4-7.2"/><path fill="#ea4335" d="M72 74V48l24 18 24-18v26L96 92"/><path fill="#c5221f" d="M52 51v8l20 15V48l-5.6-4.2c-5.94-4.45-14.4-.22-14.4 7.2"/></svg><b style="font-weight:400">Gmail</b></div>
+  <div class="search"><button class="ib" aria-label="Search"><svg class="i"><use href="#i-search"/></svg></button><span>Search mail</span><button class="ib" aria-label="Search options"><svg class="i"><use href="#i-tune"/></svg></button></div>
+  <div class="acct">
+    <button class="ib" aria-label="Support"><svg class="i"><use href="#i-help"/></svg></button>
+    <button class="ib" aria-label="Settings"><svg class="i"><use href="#i-gear"/></svg></button>
+    <button class="ib" aria-label="Apps"><svg class="i"><use href="#i-apps"/></svg></button>
+    <div class="who"><b id="acctname"></b><small id="acctem"></small></div>
+    <span class="av" id="acctav"></span>
+  </div>
+</div>
+<div class="lay">
+  <nav class="nav" id="nav"></nav>
+  <section class="pane" id="pane"><div class="list" id="list"></div><article class="read" id="read"></article></section>
+</div>
+<button class="rs" id="reset">Reset demo</button>
+<div class="toast" id="toast" role="status"></div>
+
+<!-- Attachment preview -->
+<div class="pv" id="docOv" role="dialog" aria-modal="true" aria-labelledby="docTitle">
+  <div class="pvh">
+    <button class="ib" id="docClose" aria-label="Close"><svg class="i"><use href="#i-back"/></svg></button>
+    <div class="nm"><span class="pdfic">PDF</span><span id="docTitle"></span></div>
+    <span class="spacer"></span>
+    <a class="ib" id="docPrint" target="_blank" rel="noopener" aria-label="Print" title="Print"><svg class="i"><use href="#i-print"/></svg></a>
+    <a class="ib" id="docDl" download aria-label="Download" title="Download"><svg class="i"><use href="#i-download"/></svg></a>
+    <a class="ib" id="docOpen" target="_blank" rel="noopener" aria-label="Open in new window" title="Open in new window"><svg class="i"><use href="#i-open"/></svg></a>
+  </div>
+  <div class="pvb" id="docBody"></div>
+  <div class="pvf"><span id="docPage">Page 1 / 1</span><span class="sep"></span><button class="ib" id="zOut" aria-label="Zoom out"><svg class="i"><use href="#i-zout"/></svg></button><button class="ib" id="zIn" aria-label="Zoom in"><svg class="i"><use href="#i-zin"/></svg></button></div>
+</div>
+
+<!-- Compose window -->
+<div class="scrim" id="cmpScrim"></div>
+<div class="cw" id="cmpOv" role="dialog" aria-label="New Message">
+  <div class="chd"><span id="cmpTitle">New Message</span>
+    <button class="ib" id="cmpMin" aria-label="Minimize"><svg class="i"><use href="#i-min"/></svg></button>
+    <button class="ib" id="cmpMax" aria-label="Full screen"><svg class="i"><use href="#i-full"/></svg></button>
+    <button class="ib" id="cmpClose" aria-label="Save and close"><svg class="i"><use href="#i-close"/></svg></button></div>
+  <div class="crow"><label for="cFrom">From</label><select id="cFrom"></select></div>
+  <div class="crow"><label for="cTo">To</label><input id="cTo" type="text" autocomplete="off"><span class="ccb">Cc Bcc</span></div>
+  <div class="crow"><input id="cSub" type="text" autocomplete="off" placeholder="Subject" aria-label="Subject"></div>
+  <textarea class="cbody" id="cBody" aria-label="Message Body"></textarea>
+  <div class="cfoot">
+    <div class="sendg"><button class="send" id="cSend">Send</button><button class="caret" aria-label="More send options"><svg><use href="#i-drop"/></svg></button></div>
+    <div class="tb-ic" data-tb></div><span class="spacer"></span>
+    <button class="ib sm" id="cmpDiscard" aria-label="Discard draft"><svg class="i"><use href="#i-delete"/></svg></button>
+  </div>
+</div>
+
+<script>
+/* Attachment manifest: real PDF files in docs/, page renders in docs/pages/ */
+var DOCS={
+ "Signed_Offer_Letter_JReyes.pdf":{size:"160 KB",pages:[["Signed_Offer_Letter_JReyes-1.png",1020,1320],["Signed_Offer_Letter_JReyes-2.png",1020,1320]]},
+ "ID_Proof_JReyes.pdf":{size:"182 KB",pages:[["ID_Proof_JReyes-1.jpg",1020,1320]]},
+ "Education_Certificates.pdf":{size:"237 KB",pages:[["Education_Certificates-1.png",1320,1020],["Education_Certificates-2.png",1020,1320]]}
+};
+var CFG0={"title": "Gmail · Angella Smith (HRBP)", "acct": {"name": "Angella Smith", "email": "angella.smith@nodeway.com", "ini": "AS", "col": "#7a3eb1"}, "docs": {}, "msgs": [{"att": [], "un": 0, "seek": 0, "ini": "WD", "col": "#0875e1", "id": "a2", "f": "inbox", "em": "noreply@workday.com", "to": "angella.smith@nodeway.com", "subj": "Reminder: Q4 reviews due Friday", "sn": "Please complete the remaining reviews by Friday.", "time": "Oct 22", "full": "Thu 22 Oct 2026, 11:05 AM", "body": "<p>Please complete the remaining Q4 reviews by Friday.</p>", "from": "Workday"}, {"att": [], "un": 0, "seek": 0, "ini": "PN", "col": "#0f7b6c", "id": "a3", "f": "inbox", "em": "priya.nair@nodeway.com", "to": "angella.smith@nodeway.com", "subj": "Team lunch on Friday", "sn": "We are booking a table for the HR team.", "time": "Oct 22", "full": "Thu 22 Oct 2026, 3:05 PM", "body": "<p>We are booking a table for the HR team. Let me know if you can join.</p>", "from": "Priya Nair"}], "incoming": []};
+var CFG,INC,st,RB,ZOOM=1;
+function el(i){return document.getElementById(i)}
+function ic(n){return '<svg class="i"><use href="#i-'+n+'"/></svg>'}
+function toast(m){var e=el("toast");e.textContent=m;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("on")},2800)}
+function escH(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function nl2br(s){return escH(s).replace(/\n/g,"<br>")}
+function first(n){return String(n).split(" ")[0]}
+var TOOLBAR=[["format","Formatting options"],["attach","Attach files"],["link","Insert link"],["emoji","Insert emoji"],["drive","Insert files using Drive"],["photo","Insert photo"],["lock","Toggle confidential mode"],["sign","Insert signature"],["more","More options"]];
+function toolbarHTML(){return TOOLBAR.map(function(t){return '<button class="ib sm" type="button" aria-label="'+t[1]+'" title="'+t[1]+'">'+ic(t[0])+'</button>'}).join("")}
+document.querySelectorAll("[data-tb]").forEach(function(n){n.innerHTML=toolbarHTML()});
+
+function render(){
+  var A=CFG.acct;
+  el("acctav").style.background=A.col;el("acctav").textContent=A.ini;el("acctname").textContent=A.name;el("acctem").textContent=A.email;
+  var inN=CFG.msgs.filter(function(m){return m.f==="inbox"&&m.un}).length;
+  el("nav").innerHTML='<button class="compose" id="gCompose">'+ic("pen")+'Compose</button>'+[["inbox","Inbox","inbox"],["starred","Starred","star"],["snoozed","Snoozed","clock"],["sent","Sent","send"],["drafts","Drafts","draft"]].map(function(f){var n=f[0]==="inbox"&&inN?inN:"";return '<button class="f'+(st.f===f[0]?' on':'')+'" data-f="'+f[0]+'">'+ic(f[2])+'<span>'+f[1]+'</span><small>'+n+'</small></button>'}).join("");
+  var L=CFG.msgs.filter(function(m){return m.f===st.f});
+  var tool='<div class="tool">'+(st.f==="inbox"&&INC.length?'<button class="ib" id="gRefresh" aria-label="Refresh" title="Refresh">'+ic("refresh")+'</button>':'<button class="ib" aria-label="Refresh" title="Refresh" id="gRefresh0">'+ic("refresh")+'</button>')+'<button class="ib" aria-label="More">'+ic("more")+'</button><span class="lbl">'+(L.length?'1–'+L.length+' of '+L.length:'')+'</span></div>';
+  el("list").innerHTML=tool+(L.length?L.map(function(m){return '<button class="msg'+(m.un?' unread':'')+(m.id===st.id?' on':'')+'" data-id="'+m.id+'"><div class="fr"><b>'+(st.f==="sent"?'To: '+escH(m.toName||m.to):escH(m.from))+'</b><span class="tm">'+m.time+'</span></div><div class="sub">'+m.subj+'</div><div class="sn">'+m.sn+'</div>'+(m.att&&m.att.length?'<span class="clip"><i></i>'+escH(m.att[0])+(m.att.length>1?' +'+(m.att.length-1):'')+'</span>':'')+'</button>'}).join(""):'<div class="empty">'+(st.f==="inbox"?'Your inbox is empty':'No messages here yet')+'</div>');
+  var m=CFG.msgs.filter(function(x){return x.id===st.id})[0];
+  if(!m){el("read").innerHTML='<div class="empty" style="margin-top:80px">No conversation selected</div>';el("pane").classList.remove("reading");return}
+  el("pane").classList.add("reading");
+  el("read").innerHTML=readHTML(m);
+  if(RB&&RB.id===m.id){mountReply(m)}
+}
+function attsHTML(m){
+  if(!m.att||!m.att.length)return "";
+  return '<div class="attwrap"><div class="atthd"><b>'+(m.att.length===1?'One attachment':m.att.length+' attachments')+'</b><small>• '+ic("shield").replace('class="i"','class="i" style="width:14px;height:14px"')+'Scanned by Gmail</small></div><div class="atts">'+m.att.map(function(a){var d=DOCS[a];return '<div class="att" role="button" tabindex="0" data-doc="'+escH(a)+'" aria-label="Preview attachment '+escH(a)+'">'+(d?'<img src="docs/pages/'+d.pages[0][0]+'" alt="" loading="lazy">':'')+'<div class="cap"><span class="pdfic">PDF</span><span>'+escH(a)+'</span></div><div class="hov"><div><b>'+escH(a)+'</b><br><small>'+(d?d.size+' · '+d.pages.length+(d.pages.length>1?' pages':' page'):'')+'</small></div><a class="dl" href="docs/'+encodeURIComponent(a)+'" download aria-label="Download '+escH(a)+'" data-nodoc="1">'+ic("download")+'</a></div></div>'}).join("")+'</div></div>';
+}
+function msgBlock(x,main){
+  return '<div class="mail"><span class="av lg" style="background:'+(x.col||"#0b57d0")+'">'+x.ini+'</span><div style="min-width:0"><div class="mhd"><div class="who"><b>'+escH(x.from)+'</b><span class="em">&lt;'+escH(x.em)+'&gt;</span>'+(x.seek?'<span class="tag">Sent by Seek</span>':'')+'<div class="to">to '+escH(x.to===CFG.acct.email?'me':(x.toName||x.to))+'<svg class="i"><use href="#i-drop"/></svg></div></div><span class="tm">'+x.full+'</span><div class="acts"><button class="ib sm" aria-label="Star">'+ic("star")+'</button>'+(main?'<button class="ib sm" data-act="reply" aria-label="Reply">'+ic("reply")+'</button>':'')+'<button class="ib sm" aria-label="More">'+ic("more")+'</button></div></div><div class="body">'+x.body+'</div>'+attsHTML(x)+'</div></div>';
+}
+function readHTML(m){
+  var h='<div class="rtool"><button class="ib back" id="back" aria-label="Back to '+(st.f==="sent"?'Sent':'Inbox')+'">'+ic("back")+'</button><button class="ib" aria-label="Archive">'+ic("archive")+'</button><button class="ib" aria-label="Delete">'+ic("delete")+'</button><button class="ib" aria-label="More">'+ic("more")+'</button></div>';
+  h+='<div class="subj"><h1>'+m.subj+'</h1><span class="lbl-chip">'+(m.f==="sent"?'Sent':'Inbox')+'</span></div>';
+  h+=msgBlock(m,true);
+  (m.replies||[]).forEach(function(r){h+='<hr class="thread-sep">'+msgBlock(r,false)});
+  h+='<div id="rSlot"></div>';
+  if(!(RB&&RB.id===m.id))h+='<div class="rbtns"><button class="pill" data-act="reply">'+ic("reply")+'Reply</button><button class="pill" data-act="forward">'+ic("forward")+'Forward</button></div>';
+  return h;
+}
+function replyTarget(m){return m.f==="sent"?{name:m.toName||m.to,em:m.to}:{name:m.from,em:m.em}}
+function mountReply(m){
+  var me=CFG.acct,t=replyTarget(m),fwd=RB.mode==="forward";
+  var chip=fwd?'<input class="rto" id="rTo" type="text" autocomplete="off" placeholder="Recipients" aria-label="To">':'<span class="chipr" id="rChip"><span class="av" style="background:'+(m.f==="sent"?"#5f6368":(m.col||"#0b57d0"))+'">'+escH(t.name).charAt(0)+'</span>'+escH(t.name)+'</span><input class="rto" id="rTo" type="text" autocomplete="off" aria-label="Add recipients">';
+  el("rSlot").innerHTML='<div class="rbox"><span class="av lg" style="background:'+me.col+'">'+me.ini+'</span><div class="rcard">'+
+   '<div class="rhd"><button class="rmode" id="rMode" title="Type of response">'+ic(fwd?"forward":"reply")+'<svg class="c"><use href="#i-drop"/></svg></button>'+chip+'</div>'+
+   '<textarea class="rbody" id="rBody" aria-label="Message Body"></textarea>'+
+   '<button class="trim" id="rTrim" title="Show trimmed content" aria-label="Show trimmed content">•••</button>'+
+   '<div class="quoted" id="rQuote">'+(fwd?'---------- Forwarded message ---------<br>From: <b>'+escH(m.from)+'</b> &lt;'+escH(m.em)+'&gt;<br>Date: '+m.full+'<br>Subject: '+m.subj+'<br>To: '+escH(m.to)+'<br><br>':'On '+m.full+', '+escH(m.from)+' &lt;'+escH(m.em)+'&gt; wrote:<br>')+m.body+'</div>'+
+   '<div class="rfoot"><div class="sendg"><button class="send" id="rSend">Send</button><button class="caret" aria-label="More send options"><svg><use href="#i-drop"/></svg></button></div><div class="tb-ic">'+toolbarHTML()+'</div><span class="spacer"></span><button class="ib sm" id="rDiscard" aria-label="Discard draft">'+ic("delete")+'</button></div>'+
+   '</div></div>';
+  var ta=el("rBody");ta.value=RB.text||"";autoGrow(ta);
+  ta.addEventListener("input",function(){RB.text=ta.value;autoGrow(ta)});
+  if(fwd)el("rTo").value=RB.to||"";
+  el("rTo").addEventListener("input",function(e){RB.to=e.target.value});
+  setTimeout(function(){(fwd&&!RB.to?el("rTo"):ta).focus()},0);
+}
+function autoGrow(ta){ta.style.height="auto";ta.style.height=Math.max(180,Math.min(ta.scrollHeight+2,window.innerHeight*.6))+"px"}
+function openReply(mode){var m=cur();if(!m)return;RB={id:m.id,mode:mode,text:"",to:""};render();var s=el("rSlot");if(s)s.scrollIntoView({block:"nearest",behavior:"smooth"})}
+function cur(){return CFG.msgs.filter(function(x){return x.id===st.id})[0]}
+function sendReply(){
+  var m=cur();if(!m||!RB)return;var me=CFG.acct,fwd=RB.mode==="forward";
+  var extra=(el("rTo").value||"").trim(),t=replyTarget(m);
+  var to=fwd?extra:t.em+(extra?", "+extra:"");
+  if(!to){toast("Please specify at least one recipient.");el("rTo").focus();return}
+  var text=el("rBody").value,now=new Date(),tm=now.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
+  var subj=(fwd?"Fwd: ":"Re: ")+m.subj.replace(/^(Re|Fwd): /,"");
+  var body='<p>'+nl2br(text||"")+'</p>'+(fwd?'<div style="color:#5f6368">---------- Forwarded message ---------<br>From: '+escH(m.from)+' &lt;'+escH(m.em)+'&gt;<br>Subject: '+m.subj+'</div>'+m.body:'');
+  var r={id:"r"+Date.now(),f:"sent",from:me.name,ini:me.ini,col:me.col,em:me.email,to:to,toName:fwd?to:t.name,subj:subj,sn:(text||"").replace(/\n/g," ").slice(0,90),time:tm,full:tm+" (0 minutes ago)",att:fwd?(m.att||[]).slice():[],un:0,seek:0,body:body};
+  if(!fwd){m.replies=m.replies||[];m.replies.push(Object.assign({},r,{att:[]}))}
+  CFG.msgs.unshift(r);RB=null;render();toast("Message sent");
+}
+
+/* compose */
+function froms(){return CFG.froms||[{name:CFG.acct.name,em:CFG.acct.email,ini:CFG.acct.ini,col:CFG.acct.col}]}
+function openCompose(){var F=froms();el("cFrom").innerHTML=F.map(function(f,i){return '<option value="'+i+'">'+escH(f.name)+' &lt;'+escH(f.em)+'&gt;</option>'}).join("");el("cTo").value="";el("cSub").value="";el("cBody").value="";var w=el("cmpOv");w.classList.remove("min","max");el("cmpScrim").classList.remove("on");el("cmpTitle").textContent="New Message";w.classList.add("on");el("cTo").focus()}
+function closeCompose(){el("cmpOv").classList.remove("on","max","min");el("cmpScrim").classList.remove("on")}
+el("cSub").addEventListener("input",function(){el("cmpTitle").textContent=el("cSub").value.trim()||"New Message"});
+function sendMail(){
+  var to=el("cTo").value.trim(),sub=el("cSub").value.trim(),b=el("cBody").value;
+  if(!to){toast("Please specify at least one recipient.");el("cTo").focus();return}
+  var f=froms()[+el("cFrom").value||0],id="sent"+(CFG.msgs.length+1),tm=new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
+  CFG.msgs.unshift({id:id,f:"sent",from:f.name,ini:f.ini,col:f.col,em:f.em,to:to,subj:escH(sub||"(no subject)"),sn:escH(b.replace(/\n/g," ").slice(0,90)),time:tm,full:tm+" (0 minutes ago)",att:[],un:0,seek:0,body:"<p>"+nl2br(b)+"</p>"});
+  closeCompose();st.f="sent";st.id=id;RB=null;render();toast("Message sent");
+}
+
+/* attachment preview */
+var PV=null;
+function openDoc(n){var d=DOCS[n];if(!d){toast("Preview not available");return}PV=n;ZOOM=1;
+  el("docTitle").textContent=n;var href="docs/"+encodeURIComponent(n);el("docDl").href=href;el("docDl").setAttribute("download",n);el("docOpen").href=href;el("docPrint").href=href;
+  el("docBody").innerHTML=d.pages.map(function(p,i){return '<img src="docs/pages/'+p[0]+'" alt="'+escH(n)+', page '+(i+1)+'" data-w="'+p[1]+'">'}).join("");
+  sizePages();el("docPage").textContent="Page 1 / "+d.pages.length;el("docOv").classList.add("on");el("docBody").scrollTop=0;el("docClose").focus()}
+function sizePages(){var max=Math.min(el("docBody").clientWidth-32,900);el("docBody").querySelectorAll("img").forEach(function(im){var land=+im.dataset.w>1100;im.style.width=Math.round((land?Math.min(max*1.15,1100):max*0.82)*ZOOM)+"px"})}
+el("docBody").addEventListener("scroll",function(){var ims=el("docBody").querySelectorAll("img"),top=el("docBody").scrollTop+80,p=1;ims.forEach(function(im,i){if(im.offsetTop<=top)p=i+1});el("docPage").textContent="Page "+p+" / "+ims.length});
+window.addEventListener("resize",function(){if(PV)sizePages()});
+function closeDoc(){el("docOv").classList.remove("on");PV=null}
+
+function refresh(btn){btn.innerHTML='<span class="spin"></span>';setTimeout(function(){if(INC.length){var m=INC.shift();m.un=1;CFG.msgs.unshift(m);st.f="inbox";toast("1 new conversation")}else{toast("No new mail")}render()},700)}
+document.addEventListener("click",function(e){
+  var t=e.target,b=t.closest("button,a")||t,id=b.id;
+  if(t.closest("[data-nodoc]")){e.stopPropagation();return}
+  if(id==="gCompose"){openCompose();return}
+  if(id==="gRefresh"){refresh(b);return}
+  if(id==="gRefresh0"){refresh(b);return}
+  if(id==="cSend"){sendMail();return}
+  if(id==="cmpClose"||id==="cmpDiscard"){closeCompose();if(id==="cmpDiscard")toast("Draft discarded");return}
+  if(id==="cmpMin"){el("cmpOv").classList.toggle("min");el("cmpOv").classList.remove("max");el("cmpScrim").classList.remove("on");return}
+  if(id==="cmpMax"){var w=el("cmpOv");w.classList.remove("min");w.classList.toggle("max");el("cmpScrim").classList.toggle("on",w.classList.contains("max"));return}
+  if(id==="cmpScrim"){el("cmpOv").classList.remove("max");el("cmpScrim").classList.remove("on");return}
+  if(id==="docClose"){closeDoc();return}
+  if(id==="zIn"){ZOOM=Math.min(2,ZOOM+.2);sizePages();return}
+  if(id==="zOut"){ZOOM=Math.max(.5,ZOOM-.2);sizePages();return}
+  if(id==="rSend"){sendReply();return}
+  if(id==="rDiscard"){RB=null;render();toast("Draft discarded");return}
+  if(id==="rTrim"){el("rQuote").classList.toggle("on");return}
+  if(id==="rMode"){RB.mode=RB.mode==="reply"?"forward":"reply";RB.to="";render();return}
+  if(id==="reset"){init();return}
+  if(id==="back"){st.id=null;RB=null;render();return}
+  var act=t.closest("[data-act]");if(act){openReply(act.dataset.act);return}
+  var at=t.closest("[data-doc]");if(at){openDoc(at.dataset.doc);return}
+  var x=t.closest("[data-id],[data-f]");if(!x)return;
+  if(x.dataset.f){st.f=x.dataset.f;st.id=null;RB=null;render();return}
+  if(st.id!==x.dataset.id)RB=null;
+  st.id=x.dataset.id;var m=cur();if(m)m.un=0;render();
+});
+document.addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.classList&&e.target.classList.contains("att")){openDoc(e.target.dataset.doc);return}if(e.key==="Escape"){if(PV)closeDoc();else if(el("cmpOv").classList.contains("max")){el("cmpOv").classList.remove("max");el("cmpScrim").classList.remove("on")}}
+  if((e.metaKey||e.ctrlKey)&&e.key==="Enter"){if(document.activeElement===el("cBody"))sendMail();else if(document.activeElement&&document.activeElement.id==="rBody")sendReply()}});
+function init(){CFG=JSON.parse(JSON.stringify(CFG0));INC=CFG.incoming||[];st={f:"inbox",id:null};RB=null;closeCompose();closeDoc();render()}
+init();
+</script>
+</body>
+</html>
