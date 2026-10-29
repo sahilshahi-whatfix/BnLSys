@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Whatfix Seek: new hire onboarding at Nodeway</title>
+<style>
+:root{color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#DDE3EA;--surface:#FFFFFF;--surface2:#F5F7FA;--ink:#1D2530;--muted:#5C6775;--line:#D8DDE6;
+  --chrome:#CBD3DD;--tab:#E9EDF2;--seek:#F2542D;--seek-2:#FF8A3D;--seek-soft:#FFF0EA;--seek-ink:#A8320F;
+  --ok:#2E844A;--okbg:#DDF3E4;--warn:#B86E00;--warnbg:#FFF4DC;--seekhead:#14181F;--shadow:0 10px 30px rgba(20,30,45,.18);
+}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 "Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,Helvetica,Arial,sans-serif;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--seek);outline-offset:1px}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 390px;height:100%;gap:10px;padding:10px}
+.stage{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--surface);border-radius:10px;overflow:hidden;box-shadow:var(--shadow)}
+.chrome{background:var(--chrome);padding:8px 10px 0}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tab{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:8px 8px 0 0;background:transparent;border:0;color:var(--muted);font-size:12px;min-width:112px;text-align:left;white-space:nowrap}
+.tab.on{background:var(--tab);color:var(--ink)}
+.tab i{width:12px;height:12px;border-radius:3px;flex:none}
+.urlbar{background:var(--tab);padding:7px 10px}
+.url{background:var(--surface);border-radius:14px;padding:4px 12px;color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.views{flex:1;min-height:0;position:relative}
+.view{position:absolute;inset:0;display:none;flex-direction:column;min-height:0;background:var(--surface)}
+.view.on{display:flex}
+#vMail{--acc:#0B57D0}#vWd{--acc:#0875E1}#vAdp{--acc:#D0271D}#vSn{--acc:#1F7A33}#vTm{--acc:#5B5FC7}
+
+.apptop{display:flex;align-items:center;gap:14px;padding:8px 16px;border-bottom:1px solid var(--line);background:var(--surface);flex:none}
+.apptop .logo{font-weight:700;font-size:18px;color:var(--acc);white-space:nowrap}
+.apptop .sr{flex:1;max-width:420px;margin:0 auto;border:1px solid var(--line);border-radius:18px;padding:5px 14px;color:var(--muted);background:var(--surface2);font-size:12px}
+.apptop .tn{color:var(--muted);font-size:12px;white-space:nowrap}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff;background:#0F7B6C;flex:none}
+.lay{display:flex;flex:1;min-height:0}
+.side{width:176px;flex:none;border-right:1px solid var(--line);background:var(--surface2);padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+.side h4{margin:0 8px 8px;font-size:12px;color:var(--muted);font-weight:600}
+.side a{display:block;padding:8px 12px;border-radius:6px;color:var(--muted);cursor:pointer;font-size:12.5px}
+.side a.on{background:var(--surface);color:var(--ink);font-weight:600;box-shadow:0 0 0 1px var(--line)}
+.main{flex:1;min-width:0;position:relative}
+.pg{position:absolute;inset:0;overflow:auto;padding:18px 22px 40px;display:none}
+.pg.on{display:block}
+.pg h1{margin:0 0 4px;font-size:19px;font-weight:600}
+.pg .sub{color:var(--muted);margin-bottom:14px}
+.card{border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-bottom:14px}
+.card h3{margin:0;padding:11px 14px;font-size:13px;border-bottom:1px solid var(--line)}
+.card .bd{padding:14px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px 18px}
+.fld label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:3px}
+.fld input[type=text],.fld select{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:5px;background:var(--surface);color:var(--ink)}
+.fld.seeked input[type=text],.fld.seeked select{box-shadow:inset 3px 0 0 var(--seek);background-color:var(--seek-soft)}
+#buddyForm .fld{grid-column:1/-1;max-width:440px}
+.fld.chk{display:flex;gap:8px;align-items:center;padding:6px 0}
+.fld.chk label{margin:0;font-size:13px;color:var(--ink)}
+.fld.verified input[type=text],.fld.verified select{box-shadow:inset 3px 0 0 #2e7d32;background-color:#edf7ef}
+.fld.mismatch input[type=text],.fld.mismatch select{box-shadow:inset 3px 0 0 #c62828,0 0 0 2px rgba(198,40,40,.25);background-color:#fdecea}
+.fld.chk.seeked input{outline:2px solid var(--seek);outline-offset:2px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 16px;font-weight:600}
+.btn.pri{background:var(--acc);color:#fff;border-color:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.chip{display:inline-block;padding:1px 9px;border-radius:11px;font-size:11.5px;font-weight:600;background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.chip.ok{background:var(--okbg);color:var(--ok);border-color:transparent}
+.chip.wn{background:var(--warnbg);color:var(--warn);border-color:transparent}
+.chip.bl{background:var(--seek-soft);color:var(--seek-ink);border-color:transparent}
+table.tb{width:100%;border-collapse:collapse}
+.tb th{text-align:left;font-size:11.5px;color:var(--muted);font-weight:600;padding:8px 12px;border-bottom:1px solid var(--line)}
+.tb td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.tb tr:last-child td{border-bottom:0}
+.tb tr.seeked td{box-shadow:inset 0 0 0 9999px var(--seek-soft)}
+.tb tr.seeked td:first-child{box-shadow:inset 3px 0 0 var(--seek),inset 0 0 0 9999px var(--seek-soft)}
+.note{background:var(--warnbg);color:var(--warn);border-radius:6px;padding:8px 12px;margin:10px 0;font-size:12.5px}
+.note.ok{background:var(--okbg);color:var(--ok)}
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:26px 1fr auto;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line);align-items:start}
+.tl li:last-child{border-bottom:0}
+.tl .d{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+.tl .d.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.tl .d.wn{background:var(--warnbg);color:var(--warn);border-color:var(--warn)}
+.tl b{font-weight:600}.tl small{display:block;color:var(--muted)}
+.seekbadge{display:inline-block;padding:0 7px;border-radius:9px;background:var(--seek-soft);color:var(--seek-ink);font-size:10.5px;font-weight:700;margin-left:6px}
+
+/* mail */
+.mail{display:flex;flex:1;min-height:0;position:relative}
+.folders{width:168px;flex:none;background:var(--surface2);border-right:1px solid var(--line);padding:12px 10px;display:flex;flex-direction:column;gap:2px}
+.compose{background:#C2E7FF;color:#001D35;border:0;border-radius:14px;padding:12px 18px;font-weight:600;margin-bottom:10px;text-align:left}
+.folders a{padding:7px 10px;border-radius:0 14px 14px 0;color:var(--muted);display:flex;justify-content:space-between;cursor:pointer}
+.folders a.on{background:#D3E3FD;color:#041E49;font-weight:700}
+.acct{margin-top:auto;font-size:11.5px;color:var(--muted);padding:8px;border-top:1px solid var(--line)}
+.acct button{margin-top:6px;width:100%;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:4px}
+.mlist{width:290px;flex:none;border-right:1px solid var(--line);overflow:auto}
+.mlist h5{margin:0;padding:12px 14px;font-size:13px;border-bottom:1px solid var(--line)}
+.mi{padding:10px 14px;border-bottom:1px solid var(--line);display:grid;gap:2px;position:relative;cursor:pointer}
+.mi b{font-size:12.5px;display:flex;justify-content:space-between;gap:8px}
+.mi b span{font-weight:400;color:var(--muted);font-size:11px;white-space:nowrap}
+.mi .p{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mi.on{background:var(--seek-soft)}.mi.on::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--seek)}
+.mi.un>div:nth-child(2){font-weight:700}
+.mread{flex:1;min-width:0;overflow:auto;position:relative}
+.mhead{padding:18px 26px 12px;border-bottom:1px solid var(--line)}
+.mhead h2{margin:0 0 12px;font-size:17px;font-weight:600;line-height:1.3}
+.who{display:flex;gap:12px;align-items:center}
+.who small{display:block;color:var(--muted)}
+.mbodyx{padding:16px 26px;max-width:720px;font-size:13.2px;line-height:1.6}
+.mbodyx p{margin:0 0 10px}
+.hl{border-radius:3px;padding:0 2px;transition:background .3s,box-shadow .3s}
+.hl.on{background:#FFD9CC;box-shadow:0 0 0 1px var(--seek);color:#3a1308}
+.atts{padding:0 26px 26px;display:flex;gap:10px;flex-wrap:wrap}
+.att{display:inline-flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);cursor:pointer}
+.att:hover,.att.on{box-shadow:0 0 0 2px var(--seek)}
+.att .ic{width:40px;height:50px;border-radius:3px;background:#fff center top/cover no-repeat;border:1px solid var(--line);position:relative;flex:none}
+.att .ic::after{content:"PDF";position:absolute;left:-4px;bottom:-4px;background:#D93025;color:#fff;font-size:7.5px;font-weight:700;padding:1px 3px;border-radius:2px}
+.att small{display:block;color:var(--muted)}
+.att .vf{color:var(--ok);font-weight:700;font-size:11.5px}
+.btn.attn{box-shadow:0 0 0 3px rgba(8,117,225,.35)}
+.kvt{margin:8px 0 12px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);line-height:1.7}
+.chk{list-style:none;margin:6px 0 14px;padding:0}
+.chk li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--line)}
+.chk li:last-child{border-bottom:0}
+.cb{width:19px;height:19px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700;flex:none;margin-top:1px}
+.cb.todo{background:none;border:2px solid var(--warn);color:var(--warn)}
+.chk li.tdr{background:var(--warnbg);border-radius:8px;padding:9px 11px;border-bottom:0}
+.mfoot{margin-top:16px;border-top:1px solid var(--line);padding-top:8px;font-size:11.5px;color:var(--muted)}
+.docv{position:absolute;inset:0;background:rgba(32,33,36,.92);display:none;flex-direction:column;z-index:5}
+.docv.on{display:flex}
+.docv header{display:flex;justify-content:space-between;align-items:center;padding:8px 16px;background:#2D333B;color:#fff;font-size:12.5px}
+.docv header button{background:transparent;border:1px solid #66707C;border-radius:6px;color:#fff;padding:3px 10px}
+.dbody{flex:1;overflow:auto;padding:18px;position:relative}
+.paper{margin:0 auto;max-width:680px;position:relative}
+.paper .pgimg{position:relative;margin:0 0 14px;box-shadow:0 2px 10px rgba(0,0,0,.45);background:#fff}
+.paper .pgimg img{display:block;width:100%;height:auto}
+.paper .ln{position:absolute;border-radius:2px;transition:background .25s,box-shadow .25s}
+.paper .ln.on{background:rgba(242,84,45,.2);box-shadow:inset 3px 0 0 var(--seek),0 0 0 1px rgba(242,84,45,.6)}
+.paper h4{margin:0 0 8px;font-size:16px;color:#0B57D0}
+.beam{position:absolute;left:0;right:0;top:0;height:46px;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(242,84,45,.3) 70%,rgba(242,84,45,.8) 98%,transparent);border-bottom:2px solid var(--seek);display:none;z-index:6}
+.docv.scan .beam{display:block}
+.cw{position:absolute;right:18px;bottom:0;width:540px;max-width:calc(100% - 36px);height:min(560px,calc(100% - 16px));background:var(--surface);border-radius:8px 8px 0 0;box-shadow:0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12),0 5px 5px -3px rgba(0,0,0,.2);z-index:4;display:none;flex-direction:column;overflow:hidden}
+.cw.on{display:flex}
+.cw header{background:#F2F6FC;color:#1f1f1f;padding:10px 16px;font-size:13.5px;font-weight:500;display:flex;justify-content:space-between}
+.cw header span{color:#444746;letter-spacing:6px}
+.cw .row{display:flex;gap:8px;align-items:center;margin:0 16px;padding:7px 0;border-bottom:1px solid #F1F3F4}
+.cw .row span{color:var(--muted);width:52px;font-size:12px}
+.cw .row input{flex:1;border:0;background:none;outline:0;padding:3px 0}
+.cw .row.seeked input{box-shadow:inset 3px 0 0 var(--seek);padding-left:8px;background:var(--seek-soft)}
+.cw .cbody{flex:1;min-height:0;padding:12px 16px;overflow:auto;font:13.5px/1.6 Arial,Helvetica,sans-serif}
+.cw .cbody div{margin:2px 0}
+.cw footer{padding:10px 16px 12px;display:flex;align-items:center;gap:14px;color:#444746}
+.cw footer i{font-style:normal;font-size:15px;opacity:.85}
+.cw .send{background:#0B57D0;color:#fff;border:0;border-radius:18px;height:36px;padding:0 24px;font-weight:500}
+
+/* teams */
+.tmside{width:200px;flex:none;border-right:1px solid var(--line);background:var(--surface2);padding:12px 8px}
+.tmside h4{margin:8px 8px 6px;font-size:11.5px;color:var(--muted);font-weight:600}
+.tmside a{display:block;padding:7px 10px;border-radius:6px;cursor:pointer;color:var(--ink)}
+.tmside a.on{background:var(--surface);box-shadow:0 0 0 1px var(--line);font-weight:600}
+.tmmain{flex:1;min-width:0;display:flex;flex-direction:column}
+.tmhead{padding:12px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.tmhead b{font-size:15px}.tmhead small{color:var(--muted)}
+.tmhead .btn{margin-left:auto}
+.tmadd{display:none;gap:8px;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--surface2)}
+.tmadd.on{display:flex}
+.tmadd input{flex:1;max-width:260px;padding:6px 9px;border:1px solid var(--line);border-radius:5px;background:var(--surface)}
+.tmadd.seeked input{box-shadow:inset 3px 0 0 var(--seek);background:var(--seek-soft)}
+.tmmsgs{flex:1;overflow:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.tmm{display:grid;grid-template-columns:32px 1fr;gap:10px}
+.tmm .a{width:32px;height:32px;border-radius:50%;background:#5B5FC7;color:#fff;display:grid;place-items:center;font-size:11px;font-weight:700}
+.tmm.sys{color:var(--muted);font-size:12px;grid-template-columns:1fr;text-align:center}
+.tmcomp{padding:10px 18px;border-top:1px solid var(--line);display:flex;gap:8px}
+.tmcomp input{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.tmcomp.seeked input{box-shadow:inset 3px 0 0 var(--seek);background:var(--seek-soft)}
+
+/* seek panel */
+.seek{background:var(--surface);border-radius:10px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.seek .sh{background:var(--seekhead);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;flex:none}
+.seek .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--seek-2),var(--seek));display:grid;place-items:center;flex:none}
+.seek .sh b{font-size:14.5px}.seek .sh small{display:block;color:#A9B3C1;font-size:11.5px}
+.seek .state{margin-left:auto;font-size:11.5px;padding:3px 10px;border-radius:12px;background:#2A313B;color:#C8D0DA;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.seek .state i{width:7px;height:7px;border-radius:50%;background:#7C8796}
+.seek .state.work i{background:var(--seek-2);animation:blink 1s infinite}
+.seek .state.hold i{background:#F5C451;animation:blink 1s infinite}
+.seek .state.done i{background:#46C46E}
+@keyframes blink{50%{opacity:.25}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.seek .ctx{padding:8px 16px;font-size:11.5px;color:var(--muted);border-bottom:1px solid var(--line);flex:none}
+.seek .ctx b{color:var(--ink);font-weight:600}
+.seek .sb{flex:1;min-height:0;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
+.bub{background:var(--surface2);border-radius:12px 12px 12px 3px;padding:11px 13px;font-size:13px;line-height:1.5;border:1px solid var(--line)}
+.bub.me{align-self:flex-end;background:var(--ink);color:var(--surface);border-radius:12px 12px 3px 12px;border:0;max-width:85%}
+.cta{margin-top:10px;width:100%;background:linear-gradient(135deg,var(--seek-2),var(--seek));color:#fff;border:0;border-radius:8px;padding:10px 12px;font-weight:600;font-size:13px}
+.cta:hover{filter:brightness(1.05)}
+.cta.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.steps{display:flex;flex-direction:column;gap:2px}
+.step{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:5px 2px;opacity:.45;transition:opacity .3s}
+.step.act,.step.done,.step.hold{opacity:1}
+.step .dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);margin-top:1px;position:relative}
+.step.act .dot{border-color:rgba(242,84,45,.25);border-top-color:var(--seek);animation:spin .8s linear infinite}
+.step.hold .dot{border-color:#F5C451;background:var(--warnbg)}
+.step.done .dot{background:var(--ok);border-color:var(--ok)}
+.step.done .dot::after{content:"";position:absolute;left:4px;top:2px;width:5px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.step b{font-size:13px;font-weight:600}
+.step .sub{font-size:12px;color:var(--muted);margin-top:1px}
+.pbar{height:5px;border-radius:3px;background:var(--line);margin:8px 0 6px;overflow:hidden}
+.pbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--seek-2),var(--seek));transition:width .3s}
+.pc{font-size:11.5px;color:var(--muted)}
+.ledger{max-height:104px;overflow:auto;font-size:11.5px;border:1px solid var(--line);border-radius:6px;padding:4px 8px;margin-top:6px;background:var(--surface)}
+.ledger div{display:grid;grid-template-columns:104px 1fr;gap:6px;padding:2.5px 0;border-bottom:1px dashed var(--line)}
+.ledger div:last-child{border-bottom:0}
+.ledger span{color:var(--muted)}
+.ledger em{font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result h4{margin:0 0 4px;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.stats div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center}
+.stats b{display:block;font-size:19px;color:var(--seek-ink)}.stats small{color:var(--muted);font-size:11px}
+.flags{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:7px}
+.flags li{display:grid;grid-template-columns:18px 1fr;gap:6px;font-size:12.3px}
+.flags li::before{content:"!";width:16px;height:16px;border-radius:50%;background:var(--warnbg);color:var(--warn);font-weight:700;font-size:11px;display:grid;place-items:center;border:1px solid var(--warn)}
+.appr{border:1px solid var(--warn);background:var(--warnbg);border-radius:10px;padding:12px 13px}
+.appr h4{margin:0 0 6px;font-size:13.5px}
+.appr dl{display:grid;grid-template-columns:92px 1fr;gap:3px 8px;margin:8px 0;font-size:12.3px}
+.appr dt{color:var(--muted)}.appr dd{margin:0}
+.comp{border-top:1px solid var(--line);padding:10px 12px;display:flex;gap:8px;align-items:center;flex:none}
+.comp>div:first-child{flex:1;border:1px solid var(--line);border-radius:18px;padding:7px 12px;color:var(--muted);font-size:12.5px;background:var(--surface2)}
+.spd{display:none!important;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.spd button{border:0;background:none;padding:5px 9px;font-size:11.5px;color:var(--muted)}
+.spd button.on{background:var(--ink);color:var(--surface)}
+#ptr{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:transform .55s cubic-bezier(.3,.7,.2,1),opacity .25s}
+#ptr svg{display:block;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+#ptr span{position:absolute;left:18px;top:16px;background:var(--seek);color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;white-space:nowrap}
+#ptr.click svg{animation:tap .35s}
+@keyframes tap{50%{transform:scale(.8)}}
+.toast{position:absolute;top:10px;left:50%;transform:translateX(-50%);background:#1D2530;color:#fff;padding:8px 16px;border-radius:8px;font-size:12.5px;z-index:20;display:none}
+.toast.on{display:block}
+@media (max-width:1100px){.folders{display:none}.side{width:130px}}
+@media (max-width:980px){body{overflow:auto}.app{grid-template-columns:1fr;height:auto}.stage{height:78vh}.seek{height:72vh}.mlist{display:none}.side{display:none}.tmside{display:none}}
+@media (prefers-reduced-motion:reduce){#ptr{transition:none}.seek .sb{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="stage" aria-label="HR operations workspace">
+    <div class="chrome">
+      <div class="tabs">
+        <button class="tab on" id="tabMail"><i style="background:#D93025"></i>Gmail · HR Onboarding</button>
+        <button class="tab" id="tabWd"><i style="background:#0875E1"></i>Workday</button>
+        <button class="tab" id="tabAdp"><i style="background:#D0271D"></i>ADP Workforce Now</button>
+        <button class="tab" id="tabSn"><i style="background:#1F7A33"></i>ServiceNow</button>
+        <button class="tab" id="tabTm"><i style="background:#5B5FC7"></i>Teams</button>
+      </div>
+      <div class="urlbar"><div class="url" id="url">https://mail.google.com/mail/u/0/#inbox</div></div>
+    </div>
+    <div class="views">
+      <div class="toast" id="toast" role="status"></div>
+
+      <div class="view on" id="vMail"><div class="mail">
+        <nav class="folders" aria-label="Folders">
+          <button class="compose" id="gComp">Compose</button>
+          <a class="on" data-f="inbox">Inbox <span id="gInN">1</span></a><a data-f="sent">Sent</a><a>Drafts</a><a>Archive</a>
+          <div class="acct"><div id="gAcct"></div><button id="gSw">Switch account</button></div>
+        </nav>
+        <div class="mlist" id="gList"></div>
+        <div class="mread" id="gRead"></div>
+        <div class="docv" id="docv"><header><span>Signed_Offer_Letter_JReyes.pdf · 2 pages</span><span><a href="docs/Signed_Offer_Letter_JReyes.pdf" target="_blank" rel="noopener" style="color:#fff;margin-right:12px;font-size:12px">Open PDF</a><button id="docClose">Close</button></span></header><div class="dbody" id="dbody"><div class="paper" id="paper"></div><div class="beam" id="beam"></div></div></div>
+        <div class="cw" id="cw">
+          <header>New Message<span>_ ⤢ ✕</span></header>
+          <div class="row"><span>From</span><input id="cwFrom" type="text" aria-label="From" readonly></div>
+          <div class="row" id="cwToRow"><span>To</span><input id="cwTo" type="text" aria-label="To" autocomplete="off"></div>
+          <div class="row" id="cwSubRow"><span>Subject</span><input id="cwSub" type="text" aria-label="Subject" autocomplete="off"></div>
+          <div class="cbody" id="cwBody"></div>
+          <footer><button class="send" id="cwSend">Send</button><i title="Formatting">A</i><i title="Attach">📎</i><i title="Link">🔗</i><i title="Emoji">☺</i><i title="Photo">🖼</i><span style="margin-left:auto" title="Discard">🗑</span></footer>
+        </div>
+      </div></div>
+
+      <div class="view" id="vWd">
+        <div class="apptop"><div class="logo">workday</div><div class="sr">Search for people, tasks and reports</div><div class="tn" id="wdTn">Nodeway · HR Operations</div><div class="av" id="wdAv" title="Dana Whitfield">DW</div></div>
+        <div class="lay">
+          <nav class="side" id="wdSide"><h4>Hire: Jessica Reyes</h4><a data-p="hire" class="on">Hire</a><a data-p="proc">Business process</a><a data-p="onb">Onboarding</a><a data-p="learn">Learning</a><a data-p="aud" id="navAud" style="display:none">Audit trail</a></nav>
+          <div class="main">
+            <div class="pg on" id="wd_hire"><h1>Hire employee</h1><div class="sub">Pre-hire: Jessica Reyes · Created from offer accepted in Workday Recruiting</div>
+              <div class="card"><h3>Job details</h3><div class="bd"><div class="fgrid" id="hireForm"></div></div></div>
+              <button class="btn pri" id="wdSubmit">Submit</button></div>
+            <div class="pg" id="wd_proc"><h1>Hire: Jessica Reyes</h1><div class="sub" id="procSub">Not submitted yet</div><div class="card"><ul class="tl" id="procTl"></ul></div></div>
+            <div class="pg" id="wd_onb"><h1>Onboarding checklist</h1><div class="sub">Jessica Reyes · Starts Jan 1, 2027</div><div class="card"><table class="tb"><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody id="onbBody"></tbody></table></div><div id="onbNote"></div></div>
+            <div class="pg" id="wd_learn"><h1>Learning and buddy</h1><div class="sub">Courses assigned from the Software Engineer onboarding plan</div>
+              <div class="card"><table class="tb"><thead><tr><th>Course</th><th>Type</th><th>Status</th></tr></thead><tbody id="learnBody"></tbody></table></div>
+              <div class="card"><h3>Onboarding buddy</h3><div class="bd"><div class="fgrid" id="buddyForm"></div></div></div></div>
+            <div class="pg" id="wd_aud"><h1>Audit trail</h1><div class="sub"><span class="nwToday"></span> · Every action on this hire · Visible to the HR business partner only</div><div class="card"><ul class="tl" id="audTl"></ul></div><div id="audNote"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="vAdp">
+        <div class="apptop"><div class="logo"><span style="background:var(--acc);color:#fff;padding:1px 8px;border-radius:3px">ADP</span> Workforce Now</div><div class="sr">Search</div><div class="tn">Company code NDW</div><div class="av" title="Dana Whitfield">DW</div></div>
+        <div class="lay"><nav class="side"><h4>Process › HR</h4><a class="on">Hire / Rehire</a><a>Terminate</a><a>Position change</a><a>Pay rate change</a><h4 style="margin-top:12px">People</h4><a>Employees</a></nav>
+          <div class="main"><div class="pg on" id="adp_pg"><h1>Hire employee</h1><div class="sub">Process › HR › Hire / Rehire · Company code NDW · Nodeway</div>
+            <div class="card"><h3>New employee</h3><div class="bd"><div class="fgrid" id="adpForm"></div></div></div>
+            <button class="btn pri" id="adpSave">Hire employee</button><div id="adpRes"></div></div></div></div>
+      </div>
+
+      <div class="view" id="vSn">
+        <div class="apptop"><div class="logo">servicenow</div><div class="sr">Filter navigator</div><div class="tn">Nodeway · IT Service Desk</div><div class="av" title="Dana Whitfield">DW</div></div>
+        <div class="lay"><nav class="side"><h4>Self-service</h4><a class="on">Service catalog</a><a>My requests</a><a>Knowledge</a></nav>
+          <div class="main">
+            <div class="pg on" id="sn_order"><h1>New hire IT bundle</h1><div class="sub">Laptop, account, badge and access in one request</div>
+              <div class="card"><h3>Request details</h3><div class="bd"><div class="fgrid" id="snForm"></div></div></div>
+              <button class="btn pri" id="snSubmit">Submit request</button></div>
+            <div class="pg" id="sn_req"><h1 id="snTitle">REQ0010482</h1><div class="sub">New hire IT onboarding: Jessica Reyes · Opened by Whatfix Seek</div>
+              <div class="card"><table class="tb"><thead><tr><th>Number</th><th>Item</th><th>State</th></tr></thead><tbody id="snBody"></tbody></table></div><div id="snNote"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="vTm">
+        <div class="apptop"><div class="logo">Teams</div><div class="sr">Search</div><div class="tn">Nodeway</div><div class="av" title="Dana Whitfield">DW</div></div>
+        <div class="lay"><nav class="tmside" id="tmSide"><h4>Channels</h4><a data-k="c1" class="on"># platform-engineering</a><a data-k="c2"># nodeway-new-joiners</a><h4>Chat</h4><a data-k="dm">Sarah Palmer</a></nav>
+          <div class="tmmain"><div class="tmhead"><b id="tmTitle"></b><small id="tmSubT"></small><button class="btn" id="tmAdd">Add people</button></div>
+            <div class="tmadd" id="tmAddRow"><input id="tmAddIn" type="text" aria-label="Add people" autocomplete="off"><button class="btn pri" id="tmAddGo">Add</button></div>
+            <div class="tmmsgs" id="tmMsgs"></div>
+            <div class="tmcomp" id="tmComp"><input id="tmIn" type="text" aria-label="Message" autocomplete="off" placeholder="Type a message"><button class="btn pri" id="tmSendBtn">Send</button></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="seek" aria-label="Whatfix Seek">
+    <div class="sh"><div class="mark"><svg width="17" height="17" viewBox="0 0 24 24" fill="#fff"><path d="M12 2l2.2 6.3L21 10l-6.8 1.7L12 18l-2.2-6.3L3 10l6.8-1.7L12 2z"/></svg></div>
+      <div><b>Whatfix Seek</b><small>Nodeway HR assistant</small></div><div class="state" id="state"><i></i><span id="stateTxt">Ready</span></div></div>
+    <div class="ctx" id="ctx">Looking at: <b>Gmail</b> | Signed offer from Jessica Reyes</div>
+    <div class="sb" id="sb"></div>
+    <div class="comp"><div>Ask Seek anything...</div><div class="spd" role="group" aria-label="Demo speed"><button class="on" data-s="1">1x</button><button data-s="2">2x</button></div></div>
+  </aside>
+</div>
+<div id="ptr"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z" fill="#F2542D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg><span>Seek</span></div>
+<script>
+/* nw runtime: browser-based dates, cross-tab events, hidden reset */
+(function(){
+  var NW=window.NW={};
+  NW.now=new Date();
+  NW.ago=function(min){return new Date(Date.now()-min*60000)};
+  NW.days=function(n){var d=new Date();d.setDate(d.getDate()+n);return d};
+  NW.t=function(d){return d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
+  NW.md=function(d){return d.toLocaleDateString("en-US",{month:"short",day:"numeric"})};
+  NW.long=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})};
+  NW.dayName=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})};
+  NW.gfull=function(d){return d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(",","")+", "+NW.t(d)};
+  NW.us=function(d){return ("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2)+"/"+d.getFullYear()};
+  NW.iso=function(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)};
+  NW.isoT=function(d){return NW.iso(d)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2)};
+  NW.usT=function(d){return NW.us(d)+" "+NW.t(d).replace(/^(\d):/,"0$1:")};
+  NW.sameDay=function(a,b){return a.toDateString()===b.toDateString()};
+  NW.since=function(d){var m=Math.max(0,Math.round((Date.now()-d.getTime())/60000));if(m<60)return m+(m===1?" minute ago":" minutes ago");var h=Math.round(m/60);if(h<24)return h+(h===1?" hour ago":" hours ago");var dd=Math.round(h/24);return dd+(dd===1?" day ago":" days ago")};
+  NW.greet=function(){var h=new Date().getHours();return h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening"};
+  NW.lastWeekday=function(dow){var d=new Date();var diff=(d.getDay()-dow+7)%7||7;d.setDate(d.getDate()-diff);return d};
+  NW.nextBiweekly=function(anchor){var a=new Date(anchor);var n=new Date();n.setHours(0,0,0,0);while(a<=n)a.setDate(a.getDate()+14);while(a.getTime()-14*864e5>n.getTime())a.setDate(a.getDate()-14);return a};
+  /* cross-tab events (same origin) */
+  var P="nodeway:";
+  NW.get=function(k){try{var v=localStorage.getItem(P+k);return v?JSON.parse(v):null}catch(e){return null}};
+  NW.set=function(k,v){try{localStorage.setItem(P+k,JSON.stringify(v))}catch(e){}};
+  NW.push=function(k,v){var a=NW.get(k)||[];a.push(v);NW.set(k,a)};
+  var subs=[];NW.on=function(cb){subs.push(cb)};
+  window.addEventListener("storage",function(e){if(!e.key||e.key.indexOf(P)!==0)return;
+    if(e.key===P+"reset"){location.replace(location.pathname);return}
+    var k=e.key.slice(P.length);subs.forEach(function(cb){try{cb(k)}catch(x){}})});
+  NW.reset=function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf(P)===0)localStorage.removeItem(k)});localStorage.setItem(P+"reset",String(Date.now()))}catch(e){}location.replace(location.pathname)};
+  /* hidden reset: double-click the bottom-left corner, or press Ctrl+Shift+Alt+R */
+  function mount(){var h=document.createElement("div");h.setAttribute("aria-hidden","true");
+    h.style.cssText="position:fixed;left:0;bottom:0;width:22px;height:22px;z-index:99999;background:transparent;cursor:default";
+    h.addEventListener("dblclick",function(){NW.reset()});document.body.appendChild(h)}
+  if(document.body)mount();else document.addEventListener("DOMContentLoaded",mount);
+  document.addEventListener("keydown",function(e){if(e.ctrlKey&&e.shiftKey&&e.altKey&&(e.key==="R"||e.key==="r"||e.code==="KeyR")){e.preventDefault();NW.reset()}});
+})();
+
+function NWTM(a){var d=NW.ago(a);return NW.sameDay(d,new Date())?NW.t(d):NW.md(d)}
+function NWFL(a){return NW.gfull(NW.ago(a))}
+const EMPID=String(48000+Math.floor(Math.random()*900)+100);
+</script>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let SPEED=1;const wait=ms=>new Promise(r=>setTimeout(r,ms/SPEED));
+const ptr=$("#ptr"),sb=$("#sb");
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),3000)}
+
+/* ---------- shared data ---------- */
+let clock=new Date().getHours()*60+new Date().getMinutes();
+const tstr=()=>String(Math.floor(clock/60)).padStart(2,"0")+":"+String(clock%60).padStart(2,"0")+" AM";
+const AUD=[];
+function drawAud(){$("#audTl").innerHTML=AUD.length?AUD.map(a=>`<li><div class="d ok">✓</div><div><b>${esc(a.who)}</b><small>${esc(a.txt)}</small></div><small>${a.t}</small></li>`).join(""):'<li><div class="d">-</div><div><small>No events yet</small></div><span></span></li>'}
+function audit(who,txt,seek){clock+=1;AUD.push({t:tstr(),who,txt,seek});drawAud()}
+const CHECK=["Offer accepted and signed offer verified","Hire record created in Workday","Payroll set up in ADP","Laptop, Nodeway account and building badge provisioned","Required training assigned in Workday Learning","Team channels joined and onboarding buddy assigned: Sarah Palmer"];
+const SLIPS="Salary slips need to be uploaded on the portal.";
+const WSUBJ="Welcome to Nodeway! You’re all set for day one";
+function welcomeHTML(){return `<p>Hi Jessica,</p><p>Welcome to Nodeway! You’re all set for your first day. Here’s everything we’ve completed for you:</p><ul class="chk">${CHECK.map(c=>`<li><span class="cb">✓</span><span>${c}</span></li>`).join("")}</ul><p><b>Still to do on your side</b></p><ul class="chk"><li class="tdr"><span class="cb todo">!</span><span>${SLIPS} These are your previous company’s salary slips.</span></li></ul><p>Your first day is Friday, January 1, 2027. Your buddy, Sarah Palmer, will welcome you, and your laptop and badge will be waiting at the Austin office.</p><p>We’re looking forward to seeing you on your first day.</p><p>Best regards,<br>The Nodeway HR team</p><div class="mfoot">Nodeway, Inc. · 500 West 2nd Street, Suite 1900, Austin, TX 78701.</div>`}
+
+/* ---------- form builder and fill animation ---------- */
+function fieldHTML(f){
+  if(f.k==="check")return `<div class="fld chk" data-id="${f.id}"><input type="checkbox" id="c_${f.id}"><label for="c_${f.id}">${f.l}</label></div>`;
+  if(f.k==="select")return `<div class="fld" data-id="${f.id}"><label>${f.l}</label><select>${f.o.map(o=>`<option>${o}</option>`).join("")}</select></div>`;
+  return `<div class="fld" data-id="${f.id}"><label>${f.l}</label><input type="text" autocomplete="off"></div>`}
+const buildForm=(sel,fields)=>{$(sel).innerHTML=fields.map(fieldHTML).join("")};
+async function typeInto(el,text){const chunk=Math.max(1,Math.ceil(text.length/30));for(let i=chunk;i<text.length+chunk;i+=chunk){el.value=text.slice(0,i);await wait(16)}el.value=text}
+function pointTo(el,dx=14,dy=12){const r=el.getBoundingClientRect();ptr.style.opacity=1;ptr.style.transform=`translate(${Math.round(r.left+Math.min(r.width-8,dx))}px,${Math.round(r.top+Math.min(r.height-4,dy))}px)`}
+async function clickFx(el){const r=el.getBoundingClientRect();pointTo(el,r.width/2,r.height/2);await wait(650);ptr.classList.add("click");await wait(250);ptr.classList.remove("click")}
+const hidePtr=()=>{ptr.style.opacity=0};
+async function animFill(root,id,val){
+  const fld=$(`.fld[data-id="${id}"]`,root);fld.scrollIntoView({block:"center",behavior:"smooth"});await wait(380);
+  const c=$("input,select",fld);pointTo(c,c.type==="checkbox"?8:40,14);await wait(380);
+  if(c.type==="checkbox"){c.checked=!!val;await wait(220)}
+  else if(c.tagName==="SELECT"){c.value=val;await wait(260)}
+  else await typeInto(c,String(val));
+  fld.classList.add("seeked");
+}
+function ledgerAdd(box,label,val){const d=document.createElement("div");d.innerHTML=`<span>${esc(label)}</span><em title="${esc(val)}">${esc(val)}</em>`;box.appendChild(d);box.scrollTop=box.scrollHeight}
+function progressUI(i,total){const d=document.createElement("div");d.innerHTML=`<div class="pbar"><i id="pb${i}"></i></div><div class="pc" id="pc${i}">0 of ${total} details</div><div class="ledger" id="lg${i}"></div>`;stepsEl.children[i].lastElementChild.appendChild(d)}
+async function animVerify(root,id,val){
+  const fld=$(`.fld[data-id="${id}"]`,root);fld.scrollIntoView({block:"center",behavior:"smooth"});await wait(300);
+  const c=$("input,select",fld);pointTo(c,40,14);await wait(320);const old=c.value;
+  if(old===val){fld.classList.add("verified");await wait(160);return {ok:true}}
+  fld.classList.add("mismatch");await wait(900);
+  if(c.tagName==="SELECT")c.value=val;else await typeInto(c,val);
+  fld.classList.remove("mismatch");fld.classList.add("seeked","fixed");await wait(300);return {ok:false,old};
+}
+async function fillPlan(root,fields,plan,idp){
+  const prog=$("#pb"+idp),cnt=$("#pc"+idp),box=$("#lg"+idp);let n=0;const out={fixed:[],checked:0,filled:0};
+  for(const [id,val,mode,after] of plan){
+    const f=fields.find(x=>x.id===id);
+    if(mode==="verify"){const r=await animVerify(root,id,val);out.checked++;
+      if(r.ok)ledgerAdd(box,f.l,"✓ "+val);else{out.fixed.push({l:f.l,old:r.old,val});ledgerAdd(box,f.l,val+" (was "+r.old+")")}}
+    else{await animFill(root,id,val);out.filled++;ledgerAdd(box,f.l,typeof val==="boolean"?"Checked":String(val))}
+    n++;prog.style.width=(n/plan.length*100)+"%";cnt.textContent=`${n} of ${plan.length} details`;
+    if(after)await after();
+    await wait(110);
+  }
+  return out;
+}
+
+/* ---------- app registry ---------- */
+const HIRE_F=[{id:"name",l:"Legal name"},{id:"position",l:"Position"},{id:"dept",l:"Department"},{id:"cc",l:"Cost center"},{id:"mgr",l:"Manager"},{id:"loc",l:"Location"},{id:"wtype",l:"Worker type"},{id:"start",l:"Hire date"},{id:"email",l:"Work email"},{id:"hrbp",l:"HR business partner"},{id:"source",l:"Source"},{id:"reason",l:"Hire reason"}];
+const HIRE_DEFAULTS={name:"Jessica Reyes",position:"Software Engineer II",dept:"Platform Engineering",cc:"CC-4410 Platform Engineering",mgr:"David Chen",loc:"Austin, TX (On-site)",wtype:"Employee · Full time",start:"Jan 1, 2027",hrbp:"Angella Smith",source:"Offer accepted in Workday Recruiting",reason:"New hire · Regular"};
+const HIRE_PLAN=[["name","Jessica Reyes","verify"],["position","Software Engineer II","verify"],["dept","Platform Engineering","verify"],["cc","CC-4410 Platform Engineering","verify"],["mgr","David Chen","verify"],["loc","Austin, TX (Hybrid)","verify"],["wtype","Employee · Full time","verify"],["start","Jan 1, 2027","verify"],["email","jessica.reyes@nodeway.com"],["hrbp","Angella Smith","verify"],["source","Offer accepted in Workday Recruiting","verify"],["reason","New hire · Regular","verify"]];
+function prefill(root,vals){Object.keys(vals).forEach(k=>{const c=$(`.fld[data-id="${k}"] input,.fld[data-id="${k}"] select`,root);if(c)c.value=vals[k]})}
+const ADP_F=[{id:"wdid",l:"Employee ID (Workday)"},{id:"first",l:"Legal first name"},{id:"last",l:"Legal last name"},{id:"ssn",l:"Social Security number"},{id:"dob",l:"Birth date"},{id:"addr",l:"Home address"},{id:"email",l:"Personal email"},{id:"hire",l:"Hire date"},{id:"reason",l:"Hire reason",k:"select",o:["Select","New position","Replacement","Conversion from contractor"]},{id:"job",l:"Job title",k:"select",o:["Select","Software Engineer I","Software Engineer II","Senior Software Engineer"]},{id:"dept",l:"Home department",k:"select",o:["Select","004410 · Platform Engineering","004420 · Product Engineering","006100 · People Operations"]},{id:"loc",l:"Work location",k:"select",o:["Select","AUS · Austin, TX","SFO · San Francisco, CA","REM · Remote, US"]},{id:"group",l:"Pay group",k:"select",o:["Select","NDW-BW · Bi-weekly salaried","NDW-BH · Bi-weekly hourly","NDW-SM · Semi-monthly"]},{id:"rate",l:"Annual salary (USD)"},{id:"w4",l:"Employee completes Form W-4 online",k:"check"},{id:"dd",l:"Employee adds direct deposit in self service",k:"check"},{id:"inv",l:"Send ADP registration invitation",k:"check"}];
+const ADP_PLAN=[["wdid",EMPID],["first","Jessica"],["last","Reyes"],["ssn","XXX-XX-7362"],["dob","03/14/1997"],["addr","2108 Willow Creek Dr, Apt 4B, Austin, TX 78741"],["email","jessica.reyes@gmail.com"],["hire","01/01/2027"],["reason","New position"],["job","Software Engineer II"],["dept","004410 · Platform Engineering"],["loc","AUS · Austin, TX"],["group","NDW-BW · Bi-weekly salaried"],["rate","148,000.00"],["w4",true],["dd",true],["inv",true]];
+const BUDDY_F=[{id:"buddy",l:"Onboarding buddy",k:"select",o:["Select a person","Sarah Palmer · Senior Software Engineer","Aaron Brooks · Senior Software Engineer","Marcus Lee · Staff Software Engineer","Nina Patel · Software Engineer II","Ravi Shah · Site Reliability Engineer","Lucia Gómez · QA Engineer","Tom Becker · Software Engineer II (Product)","Elena Torres · Product Designer (Design)"]}];
+const SN_F=[{id:"for",l:"Requested for"},{id:"empid",l:"Employee ID"},{id:"mgr",l:"Manager"},{id:"start",l:"Start date"},{id:"loc",l:"Location"},{id:"i1",l:"MacBook Pro 14 inch",k:"check"},{id:"i2",l:"Active Directory account",k:"check"},{id:"i3",l:"Building badge",k:"check"},{id:"i4",l:"Engineering starter pack (GitHub, Jira, VPN, Teams)",k:"check"}];
+const SN_DEFAULTS={for:"Dana Whitfield",mgr:"Priya Nair",start:"",loc:"Austin, TX"};
+const SN_JESSICA={mgr:"David Chen",start:"Jan 1, 2027",loc:"Austin, TX"};
+const SN_PLAN=[["for","Jessica Reyes","fill",async()=>{await wait(250);prefill($("#sn_order"),SN_JESSICA);toast("Manager, start date and location filled from Jessica’s user record");await wait(500)}],["empid",EMPID],["mgr","David Chen","verify"],["start","Jan 1, 2027","verify"],["loc","Austin, TX","verify"],["i1",true],["i2",true],["i3",true],["i4",true]];
+buildForm("#hireForm",HIRE_F);buildForm("#adpForm",ADP_F);buildForm("#snForm",SN_F);buildForm("#buddyForm",BUDDY_F);
+let curApp="mail",WDP="hire",SNP="order";
+const TABS={mail:"#tabMail",wd:"#tabWd",adp:"#tabAdp",sn:"#tabSn",tm:"#tabTm"},VIEWS={mail:"#vMail",wd:"#vWd",adp:"#vAdp",sn:"#vSn",tm:"#vTm"};
+function urlNow(){
+  if(curApp==="mail")return `https://mail.google.com/mail/u/${ACCTS[G.acct].u}/#${G.f}`;
+  if(curApp==="wd")return `https://wd5.myworkday.com/nodeway/d/${{hire:"task/hire-employee",proc:"inst/business-process",onb:"inst/onboarding",learn:"inst/learning",aud:"inst/audit-trail"}[WDP]}`;
+  if(curApp==="adp")return "https://workforcenow.adp.com/theme/index.html#/Process/HR/HireRehire";
+  if(curApp==="sn")return SNP==="req"?"https://nodeway.service-now.com/sc_request.do?number=REQ0010482":"https://nodeway.service-now.com/sp?id=sc_cat_item&name=new_hire_it_bundle";
+  return "https://teams.microsoft.com/v2/";
+}
+function showApp(k){curApp=k;Object.keys(TABS).forEach(a=>{$(VIEWS[a]).classList.toggle("on",a===k);$(TABS[a]).classList.toggle("on",a===k)});$("#url").textContent=urlNow()}
+Object.keys(TABS).forEach(k=>{$(TABS[k]).onclick=()=>showApp(k)});
+const go=async k=>{if(curApp!==k){await clickFx($(TABS[k]));showApp(k)}};
+
+/* ---------- Gmail ---------- */
+const OFFER_HL=["Software Engineer II, Platform Engineering","David Chen","Austin, TX (hybrid)","January 1, 2027"];
+function offerBody(){let h=["Hi team,","Please find my signed offer letter, ID proof and education certificates attached.","I’ve also submitted my details for the background check through the Workday candidate portal.","A few details for your records:","Role: Software Engineer II, Platform Engineering<br>Manager: David Chen<br>Location: Austin, TX (hybrid)<br>Start date: January 1, 2027","I’m excited to join Nodeway.","Thanks,<br>Jessica Reyes"].map(l=>`<p>${l}</p>`).join("");OFFER_HL.forEach(p=>{h=h.replace(p,`<span class="hl">${p}</span>`)});return h}
+const MSG={
+  hr:{inbox:[
+    {id:"m1",from:"Jessica Reyes",ini:"JR",col:"#E8710A",em:"jessica.reyes@gmail.com",to:"onboarding@nodeway.com",time:NWTM(32),full:NWFL(32),subj:"Signed offer letter: Jessica Reyes, Software Engineer",pv:"Hi team, please find my signed offer letter...",un:1,atts:["Signed_Offer_Letter_JReyes.pdf","ID_Proof_JReyes.pdf","Education_Certificates.pdf"],html:offerBody},
+    {id:"m2",from:"Priya Nair",ini:"PN",em:"priya.nair@nodeway.com",to:"onboarding@nodeway.com",time:NWTM(2518),full:NWFL(2518),subj:"Weekly HR sync notes",pv:"Notes from Tuesday’s sync are in the shared folder.",html:()=>"<p>Notes from Tuesday’s sync are in the shared folder.</p>"},
+    {id:"m3",from:"Nodeway Benefits",ini:"AB",em:"benefits@nodeway.com",to:"onboarding@nodeway.com",time:NWTM(5890),full:NWFL(5890),subj:"Your benefits summary is ready",pv:"Review your current medical, dental and vision coverage in Workday.",html:()=>"<p>Review your current medical, dental and vision coverage in the Benefits app in Workday.</p>"}],sent:[]},
+  angella:{inbox:[
+    {id:"a0",from:"Workday",ini:"WD",col:"#0875E1",em:"noreply@workday.com",to:"angella.smith@nodeway.com",time:NWTM(1385),full:NWFL(1385),subj:"Reminder: performance check-ins due next week",pv:"4 check-ins in your client groups are due next week.",html:()=>"<p>4 check-ins in your client groups are due next week.</p>"}],sent:[]},
+  jessica:{inbox:[
+    {id:"m6",from:"David Chen",ini:"DC",em:"david.chen@nodeway.com",to:"jessica.reyes@gmail.com",time:NWTM(50),full:NWFL(50),subj:"Excited to have you on the team",pv:"Looking forward to working with you.",html:()=>"<p>Hi Jessica,</p><p>Looking forward to working with you on Platform Engineering.</p><p>David</p>"}],sent:[]}
+};
+const ACCTS={hr:{n:"Nodeway HR Onboarding",em:"onboarding@nodeway.com",tab:"HR Onboarding",u:0},angella:{n:"Angella Smith",em:"angella.smith@nodeway.com",tab:"Angella Smith",u:1},jessica:{n:"Jessica Reyes",em:"jessica.reyes@gmail.com",tab:"Jessica Reyes",u:2}};
+const G={acct:"hr",f:"inbox",sel:"m1"};
+function gRender(){
+  const AC=ACCTS[G.acct];$("#gAcct").innerHTML=`<b>${AC.n}</b><br>${AC.em}`;
+  $("#tabMail").lastChild.textContent="Gmail · "+AC.tab;
+  const list=MSG[G.acct][G.f];$("#gInN").textContent=MSG[G.acct].inbox.filter(m=>m.un).length||"";
+  $$("[data-f]",$(".folders")).forEach(a=>a.classList.toggle("on",a.dataset.f===G.f));
+  $("#gList").innerHTML="<h5>"+(G.f==="sent"?"Sent":"Inbox")+"</h5>"+(list.length?list.map(m=>`<div class="mi${m.un?" un":""}${m.id===G.sel?" on":""}" data-id="${m.id}"><b>${G.f==="sent"?"To: "+esc(m.to):esc(m.from)}<span>${m.time}</span></b><div>${esc(m.subj)}</div><div class="p">${esc(m.pv)}</div></div>`).join(""):'<div style="padding:20px;color:var(--muted)">Nothing here yet</div>');
+  const m=list.find(x=>x.id===G.sel);
+  $("#gRead").innerHTML=m?`<div class="mhead"><h2>${esc(m.subj)}</h2><div class="who"><div class="av" style="width:38px;height:38px;background:${m.col||"#0F7B6C"}">${m.ini}</div><div><b>${esc(m.from)}</b> &lt;${m.em}&gt;<small>To: ${m.to} | ${m.full}</small></div></div></div><div class="mbodyx" id="mbodyx">${m.html()}</div>${m.atts?'<div class="atts">'+m.atts.map((a,i)=>`<div class="att" data-a="${i}" role="button" tabindex="0"><div class="ic" style="background-image:url(docs/pages/${["Signed_Offer_Letter_JReyes-1.png","ID_Proof_JReyes-1.jpg","Education_Certificates-1.png"][i]})"></div><div><b>${a}</b><small>${["160 KB · 2 pages","927 KB · 1 page","237 KB · 2 pages"][i]}</small></div></div>`).join("")+"</div>":""}`:'<div style="padding:40px;color:var(--muted)">Select an email to read</div>';
+  $("#url").textContent=urlNow();
+}
+document.addEventListener("click",e=>{
+  const mi=e.target.closest(".mi");if(mi&&mi.dataset.id){G.sel=mi.dataset.id;const m=MSG[G.acct][G.f].find(x=>x.id===G.sel);if(m)m.un=0;gRender();return}
+  const fa=e.target.closest(".folders a[data-f]");if(fa){G.f=fa.dataset.f;G.sel=(MSG[G.acct][G.f][0]||{}).id||null;gRender();return}
+  if(e.target.id==="gSw"){const O=["hr","angella","jessica"];G.acct=O[(O.indexOf(G.acct)+1)%3];G.f="inbox";G.sel=(MSG[G.acct].inbox[0]||{}).id;gRender();return}
+  const at=e.target.closest(".att");if(at&&at.dataset.a==="0"&&!running){openDoc(false)}
+});
+const LETTER=["Offer of employment","Nodeway · October 20, 2026","Dear Jessica Reyes,","We are pleased to offer you the position of Software Engineer II in Platform Engineering, reporting to David Chen.","Location: Austin, TX (hybrid)","Start date: January 1, 2027","Employment type: Full time, regular","This offer is subject to verification of your identity and work eligibility.","Accepted and signed: Jessica Reyes · October 23, 2026"];
+const LMARK=[1,2,3,4,5,6];
+const OFFER_PAGES=["docs/pages/Signed_Offer_Letter_JReyes-1.png","docs/pages/Signed_Offer_Letter_JReyes-2.png"];
+const OFFER_MARKS=[{"page": 1, "x": 0.11764705882352941, "y": 0.41988636363636356, "w": 0.7647058823529411, "h": 0.023989898989898988}, {"page": 1, "x": 0.11764705882352941, "y": 0.46786616161616157, "w": 0.7647058823529411, "h": 0.023989898989898988}, {"page": 1, "x": 0.11764705882352941, "y": 0.4918560606060606, "w": 0.7647058823529411, "h": 0.023989898989898988}, {"page": 1, "x": 0.11764705882352941, "y": 0.5158459595959596, "w": 0.7647058823529411, "h": 0.023989898989898988}, {"page": 1, "x": 0.11764705882352941, "y": 0.5398358585858585, "w": 0.7647058823529411, "h": 0.023989898989898988}, {"page": 2, "x": 0.11764705882352941, "y": 0.6549747474747475, "w": 0.7647058823529411, "h": 0.1893939393939394}];
+function openDoc(){$("#paper").innerHTML=OFFER_PAGES.map((src,i)=>`<div class="pgimg"><img src="${src}" alt="Signed offer letter, page ${i+1}">${OFFER_MARKS.map((m,k)=>m.page===i+1?`<span class="ln" data-k="${k}" style="left:${(m.x*100-1).toFixed(2)}%;top:${(m.y*100).toFixed(2)}%;width:${(m.w*100+2).toFixed(2)}%;height:${(m.h*100).toFixed(2)}%"></span>`:"").join("")}</div>`).join("");$("#dbody").scrollTop=0;$("#docv").classList.add("on")}
+$("#docClose").onclick=()=>$("#docv").classList.remove("on");
+async function scanDoc(){const dv=$("#docv"),beam=$("#beam"),body=$("#dbody");dv.classList.add("scan");const H=body.clientHeight,dur=2000/SPEED,t0=performance.now();await new Promise(res=>{(function tick(now){const p=Math.min(1,(now-t0)/dur);beam.style.top=Math.round((H-46)*p)+"px";p<1?requestAnimationFrame(tick):res()})(t0)});dv.classList.remove("scan")}
+function cwAdd(html){const d=document.createElement("div");d.innerHTML=html;$("#cwBody").appendChild(d);$("#cwBody").scrollTop=1e5}
+function cwReset(from){$("#cwFrom").value=from;$("#cwTo").value="";$("#cwSub").value="";$("#cwBody").innerHTML="";$("#cwToRow").classList.remove("seeked");$("#cwSubRow").classList.remove("seeked")}
+function wdAs(w){const a=w==="angella";$$("#wdSide a").forEach(x=>{const p=x.dataset.p;x.style.display=a?((p==="proc"||p==="aud")?"":"none"):(p==="aud"?"none":"")});$("#wdAv").textContent=a?"AS":"DW";$("#wdAv").title=a?"Angella Smith":"Dana Whitfield";$("#wdAv").style.background=a?"#7A3EB1":"";$("#wdTn").textContent=a?"Nodeway · HR Business Partner":"Nodeway · HR Operations"}
+const ASUBJ="Onboarding complete: Jessica Reyes (Software Engineer II)";
+function auditLines(){return ["Hi Angella,","Jessica Reyes is ready for her first day on Friday, January 1, 2027. Here’s what was completed:",
+ "• Hired in Workday, employee ID "+EMPID+". Location corrected from Austin, TX (On-site) to Austin, TX (Hybrid) to match the signed offer",
+ "• Hired in ADP Workforce Now, file number 004821",
+ "• New Hire IT Bundle ordered in ServiceNow, REQ0010482. All items fulfilled",
+ "• 5 onboarding courses assigned, buddy Sarah Palmer, Teams channels joined",
+ "• Welcome email sent to jessica.reyes@gmail.com",
+ "<b>Open item:</b> her previous company salary slips are still missing. She has been asked to upload them in Workday.",
+ "Thanks,<br>Dana Whitfield<br>HR Operations"]}
+function sendAudit(){
+  const m={id:"au1",from:"Nodeway HR Onboarding",ini:"HR",col:"#0B57D0",em:"onboarding@nodeway.com",to:"angella.smith@nodeway.com",time:NWTM(0),full:NWFL(0),subj:ASUBJ,pv:"Jessica Reyes is ready for her first day on Friday, January 1, 2027.",html:()=>auditLines().map(l=>"<p>"+l+"</p>").join("")};
+  MSG.hr.sent.unshift(Object.assign({},m,{from:"Me"}));MSG.angella.inbox.unshift(Object.assign({},m,{un:1}));
+  $("#cw").classList.remove("on");toast("Message sent");
+}
+function sendWelcome(){
+  const m={id:"w1",from:"Nodeway HR team",ini:"HR",col:"#0B57D0",em:"onboarding@nodeway.com",to:"jessica.reyes@gmail.com",time:NWTM(0),full:NWFL(0),subj:WSUBJ,pv:"Hi Jessica, welcome to Nodeway! You’re all set for your first day.",html:welcomeHTML};
+  MSG.hr.sent.unshift(Object.assign({},m,{from:"Me"}));MSG.jessica.inbox.unshift(Object.assign({},m,{un:1}));
+  $("#cw").classList.remove("on");toast("Message sent");G.f="sent";G.sel="w1";gRender();
+}
+
+/* ---------- Workday ---------- */
+const P={state:0,open:false};let apprRes=null;
+function wdPage(p){WDP=p;$$("#wdSide a").forEach(a=>a.classList.toggle("on",a.dataset.p===p));["hire","proc","onb","learn","aud"].forEach(x=>$("#wd_"+x).classList.toggle("on",x===p));if(curApp==="wd")$("#url").textContent=urlNow()}
+$$("#wdSide a").forEach(a=>a.onclick=()=>wdPage(a.dataset.p));
+function drawProc(){
+  const s=P.state;$("#procSub").textContent=s===2?"Successfully completed":"Not submitted yet";
+  const rows=[["Initiation: Hire Employee","Dana Whitfield",s===2?"Created from the signed offer":"Waiting for the hire form",s===2],["Completion","Workday",s===2?"Employee ID "+EMPID+" assigned":"Not started",s===2]];
+  $("#procTl").innerHTML=rows.map((r,i)=>{const w=false;return `<li><div class="d ${r[3]?"ok":w?"wn":""}">${r[3]?"✓":w?"!":i+1}</div><div><b>${r[0]}</b><small>${r[1]} · ${r[2]}</small></div><small></small></li>`}).join("");
+}
+const ONB=[["offer","Signed offer letter","Received in Gmail"],["id","ID proof","Received in Gmail"],["edu","Education certificates","Received in Gmail"],["slips","Previous company salary slips","Not on file"],["buddy","Onboarding buddy","Sarah Palmer"],["teams","Team channels","Platform Engineering, New joiners"]];
+const ONBS={};
+function chipFor(s){return s==="ok"?'<span class="chip ok">Complete</span>':s==="missing"?'<span class="chip wn">Missing</span>':'<span class="chip">Pending</span>'}
+function drawOnb(){$("#onbBody").innerHTML=ONB.map(r=>`<tr data-r="${r[0]}"><td><b>${r[1]}</b></td><td>${r[2]}</td><td>${chipFor(ONBS[r[0]])}</td></tr>`).join("")}
+function onbSet(id,s,seek){ONBS[id]=s;const tr=$(`#onbBody tr[data-r="${id}"]`);if(tr){tr.lastElementChild.innerHTML=chipFor(s);if(seek)tr.classList.add("seeked")}}
+const COURSES=[["Code of Conduct","Required · 25 min","Jan 8, 2027"],["Security Awareness Basics","Required · 40 min","Jan 8, 2027"],["Data Privacy Essentials","Required · 30 min","Jan 15, 2027"],["Engineering Onboarding 101","Role-based · 1 hr","Jan 15, 2027"],["Developer Environment Setup","Role-based · 45 min","Jan 8, 2027"]];
+$("#learnBody").innerHTML=COURSES.map((c,i)=>`<tr data-r="${i}"><td><b>${c[0]}</b></td><td>${c[1]}</td><td><span class="chip">Not assigned</span></td></tr>`).join("");
+
+/* ---------- ADP and ServiceNow ---------- */
+const SNI=[["RITM0021301","MacBook Pro 14 inch"],["RITM0021302","Active Directory account"],["RITM0021303","Building badge"],["RITM0021304","Engineering starter pack"]];
+const snChip=s=>s==="done"?'<span class="chip ok">Closed complete</span>':s==="wip"?'<span class="chip bl">Work in progress</span>':'<span class="chip">New</span>';
+function drawSn(st){$("#snBody").innerHTML=SNI.map((r,i)=>`<tr data-r="${i}"><td>${r[0]}</td><td><b>${r[1]}</b></td><td>${snChip(st[i])}</td></tr>`).join("")}
+function snPage(p){SNP=p;$("#sn_order").classList.toggle("on",p==="order");$("#sn_req").classList.toggle("on",p==="req");if(curApp==="sn")$("#url").textContent=urlNow()}
+
+/* ---------- Teams ---------- */
+const TM={sel:"c1",c:{
+  c1:{t:"# platform-engineering",n:16,msgs:[["David Chen","DC","Sprint review notes are posted in the channel files."]]},
+  c2:{t:"# nodeway-new-joiners",n:38,msgs:[["Nodeway People Team","PT","Welcome to the January 2027 cohort. Say hello here."]]},
+  dm:{t:"Sarah Palmer",n:0,msgs:[]}}};
+function tmRender(){
+  const c=TM.c[TM.sel];$$("#tmSide a").forEach(a=>a.classList.toggle("on",a.dataset.k===TM.sel));
+  $("#tmTitle").textContent=c.t;$("#tmSubT").textContent=TM.sel==="dm"?"Direct chat":c.n+" members";$("#tmAdd").style.display=TM.sel==="dm"?"none":"";
+  $("#tmMsgs").innerHTML=c.msgs.map(m=>m[1]==="SYS"?`<div class="tmm sys">${esc(m[2])}</div>`:`<div class="tmm"><div class="a">${m[1]}</div><div><b>${esc(m[0])}</b><div>${esc(m[2])}</div></div></div>`).join("")||'<div style="color:var(--muted);text-align:center;margin-top:30px">No messages yet</div>';
+  $("#tmMsgs").scrollTop=1e5;
+}
+$$("#tmSide a").forEach(a=>a.onclick=()=>{TM.sel=a.dataset.k;$("#tmAddRow").classList.remove("on","seeked");$("#tmAddIn").value="";tmRender()});
+$("#tmAdd").onclick=()=>$("#tmAddRow").classList.add("on");
+function tmAddPerson(){const c=TM.c[TM.sel];c.n++;c.msgs.push(["","SYS","Dana Whitfield added Jessica Reyes to the team"]);$("#tmAddRow").classList.remove("on","seeked");$("#tmAddIn").value="";tmRender()}
+$("#tmAddGo").onclick=tmAddPerson;
+function tmSend(t){TM.c[TM.sel].msgs.push(["Dana Whitfield","DW",t]);$("#tmIn").value="";$("#tmComp").classList.remove("seeked");tmRender()}
+$("#tmSendBtn").onclick=()=>{if($("#tmIn").value.trim())tmSend($("#tmIn").value.trim())};
+
+/* ---------- Seek panel ---------- */
+function addBub(html,cls=""){const d=document.createElement("div");d.className="bub "+cls;d.innerHTML=html;sb.appendChild(d);sb.scrollTop=sb.scrollHeight;return d}
+function setState(t,c){const s=$("#state");s.className="state "+(c||"");$("#stateTxt").textContent=t}
+function setCtx(a,w){$("#ctx").innerHTML=`Looking at: <b>${a}</b> | ${w}`}
+const STEP_DEFS=["Offer accepted","Read signed offer and IDs","Hire in Workday","Set up payroll","Provision IT and access","Training, channels, buddy","Check documents","Send welcome email","Email audit to Angella"];
+let stepsEl;
+function buildSteps(){const b=addBub('<div class="steps"></div>');stepsEl=$(".steps",b);STEP_DEFS.forEach(s=>{const d=document.createElement("div");d.className="step";d.innerHTML=`<div class="dot"></div><div><b>${s}</b><div class="sub">Waiting</div></div>`;stepsEl.appendChild(d)})}
+function step(i,st,sub){const d=stepsEl.children[i];d.className="step "+st;if(sub!==undefined)$(".sub",d).innerHTML=sub;sb.scrollTop=sb.scrollHeight}
+$$(".spd button").forEach(b=>b.onclick=()=>{SPEED=+b.dataset.s;$$(".spd button").forEach(x=>x.classList.toggle("on",x===b))});
+
+let running=false;
+async function run(){
+  if(running)return;running=true;$("#nudge")&&$("#nudge").remove();
+  addBub("Onboard Jessica Reyes","me");setState("Working","work");await wait(500);
+  addBub("On it. I will read her signed offer, hire her in Workday (no approval needed), then set up payroll, IT access, training and Teams. <b>The last step is a welcome email to Jessica</b> with everything we completed.");
+  buildSteps();step(0,"done","Offer accepted in Workday Recruiting");await wait(500);
+
+  /* 1 read offer */
+  step(1,"act","Opening Jessica’s signed offer in Gmail");await go("mail");MSG.hr.inbox[0].un=0;gRender();setCtx("Gmail","Signed offer from Jessica Reyes");await wait(500);
+  for(const h of $$(".hl",$("#mbodyx"))){h.classList.add("on");await wait(260)}
+  step(1,"act","Reading the signed offer letter");
+  const a0=$('.att[data-a="0"]');await clickFx(a0);a0.classList.add("on");openDoc();await wait(500);await scanDoc();
+  const lines=$$(".ln",$("#paper")).sort((a,b)=>a.dataset.k-b.dataset.k);for(const i of LMARK){const ln=lines[i-1];ln.scrollIntoView({block:"center",behavior:"smooth"});await wait(i===6?650:120);ln.classList.add("on");await wait(260)}
+  await wait(400);await clickFx($("#docClose"));$("#docv").classList.remove("on");
+  step(1,"act","Checking ID proof and certificates");
+  for(const i of [1,2]){const a=$(`.att[data-a="${i}"]`);await clickFx(a);a.classList.add("on");$("small",a).innerHTML='<span class="vf">Verified</span>';await wait(300)}
+  audit("Dana Whitfield","Read signed offer and ID proof from onboarding@nodeway.com",1);
+  step(1,"done","Role, manager, location and start date read. ID proof verified.");await wait(400);
+
+  /* 2 hire record */
+  step(2,"act","Opening Hire Employee from the Workday inbox");await go("wd");prefill($("#hireForm"),HIRE_DEFAULTS);wdPage("hire");setCtx("Workday","Hire employee");
+  step(2,"act","11 fields defaulted from requisition JR-2026-0417. Checking each one against the signed offer");progressUI(2,HIRE_PLAN.length);
+  const hr=await fillPlan($("#hireForm"),HIRE_F,HIRE_PLAN,2);
+  if(hr.fixed.length){const fx=hr.fixed[0];addBub(`<b>Caught a mismatch.</b> The requisition defaulted the ${esc(fx.l.toLowerCase())} to <b>${esc(fx.old)}</b>, but the signed offer says <b>hybrid, 3 days in office</b>. I changed it to ${esc(fx.val)} before submitting.`);
+    audit("Dana Whitfield",`Corrected ${fx.l.toLowerCase()} from "${fx.old}" to "${fx.val}" to match the signed offer`,1)}
+  await clickFx($("#wdSubmit"));P.state=2;drawProc();toast("Hire completed. Employee ID "+EMPID+" assigned.");
+  audit("Dana Whitfield","Checked 11 defaulted fields against the signed offer, corrected 1, filled the work email",1);audit("Workday","Hire completed. Employee ID "+EMPID+" assigned");
+  step(2,"done","Hired in Workday. Employee ID "+EMPID+". 11 fields checked, 1 corrected (location), 1 filled.");await wait(500);
+
+  /* 3 payroll */
+  step(3,"act","Hiring Jessica in ADP Workforce Now");await go("adp");setCtx("ADP Workforce Now","Hire employee");progressUI(3,ADP_PLAN.length);
+  await fillPlan($("#adpForm"),ADP_F,ADP_PLAN,3);
+  await clickFx($("#adpSave"));$("#adpRes").innerHTML='<div class="note ok" style="margin-top:14px"><b>Jessica Reyes is hired.</b> Associate ID G3R8W2N5P1 · File number 004821 · Position ID NDW004821 · First pay date 01/15/2027. Registration, W-4 and direct deposit invitations sent to jessica.reyes@gmail.com.</div>';toast("Employee hired in ADP");
+  audit("Dana Whitfield","Hired Jessica in ADP (file 004821). Tax and deposit invitations sent",1);
+  step(3,"done","New ADP record, file 004821. First pay date Jan 15, 2027.");await wait(500);
+
+  /* 4 IT */
+  step(4,"act","Opening the New Hire IT Bundle in Employee Center");await go("sn");prefill($("#sn_order"),SN_DEFAULTS);snPage("order");setCtx("ServiceNow","New hire IT bundle");progressUI(4,SN_PLAN.length);
+  await fillPlan($("#sn_order"),SN_F,SN_PLAN,4);
+  await clickFx($("#snSubmit"));snPage("req");drawSn(["new","new","new","new"]);toast("Request REQ0010482 created");
+  step(4,"act","Request REQ0010482 created. Waiting for fulfillment");await wait(700);
+  drawSn(["wip","wip","wip","wip"]);await wait(900);
+  for(let i=0;i<4;i++){const st=["done","done","done","done"].map((x,j)=>j<=i?x:"wip");drawSn(st);await wait(650)}
+  clock+=9;$("#snNote").innerHTML='<div class="note ok">All 4 items fulfilled in 9 minutes. The standard target is 3 business days.</div>';
+  audit("Dana Whitfield","Opened REQ0010482: laptop, AD account, badge and starter pack",1);audit("ServiceNow","All 4 items closed complete");
+  step(4,"done","Laptop, AD account, badge and access fulfilled.");await wait(500);
+
+  /* 5 training, channels, buddy */
+  step(5,"act","Assigning training in Workday Learning");await go("wd");wdPage("learn");setCtx("Workday","Learning");await wait(400);
+  for(let i=0;i<COURSES.length;i++){const tr=$(`#learnBody tr[data-r="${i}"]`);tr.scrollIntoView({block:"center",behavior:"smooth"});await wait(300);pointTo(tr,60,16);await wait(350);tr.lastElementChild.innerHTML=`<span class="chip ok">Assigned · due ${COURSES[i][2]}</span>`;tr.classList.add("seeked");await wait(260)}
+  step(5,"act","Assigning the onboarding buddy");progressUI(5,1);await fillPlan($("#buddyForm"),BUDDY_F,[["buddy","Sarah Palmer · Senior Software Engineer"]],5);
+  audit("Dana Whitfield","Assigned 5 learning courses",1);audit("Dana Whitfield","Assigned onboarding buddy Sarah Palmer",1);
+  step(5,"act","Adding Jessica to Teams channels");await go("tm");setCtx("Teams","Channels");
+  for(const k of ["c1","c2"]){
+    await clickFx($(`#tmSide a[data-k="${k}"]`));TM.sel=k;tmRender();
+    await clickFx($("#tmAdd"));$("#tmAddRow").classList.add("on");await wait(300);pointTo($("#tmAddIn"),40,12);await typeInto($("#tmAddIn"),"Jessica Reyes");$("#tmAddRow").classList.add("seeked");await wait(300);
+    await clickFx($("#tmAddGo"));tmAddPerson();await wait(400)}
+  await clickFx($('#tmSide a[data-k="dm"]'));TM.sel="dm";tmRender();
+  const dm="Hi Sarah, you’re the onboarding buddy for Jessica Reyes, who joins Platform Engineering on Jan 1, 2027. Her welcome checklist is in your Workday inbox.";
+  pointTo($("#tmIn"),40,12);await wait(300);await typeInto($("#tmIn"),dm);$("#tmComp").classList.add("seeked");await wait(300);await clickFx($("#tmSendBtn"));tmSend(dm);
+  audit("Dana Whitfield","Added Jessica to Teams channels and messaged her buddy",1);
+  onbSet("buddy","ok");onbSet("teams","ok");
+  step(5,"done","5 courses assigned. Buddy Sarah Palmer messaged. 2 Teams channels joined.");await wait(500);
+
+  /* 6 documents */
+  step(6,"act","Checking the document checklist in Workday");await go("wd");wdPage("onb");setCtx("Workday","Onboarding checklist");drawOnb();onbSet("buddy","ok");onbSet("teams","ok");await wait(500);
+  for(const id of ["offer","id","edu","slips"]){const tr=$(`#onbBody tr[data-r="${id}"]`);pointTo(tr,60,16);await wait(450);onbSet(id,id==="slips"?"missing":"ok",true);await wait(350)}
+  $("#onbNote").innerHTML=`<div class="note">Previous company salary slips are missing. A reminder is included in the welcome email.</div>`;
+  audit("Dana Whitfield","Checked documents. Salary slips missing, noted for the welcome email",1);
+  step(6,"done","Salary slips missing. Noted for the welcome email. No pause.");await wait(600);
+
+  /* 7 welcome email */
+  step(7,"act","Writing the welcome email in Gmail");await go("mail");G.acct="hr";G.f="inbox";G.sel="m1";gRender();setCtx("Gmail","New message to Jessica Reyes");await wait(400);
+  await clickFx($("#gComp"));cwReset("Nodeway HR Onboarding <onboarding@nodeway.com>");$("#cw").classList.add("on");await wait(400);
+  pointTo($("#cwTo"),40,10);await typeInto($("#cwTo"),"jessica.reyes@gmail.com");$("#cwToRow").classList.add("seeked");await wait(250);
+  pointTo($("#cwSub"),40,10);await typeInto($("#cwSub"),WSUBJ);$("#cwSubRow").classList.add("seeked");await wait(300);
+  cwAdd("Hi Jessica,");await wait(300);cwAdd("Welcome to Nodeway! You’re all set for your first day. Here’s everything we’ve completed for you:");await wait(400);
+  for(const c of CHECK){cwAdd("✓ "+esc(c));await wait(330)}
+  cwAdd(`<b>Still to do on your side:</b> ${SLIPS}`);await wait(400);
+  cwAdd("Your first day is Friday, January 1, 2027. Your laptop and badge will be waiting at the Austin office.");await wait(300);cwAdd("Best regards, The Nodeway HR team");await wait(500);
+  await clickFx($("#cwSend"));sendWelcome();
+  audit("Dana Whitfield","Sent welcome email to jessica.reyes@gmail.com",1);
+  step(7,"done","Welcome email sent to jessica.reyes@gmail.com.");await wait(500);
+
+  /* 8 audit email to Angella (HRBP) */
+  step(8,"act","Emailing the audit summary to Angella Smith (HRBP)");setCtx("Gmail","New message to Angella Smith");await wait(300);
+  G.f="inbox";G.sel="m1";gRender();await clickFx($("#gComp"));cwReset("Nodeway HR Onboarding <onboarding@nodeway.com>");$("#cw").classList.add("on");await wait(400);
+  pointTo($("#cwTo"),40,10);await typeInto($("#cwTo"),"angella.smith@nodeway.com");$("#cwToRow").classList.add("seeked");await wait(250);
+  pointTo($("#cwSub"),40,10);await typeInto($("#cwSub"),ASUBJ);$("#cwSubRow").classList.add("seeked");await wait(300);
+  for(const l of auditLines())cwAdd(l),await wait(300);
+  await clickFx($("#cwSend"));sendAudit();
+  audit("Dana Whitfield","Sent the onboarding summary to angella.smith@nodeway.com",1);
+  step(8,"done","Audit summary emailed to Angella Smith.");await wait(900);
+  G.acct="angella";G.f="inbox";G.sel="au1";gRender();setCtx("Gmail","Angella Smith’s inbox");hidePtr();
+
+  setState("Done","done");setCtx("Gmail","Angella Smith’s inbox");
+  const r=addBub(`<div class="result"><h4>Day one is ready for Jessica Reyes</h4><div>Onboarding finished end to end with no manual steps. The welcome email with the completed checklist is in her inbox, and Angella has the audit summary.</div><div class="stats"><div><b>9</b><small>steps</small></div><div><b>9</b><small>run by Seek</small></div><div><b>0</b><small>approvals needed</small></div></div><ul class="flags"><li>Salary slips are still missing. The email asks Jessica to upload them on the portal.</li></ul><button class="cta" id="viewJ">View Jessica’s welcome email</button></div>`);
+  $("#viewJ").onclick=()=>{G.acct="jessica";G.f="inbox";G.sel="w1";MSG.jessica.inbox[0].un=0;showApp("mail");gRender();setCtx("Gmail","Inbox of Jessica Reyes")};
+  
+}
+
+/* ---------- init ---------- */
+drawAud();drawProc();drawOnb();tmRender();gRender();wdAs("dana");
+addBub("Hi Dana. I can run new hire onboarding end to end across Gmail, Workday, ADP, ServiceNow and Teams.");
+setTimeout(()=>{const b=addBub(`<b>Offer accepted: Jessica Reyes</b><br>Software Engineer, Platform Engineering. Starts Jan 1, 2027. Signed offer arrived in the HR mailbox at ${NW.t(NW.ago(32))}.<button class="cta" id="start">Start onboarding</button>`);b.id="nudge";$("#start").onclick=run},700);
+</script><script>document.querySelectorAll(".nwToday").forEach(function(e){e.textContent=NW.md(new Date())+", "+new Date().getFullYear()})</script>
+<script>document.addEventListener("keydown",function(e){if(e.shiftKey&&(e.key==="F"||e.key==="f")&&!/INPUT|TEXTAREA/.test(document.activeElement.tagName)){var b=document.querySelector('.spd button:not(.on)');if(b)b.click()}})</script>
+</body></html>

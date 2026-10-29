@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Employee Center · Nodeway</title>
+<style>
+:root{color-scheme:light;--brand:#0e4f8a;--brand2:#0a3a66;--pri:#1d5aa6;--prih:#164b8c;--bg:#f4f5f7;--sf:#fff;--tx:#1c2733;--mu:#5b6876;--mu2:#7a8592;--bd:#d6dbe1;--bd2:#e8ebef;--ok:#227a43;--okbg:#e4f4ea;--wn:#9a5b00;--wnbg:#fff3df;--bl:#1d5aa6;--blbg:#e7f0fb;--er:#c8372d;--erbg:#fdeceb;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(72px + env(safe-area-inset-top,0px))}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--tx);font:14px/1.5 "Lato","Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+svg.i{width:20px;height:20px;fill:currentColor;flex:none;display:block}
+a{color:var(--pri)}
+
+.hdr{position:sticky;top:0;z-index:30;background:var(--sf);height:64px;display:flex;align-items:center;gap:20px;padding:0 24px;border-bottom:1px solid var(--bd2);box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.brand{display:flex;align-items:center;gap:10px;border:0;background:none;cursor:pointer;padding:0}
+.brand .mk{width:34px;height:34px;border-radius:7px;background:var(--brand);color:#fff;font:800 19px/31px Arial,sans-serif;text-align:center;position:relative}
+.brand .mk::after{content:"";position:absolute;left:10px;right:10px;bottom:5px;height:2px;background:#f0a020}
+.brand b{font-size:16px;font-weight:700;white-space:nowrap}
+.brand span{color:var(--mu);font-size:14px;border-left:1px solid var(--bd);padding-left:10px;white-space:nowrap}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav button{border:0;background:none;height:64px;padding:0 14px;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:3px solid transparent}
+.nav button:hover{color:var(--tx)}
+.nav button.on{color:var(--tx);border-bottom-color:var(--brand)}
+.hic{display:flex;gap:4px;align-items:center}
+.hb{width:40px;height:40px;border-radius:50%;border:0;background:none;display:grid;place-items:center;color:var(--mu);cursor:pointer;position:relative}
+.hb:hover{background:var(--bg)}
+.hb .ct[hidden]{display:none}
+.hb .ct{position:absolute;top:4px;right:3px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);color:#fff;font-size:10.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+.av{width:32px;height:32px;border-radius:50%;background:#0f7b6c;color:#fff;display:grid;place-items:center;font-weight:700;font-size:12px;flex:none}
+
+.wrap{max-width:1200px;margin:0 auto;padding:24px 24px 64px}
+.pg{display:none}.pg.on{display:block}
+.crumb{font-size:13px;color:var(--mu);margin-bottom:10px}
+.crumb a{cursor:pointer;text-decoration:none}.crumb a:hover{text-decoration:underline}
+h1.t{margin:0 0 4px;font-size:26px;font-weight:700}
+.subt{color:var(--mu);margin:0 0 20px}
+.card{background:var(--sf);border:1px solid var(--bd2);border-radius:10px;margin-bottom:20px}
+.card>h2{margin:0;padding:16px 20px 10px;font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px}
+.card>h2 .sp{flex:1}
+.cb{padding:4px 20px 20px}
+.btn{height:38px;padding:0 20px;border-radius:6px;border:1px solid var(--bd);background:var(--sf);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn:hover{background:var(--bg)}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}.btn.pri:hover{background:var(--prih)}
+.btn.sm{height:32px;padding:0 14px;font-size:13px}
+.btn[hidden]{display:none}
+.lnk{border:0;background:none;color:var(--pri);font-weight:600;cursor:pointer;padding:0}
+.lnk:hover{text-decoration:underline}
+.chip{display:inline-block;padding:1px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#eef0f3;color:var(--mu);white-space:nowrap}
+.chip.ok{background:var(--okbg);color:var(--ok)}.chip.bl{background:var(--blbg);color:var(--bl)}.chip.wn{background:var(--wnbg);color:var(--wn)}
+.note{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-radius:8px;margin:0 0 16px;background:var(--blbg);color:#123f6c}
+.note.ok{background:var(--okbg);color:#1a5a32}.note.er{background:var(--erbg);color:#8f241c}
+.empty{padding:28px 16px;text-align:center;color:var(--mu)}
+
+/* home */
+.hero{margin:-24px calc(50% - 50vw) 28px;padding:48px max(24px,calc(50vw - 576px)) 56px;background:radial-gradient(circle at 86% 18%,rgba(240,160,32,.22) 0 70px,transparent 71px),radial-gradient(circle at 92% 85%,rgba(255,255,255,.12) 0 140px,transparent 141px),linear-gradient(115deg,var(--brand2),var(--brand) 55%,#1a6ab3);color:#fff}
+.hero p{margin:0 0 4px;opacity:.85;font-size:15px}
+.hero h1{margin:0 0 20px;font-size:34px;font-weight:700;letter-spacing:-.3px}
+.hs{position:relative;max-width:680px}
+.hs input{width:100%;height:52px;border-radius:26px;border:0;padding:0 20px 0 52px;font-size:16px;color:var(--tx);box-shadow:0 4px 18px rgba(0,0,0,.18);outline:0}
+.hs input:focus{box-shadow:0 0 0 3px #f0a020,0 4px 18px rgba(0,0,0,.18)}
+.hs svg{position:absolute;left:18px;top:16px;color:var(--mu)}
+.pop{margin-top:14px;font-size:13.5px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pop button{border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.1);color:#fff;border-radius:16px;padding:3px 12px;cursor:pointer}
+.pop button:hover{background:rgba(255,255,255,.22)}
+.ql{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:28px}
+.qt{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:18px;border:1px solid var(--bd2);border-radius:10px;background:var(--sf);cursor:pointer;text-align:left}
+.qt:hover{border-color:var(--pri);box-shadow:0 2px 10px rgba(29,90,166,.12)}
+.qt .ic{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.qt b{font-size:15px}.qt small{color:var(--mu)}
+.hcols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:20px;align-items:start}
+.oi{display:flex;gap:12px;align-items:center;padding:12px 20px;border-top:1px solid var(--bd2);width:100%;border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;cursor:pointer}
+.oi:hover{background:#fafbfc}
+.oi b{display:block;font-weight:600}.oi small{color:var(--mu)}
+.oi .chip{margin-left:auto}
+.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.it{display:flex;flex-direction:column;border:1px solid var(--bd2);border-radius:10px;background:var(--sf);overflow:hidden;cursor:pointer;text-align:left;padding:0}
+.it:hover{border-color:var(--pri);box-shadow:0 2px 10px rgba(29,90,166,.12)}
+.it .im{height:92px;display:grid;place-items:center;color:#fff}
+.it .im svg{width:40px;height:40px}
+.it div.tx{padding:12px 14px 14px}
+.it b{display:block;font-size:14.5px}.it small{color:var(--mu);display:block;margin-top:2px;line-height:1.4}
+.it .pr{margin-top:8px;font-size:12.5px;color:var(--mu2)}
+
+/* catalog */
+.cat{display:grid;grid-template-columns:230px minmax(0,1fr);gap:24px;align-items:start}
+.cats{background:var(--sf);border:1px solid var(--bd2);border-radius:10px;padding:8px}
+.cats button{display:flex;justify-content:space-between;width:100%;border:0;background:none;padding:9px 12px;border-radius:6px;cursor:pointer;text-align:left;color:var(--tx)}
+.cats button:hover{background:var(--bg)}
+.cats button.on{background:var(--blbg);color:var(--bl);font-weight:700}
+.cats small{color:var(--mu2)}
+
+/* item order */
+.ord{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+.ihd{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+.ihd .im{width:64px;height:64px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
+.ihd .im svg{width:34px;height:34px}
+.steps{display:flex;padding:18px 20px 14px;border-bottom:1px solid var(--bd2)}
+.st{flex:1;display:flex;align-items:center;gap:10px;color:var(--mu);font-weight:600;border:0;background:none;padding:0;cursor:default;text-align:left}
+.st i{width:28px;height:28px;border-radius:50%;border:2px solid var(--bd);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700;flex:none;background:var(--sf)}
+.st.cur{color:var(--tx)}.st.cur i{border-color:var(--pri);color:var(--pri)}
+.st.done{color:var(--tx);cursor:pointer}.st.done i{background:var(--pri);border-color:var(--pri);color:#fff}
+.st .ln{flex:1;height:2px;background:var(--bd);margin:0 12px}
+.st.done .ln{background:var(--pri)}
+.ws{padding:20px}
+.f{margin-bottom:18px;max-width:520px}
+.f label,.f .lb{display:block;font-weight:700;margin-bottom:5px}
+.f .rq{color:var(--er);margin-right:3px}
+.f input[type=text],.f select,.f textarea{width:100%;height:38px;padding:0 10px;border:1px solid #b8c0c9;border-radius:6px;background:var(--sf)}
+.f textarea{height:84px;padding:8px 10px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 2px rgba(29,90,166,.18)}
+.f input[readonly]{background:#f4f5f7;color:var(--mu)}
+.f .hint{font-size:12.5px;color:var(--mu2);margin-top:4px}
+.f .em{display:none;font-size:12.5px;color:var(--er);margin-top:4px}
+.f.bad input,.f.bad select{border-color:var(--er)}
+.f.bad .em{display:block}
+.ref{position:relative}
+.ref input{padding-right:38px!important}
+.ref .mg{position:absolute;right:10px;top:9px;color:var(--mu);pointer-events:none}
+.ref ul{position:absolute;left:0;right:0;top:calc(100% + 3px);z-index:15;margin:0;padding:4px 0;list-style:none;background:var(--sf);border:1px solid var(--bd);border-radius:6px;box-shadow:0 6px 18px rgba(0,0,0,.14);max-height:260px;overflow-y:auto}
+.ref li{padding:8px 12px;cursor:pointer;line-height:1.3}
+.ref li:hover,.ref li.act{background:var(--blbg)}
+.ref li small{display:block;color:var(--mu);font-size:12px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:720px}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:14px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;background:var(--sf)}
+.opt:has(input:checked){border-color:var(--pri);box-shadow:0 0 0 1px var(--pri);background:#f7fafe}
+.opt input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--pri);flex:none}
+.opt b{display:block}.opt small{color:var(--mu)}
+.opt .tag{display:inline-block;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--ok);background:var(--okbg);border-radius:9px;padding:0 8px}
+.secth{font-size:15px;font-weight:700;margin:4px 0 12px}
+.secth+.hint{margin:-8px 0 12px;color:var(--mu);font-size:13px}
+.foot{display:flex;gap:10px;align-items:center;padding:14px 20px;border-top:1px solid var(--bd2);background:#fafbfc;border-radius:0 0 10px 10px}
+.foot .sp{flex:1}
+.sum{position:sticky;top:84px}
+.sum dl{margin:0;padding:4px 20px 8px;display:grid;grid-template-columns:110px 1fr;gap:6px 10px;font-size:13.5px}
+.sum dt{color:var(--mu)}.sum dd{margin:0}
+.sum ul{margin:0;padding:0 20px 16px 38px}
+.sum li{margin:3px 0}
+.rv{display:grid;grid-template-columns:180px 1fr;gap:8px 16px;max-width:720px;padding:14px 16px;border:1px solid var(--bd2);border-radius:8px;margin-bottom:18px}
+.rv dt{color:var(--mu)}.rv dd{margin:0;font-weight:600}
+.rv h4{grid-column:1/-1;margin:6px 0 0;font-size:14px;display:flex;justify-content:space-between}
+.rv h4:first-child{margin-top:0}
+
+/* request */
+.stg{display:flex;gap:0;padding:18px 20px;flex-wrap:wrap}
+.sg{flex:1;min-width:120px;display:flex;flex-direction:column;gap:6px;align-items:center;position:relative;text-align:center;font-size:13px;color:var(--mu)}
+.sg::before{content:"";position:absolute;top:12px;left:-50%;right:50%;height:3px;background:var(--bd)}
+.sg:first-child::before{display:none}
+.sg i{width:26px;height:26px;border-radius:50%;background:var(--sf);border:3px solid var(--bd);position:relative;z-index:1;display:grid;place-items:center;font-style:normal;font-size:12px;color:#fff;font-weight:700}
+.sg.done{color:var(--tx)}.sg.done i{background:var(--ok);border-color:var(--ok)}.sg.done::before,.sg.cur::before{background:var(--ok)}
+.sg.cur{color:var(--tx);font-weight:700}.sg.cur i{border-color:var(--pri)}
+.kvg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px;padding:4px 20px 18px}
+.kvg span{display:block;font-size:12.5px;color:var(--mu)}.kvg b{font-weight:600}
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:12.5px;color:var(--mu);font-weight:700;padding:10px 20px;border-bottom:1px solid var(--bd2);background:#fafbfc;white-space:nowrap}
+.tbl td{padding:11px 20px;border-bottom:1px solid var(--bd2)}
+.tbl tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+.rq2{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.act{list-style:none;margin:0;padding:0 20px 16px}
+.act li{padding:10px 0;border-top:1px solid var(--bd2);font-size:13.5px}
+.act li:first-child{border-top:0}
+.act small{display:block;color:var(--mu2);font-size:12px}
+.toast{position:fixed;top:calc(76px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:#1c2733;color:#fff;padding:10px 20px;border-radius:6px;font-size:13.5px;z-index:60;display:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.toast.on{display:block}
+.rs{background:none;border:0;color:var(--mu);font-size:12px;text-decoration:underline;cursor:pointer;margin-top:8px}
+footer{text-align:center;color:var(--mu2);font-size:12px;padding:8px 18px 24px}
+@media (max-width:980px){.ord,.rq2,.hcols,.cat{grid-template-columns:1fr}.sum{position:static}.ql{grid-template-columns:repeat(2,minmax(0,1fr))}.kvg{grid-template-columns:1fr 1fr}.brand span:not(.mk){display:none}}
+@media (max-width:700px){.nav{display:none}.opts{grid-template-columns:1fr}.wrap{padding:16px 12px 48px}.hero{margin-top:-16px;padding:32px 16px 40px}.hero h1{font-size:26px}.st span{display:none}.rv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+ <symbol id="i-cart" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1.003 1.003 0 0 0 20 4H5.21l-.94-2H1z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+ <symbol id="i-bag" viewBox="0 0 24 24"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2h2V8h4v2h2V8h2v12z"/></symbol>
+ <symbol id="i-help" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></symbol>
+ <symbol id="i-book" viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></symbol>
+ <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></symbol>
+ <symbol id="i-laptop" viewBox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/></symbol>
+ <symbol id="i-hire" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
+ <symbol id="i-key" viewBox="0 0 24 24"><path d="M12.65 10A5.99 5.99 0 0 0 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6a5.99 5.99 0 0 0 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></symbol>
+ <symbol id="i-apps" viewBox="0 0 24 24"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></symbol>
+ <symbol id="i-badge" viewBox="0 0 24 24"><path d="M20 7h-5V4c0-1.1-.9-2-2-2h-2c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM9 12c.83 0 1.5.67 1.5 1.5S9.83 15 9 15s-1.5-.67-1.5-1.5S8.17 12 9 12zm3 6H6v-.75c0-1 2-1.5 3-1.5s3 .5 3 1.5V18zm1-9h-2V4h2v5zm5 7.5h-4V15h4v1.5zm0-3h-4V12h4v1.5z"/></symbol>
+ <symbol id="i-monitor" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h7v2H8v2h8v-2h-2v-2h7c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H3V4h18v12z"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+ <symbol id="i-err" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></symbol>
+</svg>
+
+<header class="hdr">
+ <button class="brand" data-go="home" aria-label="Employee Center home"><span class="mk">N</span><b>Nodeway</b><span>Employee Center</span></button>
+ <nav class="nav" aria-label="Main">
+  <button data-go="home" data-nav="home">Home</button>
+  <button data-go="catalog" data-nav="catalog">Catalog</button>
+  <button data-na="1">Knowledge</button>
+  <button data-go="myreq" data-nav="myreq">My Requests</button>
+ </nav>
+ <div class="hic">
+  <button class="hb" data-na="1" aria-label="Cart"><svg class="i"><use href="#i-cart"/></svg></button>
+  <button class="hb" data-go="myreq" aria-label="Notifications"><svg class="i"><use href="#i-bell"/></svg><span class="ct" id="bellCt" hidden></span></button>
+  <span class="av" title="Dana Whitfield">DW</span>
+ </div>
+</header>
+<div class="toast" id="toast" role="status"></div>
+
+<main class="wrap">
+
+<section class="pg" id="p-home">
+ <div class="hero">
+  <p id="greet">Good morning, Dana</p>
+  <h1>How can we help?</h1>
+  <div class="hs"><svg class="i"><use href="#i-search"/></svg><input id="snSearch" type="search" placeholder="Search for services, items and articles" aria-label="Search Employee Center" autocomplete="off"></div>
+  <div class="pop"><span>Popular:</span><button data-q="new hire">New hire IT bundle</button><button data-q="laptop">Laptop</button><button data-q="access">Access request</button></div>
+ </div>
+ <div class="ql">
+  <button class="qt" data-go="catalog" id="qlRequest"><span class="ic" style="background:#1d5aa6"><svg class="i"><use href="#i-bag"/></svg></span><b>Request something</b><small>Browse the catalog for hardware, software and access</small></button>
+  <button class="qt" data-na="1"><span class="ic" style="background:#227a43"><svg class="i"><use href="#i-help"/></svg></span><b>Get help</b><small>Report an issue or ask the IT Service Desk</small></button>
+  <button class="qt" data-na="1"><span class="ic" style="background:#8a4fbf"><svg class="i"><use href="#i-book"/></svg></span><b>Knowledge</b><small>How-to articles and IT policies</small></button>
+  <button class="qt" data-go="myreq"><span class="ic" style="background:#c06a00"><svg class="i"><use href="#i-list"/></svg></span><b>My requests</b><small>Track what you’ve ordered</small></button>
+ </div>
+ <div class="hcols">
+  <div class="card"><h2>My open items</h2><div id="openItems"></div></div>
+  <div class="card"><h2>Popular items<span class="sp"></span><button class="lnk" data-go="catalog" style="font-size:13.5px">View catalog</button></h2><div class="cb"><div class="items" id="popItems"></div></div></div>
+ </div>
+</section>
+
+<section class="pg" id="p-catalog">
+ <div class="crumb"><a data-go="home">Home</a> › Catalog</div>
+ <h1 class="t" id="catTitle">Service Catalog</h1><p class="subt" id="catSub">Order hardware, software and access for yourself or someone you manage.</p>
+ <div class="cat"><div class="cats" id="cats"></div><div><div class="items" id="catItems"></div></div></div>
+</section>
+
+<section class="pg" id="p-item">
+ <div class="crumb"><a data-go="home">Home</a> › <a data-go="catalog">Catalog</a> › <a id="crumbCat" data-go="catalog">Onboarding</a> › New Hire IT Bundle</div>
+ <div class="ihd"><span class="im" style="background:#0e4f8a"><svg class="i"><use href="#i-hire"/></svg></span><div><h1 class="t" style="margin:0">New Hire IT Bundle</h1><div class="subt" style="margin:0">Laptop, accounts, badge and team access for a new employee, delivered before their start date.</div></div></div>
+ <div id="ordErr"></div>
+ <div class="ord">
+  <div class="card" style="margin:0">
+   <div class="steps" id="steps"></div>
+   <div class="ws" data-s="0">
+    <div class="f" id="f-for"><label for="sn-for"><span class="rq">*</span>Requested for</label><div class="ref"><input type="text" id="sn-for" autocomplete="off" placeholder="Search for a person"><svg class="i mg"><use href="#i-search"/></svg><ul hidden></ul></div><div class="em">Requested for is required.</div></div>
+    <div class="f" id="f-empid"><label for="sn-empid"><span class="rq">*</span>Employee ID</label><input type="text" id="sn-empid" inputmode="numeric" autocomplete="off" style="max-width:220px"><div class="em">Employee ID is required.</div></div>
+    <div class="f" id="f-mgr"><label for="sn-mgr"><span class="rq">*</span>Manager</label><div class="ref"><input type="text" id="sn-mgr" autocomplete="off" placeholder="Search for a person"><svg class="i mg"><use href="#i-search"/></svg><ul hidden></ul></div><div class="em">Manager is required.</div></div>
+    <div class="f" id="f-start"><label for="sn-start"><span class="rq">*</span>Start date</label><input type="text" id="sn-start" placeholder="YYYY-MM-DD" autocomplete="off" style="max-width:220px"><div class="em">Start date is required.</div></div>
+    <div class="f" id="f-loc"><label for="sn-loc"><span class="rq">*</span>Work location</label><select id="sn-loc"><option value="">-- None --</option><option>Austin HQ · 500 W 2nd St</option><option>San Francisco · 101 Mission St</option><option>New York · 250 Park Ave S</option><option>Remote (ship to home)</option></select><div class="em">Work location is required.</div></div>
+    <div class="f"><label for="sn-dept">Department</label><input type="text" id="sn-dept" readonly></div>
+   </div>
+   <div class="ws" data-s="1" hidden>
+    <div class="secth">Laptop</div>
+    <div class="opts" role="radiogroup" aria-label="Laptop">
+     <label class="opt"><input type="radio" name="lap" id="sn-lap-mbp" value="MacBook Pro 14-inch (M4 Pro, 36 GB)"><span><b>MacBook Pro 14-inch</b><small>M4 Pro · 36 GB · 1 TB</small><span class="tag">Standard for Engineering</span></span></label>
+     <label class="opt"><input type="radio" name="lap" id="sn-lap-tp" value="ThinkPad X1 Carbon Gen 12"><span><b>ThinkPad X1 Carbon</b><small>Gen 12 · Intel Core Ultra 7 · 32 GB</small></span></label>
+     <label class="opt"><input type="radio" name="lap" id="sn-lap-dell" value="Dell Latitude 7450"><span><b>Dell Latitude 7450</b><small>Intel Core Ultra 5 · 16 GB</small></span></label>
+     <label class="opt"><input type="radio" name="lap" id="sn-lap-none" value=""><span><b>No laptop</b><small>The new hire already has a company device</small></span></label>
+    </div>
+    <div class="secth" style="margin-top:22px">Accounts and access</div><div class="hint">Select everything the new hire needs on day one.</div>
+    <div class="opts">
+     <label class="opt"><input type="checkbox" id="sn-ad"><span><b>Network account and email</b><small>Active Directory, Microsoft 365 and SSO</small></span></label>
+     <label class="opt"><input type="checkbox" id="sn-badge"><span><b>Building badge</b><small>Office access for the work location</small></span></label>
+     <label class="opt"><input type="checkbox" id="sn-eng"><span><b>Engineering starter pack</b><small>GitHub, Jira, VPN and Teams</small></span></label>
+     <label class="opt"><input type="checkbox" id="sn-mon"><span><b>27-inch monitor</b><small>Dell UltraSharp U2724D with dock</small></span></label>
+    </div>
+   </div>
+   <div class="ws" data-s="2" hidden>
+    <dl class="rv" id="review"></dl>
+    <div class="f"><label for="sn-notes">Additional comments for IT</label><textarea id="sn-notes" placeholder="Optional"></textarea></div>
+    <div class="note"><svg class="i"><use href="#i-info"/></svg><div>New Hire IT Bundles don’t need approval. Items go straight to fulfillment and are delivered before the start date.</div></div>
+   </div>
+   <div class="foot"><button class="btn" id="snCancel">Cancel</button><span class="sp"></span><button class="btn" id="snBack">Back</button><button class="btn pri" id="snNext">Next</button><button class="btn pri" id="snSubmit" hidden>Submit</button></div>
+  </div>
+  <div class="card sum"><h2>Order summary</h2><div id="sum"></div></div>
+ </div>
+</section>
+
+<section class="pg" id="p-req">
+ <div class="crumb"><a data-go="home">Home</a> › <a data-go="myreq">My Requests</a> › <span id="reqCrumb"></span></div>
+ <div id="reqBody"></div>
+</section>
+
+<section class="pg" id="p-myreq">
+ <div class="crumb"><a data-go="home">Home</a> › My Requests</div>
+ <h1 class="t">My Requests</h1><p class="subt">Requests you opened or that were opened for you.</p>
+ <div class="card"><div class="tw"><table class="tbl"><thead><tr><th>Number</th><th>Item</th><th>Requested for</th><th>Opened</th><th>State</th></tr></thead><tbody id="myBody"></tbody></table></div></div>
+</section>
+
+</main>
+<footer>Nodeway Employee Center · Powered by ServiceNow</footer>
+
+<script>
+/* nw runtime: browser-based dates, cross-tab events, hidden reset */
+(function(){
+  var NW=window.NW={};
+  NW.now=new Date();
+  NW.ago=function(min){return new Date(Date.now()-min*60000)};
+  NW.days=function(n){var d=new Date();d.setDate(d.getDate()+n);return d};
+  NW.t=function(d){return d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
+  NW.md=function(d){return d.toLocaleDateString("en-US",{month:"short",day:"numeric"})};
+  NW.long=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})};
+  NW.dayName=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})};
+  NW.gfull=function(d){return d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(",","")+", "+NW.t(d)};
+  NW.us=function(d){return ("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2)+"/"+d.getFullYear()};
+  NW.iso=function(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)};
+  NW.isoT=function(d){return NW.iso(d)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2)};
+  NW.usT=function(d){return NW.us(d)+" "+NW.t(d).replace(/^(\d):/,"0$1:")};
+  NW.sameDay=function(a,b){return a.toDateString()===b.toDateString()};
+  NW.since=function(d){var m=Math.max(0,Math.round((Date.now()-d.getTime())/60000));if(m<60)return m+(m===1?" minute ago":" minutes ago");var h=Math.round(m/60);if(h<24)return h+(h===1?" hour ago":" hours ago");var dd=Math.round(h/24);return dd+(dd===1?" day ago":" days ago")};
+  NW.greet=function(){var h=new Date().getHours();return h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening"};
+  NW.lastWeekday=function(dow){var d=new Date();var diff=(d.getDay()-dow+7)%7||7;d.setDate(d.getDate()-diff);return d};
+  NW.nextBiweekly=function(anchor){var a=new Date(anchor);var n=new Date();n.setHours(0,0,0,0);while(a<=n)a.setDate(a.getDate()+14);while(a.getTime()-14*864e5>n.getTime())a.setDate(a.getDate()-14);return a};
+  /* cross-tab events (same origin) */
+  var P="nodeway:";
+  NW.get=function(k){try{var v=localStorage.getItem(P+k);return v?JSON.parse(v):null}catch(e){return null}};
+  NW.set=function(k,v){try{localStorage.setItem(P+k,JSON.stringify(v))}catch(e){}};
+  NW.push=function(k,v){var a=NW.get(k)||[];a.push(v);NW.set(k,a)};
+  var subs=[];NW.on=function(cb){subs.push(cb)};
+  window.addEventListener("storage",function(e){if(!e.key||e.key.indexOf(P)!==0)return;
+    if(e.key===P+"reset"){location.replace(location.pathname);return}
+    var k=e.key.slice(P.length);subs.forEach(function(cb){try{cb(k)}catch(x){}})});
+  NW.reset=function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf(P)===0)localStorage.removeItem(k)});localStorage.setItem(P+"reset",String(Date.now()))}catch(e){}location.replace(location.pathname)};
+  /* hidden reset: double-click the bottom-left corner, or press Ctrl+Shift+Alt+R */
+  function mount(){var h=document.createElement("div");h.setAttribute("aria-hidden","true");
+    h.style.cssText="position:fixed;left:0;bottom:0;width:22px;height:22px;z-index:99999;background:transparent;cursor:default";
+    h.addEventListener("dblclick",function(){NW.reset()});document.body.appendChild(h)}
+  if(document.body)mount();else document.addEventListener("DOMContentLoaded",mount);
+  document.addEventListener("keydown",function(e){if(e.ctrlKey&&e.shiftKey&&e.altKey&&(e.key==="R"||e.key==="r"||e.code==="KeyR")){e.preventDefault();NW.reset()}});
+})();
+</script>
+<script>
+function el(i){return document.getElementById(i)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(t){var e=el("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("on")},2800)}
+function ico(n){return '<svg class="i"><use href="#i-'+n+'"/></svg>'}
+var CATS=["All","Onboarding and offboarding","Hardware","Software","Access and accounts","Facilities"];
+var ITEMS=[
+ {id:"nhb",n:"New Hire IT Bundle",d:"Laptop, accounts, badge and team access for a new employee",cat:"Onboarding and offboarding",ic:"hire",c:"#0e4f8a",pr:"Delivered in 3 business days",k:"new hire onboarding bundle laptop badge"},
+ {id:"off",n:"Offboarding Checklist",d:"Recover equipment and remove access when someone leaves",cat:"Onboarding and offboarding",ic:"list",c:"#5b6876",pr:"1 business day"},
+ {id:"lap",n:"Standard Laptop",d:"Replacement or additional laptop for an existing employee",cat:"Hardware",ic:"laptop",c:"#1d5aa6",pr:"Delivered in 5 business days",k:"laptop macbook thinkpad"},
+ {id:"mon",n:"Monitor and Dock",d:"27-inch monitor with USB-C dock",cat:"Hardware",ic:"monitor",c:"#1d5aa6",pr:"Delivered in 5 business days"},
+ {id:"sw",n:"Software Request",d:"Request a licensed application",cat:"Software",ic:"apps",c:"#8a4fbf",pr:"2 business days",k:"software license"},
+ {id:"acc",n:"Application Access",d:"Access to a business application or group",cat:"Access and accounts",ic:"key",c:"#227a43",pr:"1 business day",k:"access account vpn github"},
+ {id:"badge",n:"Building Badge",d:"New or replacement office badge",cat:"Facilities",ic:"badge",c:"#c06a00",pr:"2 business days",k:"badge office"}];
+var PEOPLE=[{t:"Dana Whitfield",s:"HR Operations Specialist · People Operations",mgr:"Priya Nair",dept:"People Operations",start:"",loc:"Austin HQ · 500 W 2nd St"},{t:"Jessica Reyes",s:"New hire · Software Engineer II · starts 2027-01-01",mgr:"David Chen",dept:"Platform Engineering",start:"2027-01-01",loc:"Austin HQ · 500 W 2nd St"},{t:"Omar Haddad",s:"New hire · Product Designer · starts 2027-01-04",mgr:"Elena Torres",dept:"Design",start:"2027-01-04",loc:"San Francisco · 101 Mission St"},{t:"Aaron Brooks",s:"Senior Software Engineer · Platform Engineering",mgr:"David Chen",dept:"Platform Engineering",start:"",loc:"Austin HQ · 500 W 2nd St"},{t:"Sarah Palmer",s:"Senior Software Engineer · Platform Engineering",mgr:"David Chen",dept:"Platform Engineering",start:"",loc:"Austin HQ · 500 W 2nd St"}];
+var MGRS=[{t:"David Chen",s:"Engineering Manager · Platform Engineering",dept:"Platform Engineering"},{t:"Mia Wong",s:"Engineering Manager · Product Engineering",dept:"Product Engineering"},{t:"Elena Torres",s:"Design Lead · Design",dept:"Design"},{t:"Priya Nair",s:"People Operations Manager",dept:"People Operations"}];
+var STEPS=["Who it’s for","Choose items","Review and submit"];
+var RITM=["RITM0021301","RITM0021302","RITM0021303","RITM0021304","RITM0021305"];
+var S,TIMERS=[];
+
+function go(p,opt){if(!el("p-"+p))return;$$(".pg").forEach(function(s){s.classList.toggle("on",s.id==="p-"+p)});
+  var top={home:"home",catalog:"catalog",item:"catalog",myreq:"myreq",req:"myreq"}[p];$$(".nav button").forEach(function(b){b.classList.toggle("on",b.dataset.nav===top)});
+  if(p==="home")renderHome();if(p==="catalog")renderCatalog(opt);if(p==="item"){if(opt&&opt.fresh)resetOrder();drawSteps()}if(p==="myreq")renderMy();if(p==="req")renderReq();
+  window.scrollTo(0,0)}
+function itemCard(it){return '<button class="it" data-item="'+it.id+'"><span class="im" style="background:'+it.c+'">'+ico(it.ic)+'</span><div class="tx"><b>'+esc(it.n)+'</b><small>'+esc(it.d)+'</small><div class="pr">'+esc(it.pr)+'</div></div></button>'}
+function renderHome(){el("greet").textContent=NW.greet().replace("Good M","Good m").replace("Good A","Good a").replace("Good E","Good e")+", Dana";
+  el("popItems").innerHTML=ITEMS.filter(function(i){return ["nhb","lap","acc"].indexOf(i.id)>=0}).map(itemCard).join("");
+  el("openItems").innerHTML=S.req?'<button class="oi" data-go="req">'+'<span class="im" style="width:36px;height:36px;border-radius:8px;background:#0e4f8a;color:#fff;display:grid;place-items:center">'+ico("hire")+'</span><span><b>REQ0010482 · New Hire IT Bundle</b><small>For '+esc(S.req.for)+' · '+(allDone()?"Delivered":"In fulfillment")+'</small></span><span class="chip '+(allDone()?'ok':'bl')+'">'+(allDone()?'Closed Complete':'Work in Progress')+'</span></button>':'<div class="empty">You have no open requests.</div>';
+  el("bellCt").hidden=!S.req;el("bellCt").textContent="1";
+}
+function renderCatalog(opt){var q=(opt&&opt.q)||"",c=(opt&&opt.cat)||S.cat||"All";S.cat=c;
+  el("catTitle").textContent=q?'Results for “'+q+'”':"Service Catalog";el("catSub").textContent=q?"Catalog items that match your search":"Order hardware, software and access for yourself or someone you manage.";
+  el("cats").innerHTML=CATS.map(function(x){var n=x==="All"?ITEMS.length:ITEMS.filter(function(i){return i.cat===x}).length;return '<button data-cat="'+x+'" class="'+(!q&&x===c?'on':'')+'"><span>'+x+'</span><small>'+n+'</small></button>'}).join("");
+  var L=ITEMS.filter(function(i){if(q)return (i.n+" "+i.d+" "+(i.k||"")).toLowerCase().indexOf(q.toLowerCase())>=0;return c==="All"||i.cat===c});
+  el("catItems").innerHTML=L.length?L.map(itemCard).join(""):'<div class="card"><div class="empty">No catalog items match “'+esc(q)+'”.</div></div>'}
+/* reference fields */
+function refField(id,list,onPick){var inp=el(id),ul=inp.parentNode.querySelector("ul"),act=-1,items=[];
+  function draw(){var q=inp.value.trim().toLowerCase();items=list.filter(function(p){return !q||(p.t+" "+p.s).toLowerCase().indexOf(q)>=0});if(act>=items.length)act=items.length-1;
+    ul.innerHTML=items.length?items.map(function(p,k){return '<li data-k="'+k+'"'+(k===act?' class="act"':'')+'>'+esc(p.t)+'<small>'+esc(p.s)+'</small></li>'}).join(""):'<li style="cursor:default;color:var(--mu)">No matches</li>';ul.hidden=false}
+  function pick(p){inp.value=p.t;ul.hidden=true;inp.closest(".f").classList.remove("bad");if(onPick)onPick(p);drawSum()}
+  inp.addEventListener("focus",function(){setTimeout(function(){inp.select()},0)});inp.addEventListener("input",function(){act=0;if(inp.value.trim())draw();else ul.hidden=true;drawSum()});
+  inp.addEventListener("keydown",function(e){if(e.key==="ArrowDown"){e.preventDefault();act=Math.min(items.length-1,act+1);draw()}else if(e.key==="ArrowUp"){e.preventDefault();act=Math.max(0,act-1);draw()}else if(e.key==="Enter"){e.preventDefault();if(items.length)pick(items[Math.max(0,act)])}else if(e.key==="Escape")ul.hidden=true});
+  inp.addEventListener("blur",function(){setTimeout(function(){ul.hidden=true},150)});
+  ul.addEventListener("mousedown",function(e){var li=e.target.closest("[data-k]");if(li){e.preventDefault();pick(items[+li.dataset.k])}})}
+refField("sn-for",PEOPLE,function(p){applyPerson(p)});
+function applyPerson(p){el("sn-mgr").value=p.mgr||"";el("sn-dept").value=p.dept||"";el("sn-start").value=p.start||"";el("sn-loc").value=p.loc||"";["mgr","start","loc"].forEach(function(k){if(el("sn-"+k).value)el("f-"+k).classList.remove("bad")});drawSum()}
+refField("sn-mgr",MGRS,function(p){el("sn-dept").value=p.dept});
+/* order */
+function chosen(){var L=[];var lap=document.querySelector('input[name=lap]:checked');if(lap&&lap.value)L.push(lap.value);
+  if(el("sn-ad").checked)L.push("Network account and email");if(el("sn-badge").checked)L.push("Building badge");if(el("sn-eng").checked)L.push("Engineering starter pack");if(el("sn-mon").checked)L.push("27-inch monitor and dock");return L}
+function drawSteps(){el("steps").innerHTML=STEPS.map(function(s,i){var c=i<S.step?"done":i===S.step?"cur":"";return '<button class="st '+c+'" data-step="'+i+'"'+(i<S.step?'':' tabindex="-1"')+'><i>'+(i<S.step?'✓':i+1)+'</i><span>'+s+'</span>'+(i<STEPS.length-1?'<span class="ln"></span>':'')+'</button>'}).join("");
+  $$(".ws").forEach(function(w){w.hidden=+w.dataset.s!==S.step});el("snBack").hidden=S.step===0;el("snNext").hidden=S.step===2;el("snSubmit").hidden=S.step!==2;
+  if(S.step===2)renderReview();drawSum()}
+function drawSum(){var L=chosen(),f=el("sn-for").value.trim();if(!PEOPLE.some(function(p){return p.t===f}))f="";
+  el("sum").innerHTML='<dl><dt>Item</dt><dd>New Hire IT Bundle</dd><dt>For</dt><dd>'+(f?esc(f):'<span style="color:var(--mu2)">Not selected</span>')+'</dd><dt>Delivery</dt><dd>3 business days</dd><dt>Approval</dt><dd>Not required</dd></dl>'+(L.length?'<ul>'+L.map(function(x){return '<li>'+esc(x)+'</li>'}).join("")+'</ul>':'<div class="empty" style="padding:8px 20px 16px;text-align:left">No items selected yet.</div>')}
+function renderReview(){var L=chosen();
+  el("review").innerHTML='<h4>Who it’s for<button class="lnk" data-step="0">Edit</button></h4><dt>Requested for</dt><dd>'+esc(el("sn-for").value)+'</dd><dt>Employee ID</dt><dd>'+esc(el("sn-empid").value)+'</dd><dt>Manager</dt><dd>'+esc(el("sn-mgr").value)+'</dd><dt>Start date</dt><dd>'+esc(el("sn-start").value)+'</dd><dt>Work location</dt><dd>'+esc(el("sn-loc").value)+'</dd><dt>Department</dt><dd>'+(esc(el("sn-dept").value)||"—")+'</dd><h4>Items ('+L.length+')<button class="lnk" data-step="1">Edit</button></h4>'+L.map(function(x){return '<dt>'+(x.indexOf("MacBook")===0||x.indexOf("ThinkPad")===0||x.indexOf("Dell L")===0?"Laptop":"Item")+'</dt><dd>'+esc(x)+'</dd>'}).join("")}
+function validate(step){var bad=[];
+  if(step===0){[["for","Requested for"],["empid","Employee ID"],["mgr","Manager"],["start","Start date"],["loc","Work location"]].forEach(function(r){var ok=!!el("sn-"+r[0]).value.trim();el("f-"+r[0]).classList.toggle("bad",!ok);if(!ok)bad.push(r[1])});}
+  if(step===1&&!chosen().length)bad.push("Select at least one item");
+  el("ordErr").innerHTML=bad.length?'<div class="note er" role="alert">'+ico("err")+'<div><b>The following mandatory fields are not filled in:</b> '+esc(bad.join(", "))+'</div></div>':"";return !bad.length}
+function resetOrder(){["sn-empid","sn-for","sn-mgr","sn-start","sn-dept","sn-notes"].forEach(function(i){el(i).value=""});el("sn-loc").value="";el("sn-for").value="Dana Whitfield";applyPerson(PEOPLE[0]);$$('input[name=lap],#p-item input[type=checkbox]').forEach(function(x){x.checked=false});$$(".f.bad").forEach(function(f){f.classList.remove("bad")});el("ordErr").innerHTML="";S.step=0}
+function submit(){
+  var L=chosen();S.req={empid:el("sn-empid").value.trim(),for:el("sn-for").value.trim(),mgr:el("sn-mgr").value.trim(),start:el("sn-start").value.trim(),loc:el("sn-loc").value,items:L,st:L.map(function(){return "open"}),opened:Date.now(),log:[["Dana Whitfield","Submitted the request. No approval required, sent to fulfillment.",NW.isoT(new Date())]]};
+  TIMERS.forEach(clearTimeout);TIMERS=[];
+  L.forEach(function(x,i){TIMERS.push(setTimeout(function(){S.req.st[i]="wip";S.req.log.unshift(["IT Fulfillment",RITM[i]+" "+x+": work in progress",NW.isoT(new Date())]);rerender()},1400+i*700));
+    TIMERS.push(setTimeout(function(){S.req.st[i]="done";S.req.log.unshift(["IT Fulfillment",RITM[i]+" "+x+": closed complete"+(i===0?" · asset tag NDW-LT-08417":""),NW.isoT(new Date())]);rerender()},4200+i*1400))});
+  go("req");toast("Request REQ0010482 submitted")}
+function allDone(){return S.req&&S.req.st.every(function(x){return x==="done"})}
+function rerender(){if(el("p-req").classList.contains("on"))renderReq();if(el("p-home").classList.contains("on"))renderHome();if(el("p-myreq").classList.contains("on"))renderMy()}
+function renderReq(){
+  if(!S.req){el("reqCrumb").textContent="";el("reqBody").innerHTML='<div class="card"><div class="empty">No request selected.</div></div>';return}
+  var r=S.req,done=allDone(),started=r.st.some(function(x){return x!=="open"});el("reqCrumb").textContent="REQ0010482";
+  var stg=["Submitted","Fulfillment","Delivery","Completed"],cur=done?4:started?1:1;
+  el("reqBody").innerHTML='<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 class="t" style="margin:0">REQ0010482</h1><span class="chip '+(done?'ok':'bl')+'">'+(done?'Closed Complete':'Work in Progress')+'</span></div><p class="subt">New Hire IT Bundle for '+esc(r.for)+'</p>'+
+   (done?'<div class="note ok">'+ico("check")+'<div>All '+r.items.length+' items fulfilled. The standard target is 3 business days.</div></div>':'')+
+   '<div class="rq2"><div><div class="card"><div class="stg">'+stg.map(function(s,i){var c=i<cur?"done":i===cur?"cur":"";return '<div class="sg '+c+'"><i>'+(i<cur?'✓':'')+'</i><span>'+s+'</span></div>'}).join("")+'</div>'+
+   '<div class="kvg">'+[["Requested for",r.for],["Employee ID",r.empid],["Opened by","Dana Whitfield"],["Opened",NW.isoT(new Date(r.opened)).slice(0,16)],["Manager",r.mgr],["Start date",r.start],["Location",r.loc]].map(function(x){return '<div><span>'+x[0]+'</span><b>'+esc(x[1])+'</b></div>'}).join("")+'</div></div>'+
+   '<div class="card"><h2>Requested items</h2><div class="tw"><table class="tbl"><thead><tr><th>Number</th><th>Item</th><th>Stage</th><th>State</th></tr></thead><tbody>'+r.items.map(function(x,i){var s=r.st[i];return '<tr><td>'+RITM[i]+'</td><td><b style="font-weight:600">'+esc(x)+'</b></td><td>'+(s==="done"?"Completed":s==="wip"?"Fulfillment":"Waiting for fulfillment")+'</td><td><span class="chip '+(s==="done"?'ok':s==="wip"?'bl':'')+'">'+(s==="done"?"Closed Complete":s==="wip"?"Work in Progress":"Open")+'</span></td></tr>'}).join("")+'</tbody></table></div></div></div>'+
+   '<div class="card"><h2>Activity</h2><ul class="act">'+r.log.map(function(l){return '<li><b>'+esc(l[0])+'</b><div>'+esc(l[1])+'</div><small>'+l[2]+'</small></li>'}).join("")+'</ul></div></div>'}
+function renderMy(){el("myBody").innerHTML=(S.req?'<tr><td><a href="#" data-go="req" style="font-weight:600">REQ0010482</a></td><td>New Hire IT Bundle</td><td>'+esc(S.req.for)+'</td><td>'+NW.iso(new Date(S.req.opened))+'</td><td><span class="chip '+(allDone()?'ok':'bl')+'">'+(allDone()?'Closed Complete':'Work in Progress')+'</span></td></tr>':'')+'<tr><td>REQ0010311</td><td>Monitor and Dock</td><td>Dana Whitfield</td><td>'+NW.iso(NW.days(-45))+'</td><td><span class="chip ok">Closed Complete</span></td></tr>'}
+
+document.addEventListener("click",function(e){var b=e.target.closest("button,a")||e.target;
+  if(b.tagName==="A"&&b.getAttribute("href")==="#")e.preventDefault();
+  if(b.dataset&&b.dataset.na){toast("You don’t have permission to view this page.");return}
+  if(b.dataset&&b.dataset.q){el("snSearch").value=b.dataset.q;go("catalog",{q:b.dataset.q});return}
+  if(b.dataset&&b.dataset.go){go(b.dataset.go);return}
+  if(b.dataset&&b.dataset.cat){S.cat=b.dataset.cat;go("catalog",{cat:b.dataset.cat});return}
+  if(b.dataset&&b.dataset.item){if(b.dataset.item==="nhb"){if(S.req){toast("REQ0010482 is already open for this new hire");go("req");return}go("item",{fresh:true})}else toast("You don’t have permission to view this page.");return}
+  if(b.dataset&&b.dataset.step!==undefined){var s=+b.dataset.step;if(s<S.step){S.step=s;el("ordErr").innerHTML="";drawSteps()}return}
+  switch(b.id){
+   case "snNext":if(validate(S.step)){S.step++;drawSteps();window.scrollTo(0,0)}break;
+   case "snBack":S.step=Math.max(0,S.step-1);el("ordErr").innerHTML="";drawSteps();break;
+   case "snSubmit":if(validate(0)&&validate(1))submit();break;
+   case "snCancel":resetOrder();go("catalog");break;
+   case "reset":init();break;
+  }});
+el("snSearch").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();go("catalog",{q:e.target.value.trim()})}});
+document.addEventListener("change",function(e){if(e.target.closest("#p-item")){var f=e.target.closest(".f.bad");if(f&&e.target.value)f.classList.remove("bad");drawSum();if(S.step===2)renderReview()}});
+document.addEventListener("input",function(e){if(e.target.closest("#p-item")){var f=e.target.closest(".f.bad");if(f&&e.target.value.trim())f.classList.remove("bad")}});
+var ROUTES={home:"home",catalog:"catalog",item:"item",requests:"myreq"};
+function init(){TIMERS.forEach(clearTimeout);TIMERS=[];S={step:0,req:null,cat:"All"};el("snSearch").value="";resetOrder();var h=(location.hash||"").slice(1);go(ROUTES[h]||"home",{fresh:true})}
+init();
+window.addEventListener("hashchange",function(){var h=(location.hash||"").slice(1);if(ROUTES[h])go(ROUTES[h],{fresh:true})});
+</script>
+</body>
+</html>

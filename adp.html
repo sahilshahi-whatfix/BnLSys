@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>ADP Workforce Now · Nodeway</title>
+<style>
+:root{color-scheme:light;--bg:#f2f3f5;--sf:#ffffff;--tx:#1d2733;--mu:#5c6672;--mu2:#7a838e;--bd:#d5d9df;--bd2:#e7e9ed;--red:#d0271d;--pri:#1660a8;--prih:#0f4e8c;--pribg:#e8f1fb;--ok:#1b7a3a;--okbg:#e3f3e8;--wn:#8a5300;--wnbg:#fdf2dc;--er:#c62828;--erbg:#fdecea;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.5 "Segoe UI",Roboto,system-ui,-apple-system,Helvetica,Arial,sans-serif}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+svg.i{width:20px;height:20px;fill:currentColor;flex:none;display:block}
+
+/* header */
+.hdr{background:var(--sf);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:20}
+.hrow{display:flex;align-items:center;gap:18px;height:56px;padding:0 20px}
+.brand{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.brand .lg{background:var(--red);color:#fff;font:800 17px/1 Arial,Helvetica,sans-serif;letter-spacing:.5px;padding:6px 8px 5px;border-radius:3px;font-style:italic}
+.brand span{font-size:16px;color:var(--tx);font-weight:600}
+.brand small{color:var(--mu);font-size:12.5px;border-left:1px solid var(--bd);padding-left:10px;margin-left:2px}
+.srch{flex:1;max-width:520px;margin:0 auto;display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid var(--bd);border-radius:18px;color:var(--mu2);background:#fafbfc;font-size:13.5px}
+.hic{display:flex;align-items:center;gap:6px}
+.hb{width:36px;height:36px;border-radius:50%;border:0;background:none;display:grid;place-items:center;color:var(--mu);cursor:pointer;position:relative}
+.hb:hover{background:#eef0f3}
+.hb .dot{position:absolute;top:6px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--red);border:2px solid #fff}
+.me{display:flex;align-items:center;gap:8px;padding-left:6px}
+.me .av{width:32px;height:32px;border-radius:50%;background:#0f7b6c;color:#fff;display:grid;place-items:center;font-weight:600;font-size:12.5px}
+.me div{line-height:1.2;font-size:12.5px}.me small{color:var(--mu);display:block;font-size:11.5px}
+.menu{display:flex;gap:2px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
+.menu button{border:0;background:none;padding:10px 14px 9px;color:var(--mu);font-weight:600;font-size:13.5px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.menu button:hover{color:var(--tx)}
+.menu button.on{color:var(--tx);border-bottom-color:var(--red)}
+
+/* page */
+.wrap{max-width:1180px;margin:0 auto;padding:18px 24px 60px}
+.crumb{font-size:12.5px;color:var(--mu);margin-bottom:6px}
+.crumb a{color:var(--pri);text-decoration:none;cursor:pointer}
+.ph{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.ph h1{margin:0;font-size:24px;font-weight:600;letter-spacing:-.2px}
+.ph .sp{flex:1}
+.pg{display:none}.pg.on{display:block}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:6px;margin-bottom:16px}
+.card>h2{margin:0;padding:14px 20px;font-size:16px;font-weight:600;border-bottom:1px solid var(--bd2);display:flex;align-items:center;gap:10px}
+.card>h2 small{font-weight:400;color:var(--mu);font-size:13px}
+.cb{padding:18px 20px}
+.btn{height:36px;padding:0 18px;border-radius:4px;border:1px solid var(--pri);background:var(--sf);color:var(--pri);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;vertical-align:middle}
+.btn:hover{background:var(--pribg)}
+.btn.pri{background:var(--pri);color:#fff}.btn.pri:hover{background:var(--prih)}
+.btn.lnk{border-color:transparent;background:none}.btn.lnk:hover{background:var(--pribg)}
+.btn svg{width:18px;height:18px;fill:currentColor}
+.btn[hidden]{display:none}
+.chip{display:inline-block;padding:1px 9px;border-radius:10px;font-size:12px;font-weight:600;background:#eef0f3;color:var(--mu);white-space:nowrap}
+.chip.ok{background:var(--okbg);color:var(--ok)}.chip.wn{background:var(--wnbg);color:var(--wn)}.chip.bl{background:var(--pribg);color:var(--pri)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-radius:4px;margin-bottom:16px;border:1px solid}
+.alert.er{background:var(--erbg);border-color:#f3b8b3;color:var(--er)}
+.alert.in{background:var(--pribg);border-color:#bcd5ef;color:#123f6c}
+.alert svg{margin-top:1px}
+
+/* forms */
+.fg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px}
+.fg .s2{grid-column:span 2}
+.f label{display:block;font-size:13px;font-weight:600;color:#33404d;margin-bottom:4px}
+.f label .rq{color:var(--er);margin-left:2px}
+.f label small{font-weight:400;color:var(--mu2)}
+.f input[type=text],.f input[type=email],.f input[type=tel],.f select{width:100%;height:36px;padding:0 10px;border:1px solid #b9c0c8;border-radius:4px;background:var(--sf)}
+.f input:focus,.f select:focus{outline:0;border-color:var(--pri);box-shadow:0 0 0 2px rgba(22,96,168,.18)}
+.f input[readonly]{background:#f4f5f7;color:var(--mu)}
+.f .hint{font-size:12px;color:var(--mu2);margin-top:4px}
+.f .err{display:none;font-size:12px;color:var(--er);margin-top:4px}
+.f.bad input,.f.bad select{border-color:var(--er);box-shadow:none}
+.f.bad .err{display:block}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:4px 0 8px}
+.ck input{width:16px;height:16px;margin:3px 0 0;accent-color:var(--pri);flex:none}
+.ck label{font-weight:600;margin:0;font-size:14px;color:var(--tx)}
+.ck small{display:block;color:var(--mu2);font-size:12.5px;font-weight:400}
+.seg{display:inline-flex;border:1px solid #b9c0c8;border-radius:4px;overflow:hidden;height:36px}
+.seg label{display:flex;align-items:center;padding:0 16px;margin:0;font-weight:500;cursor:pointer;border-right:1px solid #b9c0c8;font-size:13.5px;color:var(--tx)}
+.seg label:last-child{border-right:0}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--pri);color:#fff}
+.sub{font-size:14px;font-weight:600;margin:22px 0 12px;padding-top:16px;border-top:1px solid var(--bd2)}
+.sub:first-child{margin-top:0;padding-top:0;border-top:0}
+
+/* wizard */
+.steps{display:flex;align-items:flex-start;padding:18px 20px 14px;overflow-x:auto;border-bottom:1px solid var(--bd2)}
+.st{flex:1;min-width:110px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;text-align:center;font-size:13px;color:var(--mu);border:0;background:none;padding:0;cursor:default}
+.st::before{content:"";position:absolute;top:13px;left:-50%;right:50%;height:2px;background:var(--bd)}
+.st:first-child::before{display:none}
+.st i{width:28px;height:28px;border-radius:50%;border:2px solid var(--bd);background:var(--sf);display:grid;place-items:center;font-style:normal;font-weight:700;font-size:13px;position:relative;z-index:1;color:var(--mu)}
+.st.cur{color:var(--tx);font-weight:600}.st.cur i{border-color:var(--pri);color:var(--pri);box-shadow:0 0 0 4px var(--pribg)}
+.st.done{color:var(--tx);cursor:pointer}.st.done i{background:var(--pri);border-color:var(--pri);color:#fff}
+.st.done::before,.st.cur::before{background:var(--pri)}
+.wfoot{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid var(--bd2);background:#fafbfc;border-radius:0 0 6px 6px;position:sticky;bottom:0}
+.wfoot .sp{flex:1}
+.wfoot small{color:var(--mu)}
+
+/* review */
+.rv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.rv section{border:1px solid var(--bd2);border-radius:6px}
+.rv h3{margin:0;padding:10px 14px;font-size:14px;display:flex;justify-content:space-between;align-items:center;background:#fafbfc;border-bottom:1px solid var(--bd2);border-radius:6px 6px 0 0}
+.rv h3 button{border:0;background:none;color:var(--pri);font-weight:600;cursor:pointer;font-size:13px}
+.rv dl{margin:0;padding:10px 14px;display:grid;grid-template-columns:150px 1fr;gap:6px 10px;font-size:13.5px}
+.rv dt{color:var(--mu)}.rv dd{margin:0}
+
+/* tables and lists */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-weight:600;color:var(--mu);font-size:12.5px;padding:10px 14px;border-bottom:1px solid var(--bd);background:#fafbfc;white-space:nowrap}
+.tbl td{padding:10px 14px;border-bottom:1px solid var(--bd2);white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr.new td{background:#f3f9f4}
+.tbl a{color:var(--pri);font-weight:600;cursor:pointer;text-decoration:none}
+.tbl a:hover{text-decoration:underline}
+.pp{display:flex;align-items:center;gap:10px}
+.pp .av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600;font-size:11.5px;flex:none}
+.tw{overflow-x:auto}
+.tools{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--bd2);flex-wrap:wrap}
+.tools .q{flex:1;max-width:340px;height:34px;border:1px solid #b9c0c8;border-radius:4px;padding:0 10px;display:flex;align-items:center;gap:6px;color:var(--mu2)}
+.tools .q input{border:0;outline:0;flex:1;min-width:0;background:none}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.tile{background:var(--sf);border:1px solid var(--bd);border-radius:6px;padding:16px 18px}
+.tile h3{margin:0 0 6px;font-size:15px}
+.tile p{margin:0 0 12px;color:var(--mu);font-size:13.5px}
+.todo{display:flex;gap:12px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--bd2)}
+.todo:last-child{border-bottom:0}
+.todo .t{flex:1}.todo .t b{font-weight:600;display:block}.todo .t small{color:var(--mu)}
+.done-ic{width:64px;height:64px;border-radius:50%;background:var(--okbg);color:var(--ok);display:grid;place-items:center;margin:4px auto 12px}
+.done-ic svg{width:36px;height:36px}
+.ids{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--bd2);border-radius:6px;margin:18px auto;max-width:760px;text-align:left}
+.ids div{padding:12px 14px;border-right:1px solid var(--bd2)}.ids div:last-child{border-right:0}
+.ids span{display:block;font-size:12px;color:var(--mu)}.ids b{font-size:15px;font-weight:600}
+.prof{display:flex;gap:16px;align-items:center;padding:18px 20px}
+.prof .av{width:64px;height:64px;border-radius:50%;background:#e8710a;color:#fff;display:grid;place-items:center;font-size:22px;font-weight:600;flex:none}
+.prof h2{margin:0;font-size:20px;font-weight:600}
+.prof .meta{color:var(--mu);font-size:13px}
+.tabs{display:flex;gap:2px;border-top:1px solid var(--bd2);border-bottom:1px solid var(--bd2);padding:0 12px;overflow-x:auto}
+.tabs button{border:0;background:none;padding:10px 14px;font-weight:600;color:var(--mu);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.tabs button.on{color:var(--tx);border-bottom-color:var(--pri)}
+.kv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px}
+.kv span{display:block;font-size:12.5px;color:var(--mu)}.kv b{font-weight:500}
+.empty{padding:36px 16px;text-align:center;color:var(--mu)}
+.toast{position:fixed;top:calc(108px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:#1f2933;color:#fff;padding:10px 18px;border-radius:4px;font-size:13.5px;z-index:50;display:none;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.toast.on{display:block}
+.rs{background:none;border:0;color:var(--mu);font-size:12px;text-decoration:underline;cursor:pointer;margin-top:10px}
+footer{text-align:center;color:var(--mu2);font-size:12px;padding:8px 18px 24px}
+@media (max-width:860px){.fg{grid-template-columns:1fr 1fr}.fg .s2{grid-column:1/-1}.rv{grid-template-columns:1fr}.ids{grid-template-columns:1fr 1fr}.ids div:nth-child(2){border-right:0}.kv{grid-template-columns:1fr 1fr}.srch{display:none}.me div{display:none}.brand small{display:none}}
+@media (max-width:560px){.fg{grid-template-columns:1fr}.wrap{padding:14px 12px 40px}.rv dl{grid-template-columns:1fr}.wfoot small{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></symbol>
+ <symbol id="i-help" viewBox="0 0 24 24"><path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></symbol>
+ <symbol id="i-add" viewBox="0 0 24 24"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></symbol>
+ <symbol id="i-err" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></symbol>
+ <symbol id="i-filter" viewBox="0 0 24 24"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></symbol>
+</svg>
+
+<header class="hdr">
+ <div class="hrow">
+  <div class="brand"><span class="lg">ADP</span><span>Workforce Now</span><small>Nodeway</small></div>
+  <div class="srch"><svg class="i" style="width:18px;height:18px"><use href="#i-search"/></svg>Search people, reports and more</div>
+  <div class="hic">
+   <button class="hb" aria-label="Notifications" data-na="1"><svg class="i"><use href="#i-bell"/></svg><span class="dot"></span></button>
+   <button class="hb" aria-label="Messages" data-na="1"><svg class="i"><use href="#i-chat"/></svg></button>
+   <button class="hb" aria-label="Help" data-na="1"><svg class="i"><use href="#i-help"/></svg></button>
+   <div class="me"><div class="av" title="Dana Whitfield">DW</div><div>Dana Whitfield<small>Practitioner · NDW</small></div></div>
+  </div>
+ </div>
+ <nav class="menu" id="menu" aria-label="Main">
+  <button data-go="home">Home</button>
+  <button data-na="1">Myself</button>
+  <button data-na="1">My Team</button>
+  <button data-go="people">People</button>
+  <button data-go="process">Process</button>
+  <button data-na="1">Reports</button>
+  <button data-na="1">Setup</button>
+ </nav>
+</header>
+<div class="toast" id="toast" role="status"></div>
+
+<main class="wrap">
+
+<!-- HOME -->
+<section class="pg" id="p-home">
+ <div class="ph"><h1 id="greet">Good morning, Dana</h1></div>
+ <div class="card"><h2>Things to do <small id="todoCount"></small></h2><div id="todos"></div></div>
+ <div class="tiles">
+  <div class="tile"><h3>Hire an employee</h3><p>Add a new employee to payroll and send their self-service invitation.</p><button class="btn pri" data-go="hire" id="homeHire">Hire employee</button></div>
+  <div class="tile"><h3>Employees</h3><p>View and update records for everyone in company code NDW.</p><button class="btn" data-go="people">View employees</button></div>
+  <div class="tile"><h3>Next payroll</h3><p id="payTile">Pay group NDW-BW</p><button class="btn lnk" data-na="1">Payroll cycle</button></div>
+ </div>
+</section>
+
+<!-- PROCESS -->
+<section class="pg" id="p-process">
+ <div class="crumb">Process</div>
+ <div class="ph"><h1>HR</h1></div>
+ <div class="tiles">
+  <div class="tile"><h3>Hire / Rehire</h3><p>Hire a new employee or rehire a former employee.</p><button class="btn pri" data-go="hire" id="procHire">Hire employee</button> <button class="btn lnk" data-na="1">Rehire</button></div>
+  <div class="tile"><h3>Terminate</h3><p>End employment and process final pay.</p><button class="btn lnk" data-na="1">Terminate employee</button></div>
+  <div class="tile"><h3>Position change</h3><p>Change job, department, location or reports-to.</p><button class="btn lnk" data-na="1">Change position</button></div>
+  <div class="tile"><h3>Pay rate change</h3><p>Update salary or hourly rate with an effective date.</p><button class="btn lnk" data-na="1">Change pay rate</button></div>
+ </div>
+</section>
+
+<!-- PEOPLE -->
+<section class="pg" id="p-people">
+ <div class="crumb">People › Employment</div>
+ <div class="ph"><h1>Employees</h1><span class="sp"></span><button class="btn pri" data-go="hire" id="peopleHire"><svg><use href="#i-add"/></svg>Hire employee</button></div>
+ <div class="card"><div class="tools"><div class="q"><svg class="i" style="width:18px;height:18px"><use href="#i-search"/></svg><input id="pq" type="text" placeholder="Search by name, associate ID or file number" aria-label="Search employees" autocomplete="off"></div><button class="btn lnk" data-na="1"><svg><use href="#i-filter"/></svg>Filters</button><span style="margin-left:auto;color:var(--mu);font-size:13px" id="pcount"></span></div>
+ <div class="tw"><table class="tbl"><thead><tr><th>Name</th><th>Associate ID</th><th>File #</th><th>Job title</th><th>Home department</th><th>Location</th><th>Hire date</th><th>Status</th></tr></thead><tbody id="ptbl"></tbody></table></div></div>
+</section>
+
+<!-- HIRE WIZARD -->
+<section class="pg" id="p-hire">
+ <div class="crumb"><a data-go="process">Process</a> › HR › Hire / Rehire</div>
+ <div class="ph"><h1>Hire employee</h1><span class="sp"></span><span style="color:var(--mu);font-size:13px">Company code <b style="color:var(--tx)">NDW · Nodeway</b></span></div>
+ <div id="hireErr"></div>
+ <div class="card" id="wiz">
+  <div class="steps" id="steps"></div>
+
+  <div class="cb ws" data-s="0">
+   <div class="sub">Legal name</div>
+   <div class="fg">
+    <div class="f" data-req="1"><label for="adp-first">Legal first name<span class="rq">*</span></label><input type="text" id="adp-first" autocomplete="off"><div class="err">Legal first name is required.</div></div>
+    <div class="f"><label for="adp-middle">Middle name</label><input type="text" id="adp-middle" autocomplete="off"></div>
+    <div class="f" data-req="1"><label for="adp-last">Legal last name<span class="rq">*</span></label><input type="text" id="adp-last" autocomplete="off"><div class="err">Legal last name is required.</div></div>
+    <div class="f"><label for="adp-pref">Preferred name</label><input type="text" id="adp-pref" autocomplete="off"></div>
+   </div>
+   <div class="sub">Identification</div>
+   <div class="fg">
+    <div class="f" data-req="1" data-ssn="1"><label for="adp-ssn">Social Security number<span class="rq">*</span></label><input type="text" id="adp-ssn" inputmode="numeric" placeholder="XXX-XX-XXXX" autocomplete="off" maxlength="11"><div class="err">Enter a 9-digit Social Security number.</div></div>
+    <div class="f" data-req="1"><label for="adp-dob">Birth date<span class="rq">*</span></label><input type="text" id="adp-dob" placeholder="MM/DD/YYYY" autocomplete="off"><div class="err">Birth date is required.</div></div>
+    <div class="f"><label for="adp-gender">Gender <small>(optional)</small></label><select id="adp-gender"><option value="">Select</option><option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option></select></div>
+   </div>
+   <div class="sub">Home address and contact</div>
+   <div class="fg">
+    <div class="f s2" data-req="1"><label for="adp-addr1">Address line 1<span class="rq">*</span></label><input type="text" id="adp-addr1" autocomplete="off"><div class="err">Address is required.</div></div>
+    <div class="f"><label for="adp-addr2">Address line 2</label><input type="text" id="adp-addr2" autocomplete="off"></div>
+    <div class="f" data-req="1"><label for="adp-city">City<span class="rq">*</span></label><input type="text" id="adp-city" autocomplete="off"><div class="err">City is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-state">State<span class="rq">*</span></label><select id="adp-state"><option value="">Select</option><option>Arizona</option><option>California</option><option>Colorado</option><option>Florida</option><option>Georgia</option><option>Illinois</option><option>New York</option><option>North Carolina</option><option>Texas</option><option>Washington</option></select><div class="err">State is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-zip">ZIP code<span class="rq">*</span></label><input type="text" id="adp-zip" inputmode="numeric" autocomplete="off"><div class="err">ZIP code is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-email">Personal email<span class="rq">*</span></label><input type="email" id="adp-email" autocomplete="off"><div class="err">Personal email is required for the self-service invitation.</div></div>
+    <div class="f"><label for="adp-phone">Mobile phone</label><input type="tel" id="adp-phone" autocomplete="off" placeholder="(555) 555-5555"></div>
+   </div>
+  </div>
+
+  <div class="cb ws" data-s="1" hidden>
+   <div class="sub">Employment</div>
+   <div class="fg">
+    <div class="f" data-req="1"><label for="adp-hiredate">Hire date<span class="rq">*</span></label><input type="text" id="adp-hiredate" placeholder="MM/DD/YYYY" autocomplete="off"><div class="err">Hire date is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-reason">Hire reason<span class="rq">*</span></label><select id="adp-reason"><option value="">Select</option><option>New position</option><option>Replacement</option><option>Conversion from contractor</option><option>Seasonal</option></select><div class="err">Hire reason is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-wtype">Worker category<span class="rq">*</span></label><select id="adp-wtype"><option value="">Select</option><option>Full time regular</option><option>Part time regular</option><option>Temporary</option><option>Intern</option></select><div class="err">Worker category is required.</div></div>
+    <div class="f"><label for="adp-file">File number</label><input type="text" id="adp-file" value="004821" readonly><div class="hint">Next available number, assigned when you hire.</div></div>
+    <div class="f"><label for="adp-pos">Position ID</label><input type="text" id="adp-pos" value="NDW004821" readonly><div class="hint">Company code plus file number.</div></div>
+    <div class="f" data-req="1"><label for="adp-wdid">Employee ID (Workday)<span class="rq">*</span></label><input type="text" id="adp-wdid" inputmode="numeric" autocomplete="off"><div class="hint">Custom field · from the Workday hire.</div><div class="err">Employee ID (Workday) is required.</div></div>
+   </div>
+   <div class="sub">Job</div>
+   <div class="fg">
+    <div class="f" data-req="1"><label for="adp-job">Job title<span class="rq">*</span></label><select id="adp-job"><option value="">Select</option><option>Software Engineer I</option><option>Software Engineer II</option><option>Senior Software Engineer</option><option>Staff Software Engineer</option><option>Engineering Manager</option><option>Product Designer</option><option>HR Business Partner</option></select><div class="err">Job title is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-dept">Home department<span class="rq">*</span></label><select id="adp-dept"><option value="">Select</option><option>004410 · Platform Engineering</option><option>004420 · Product Engineering</option><option>004510 · Design</option><option>006100 · People Operations</option><option>007200 · Finance</option></select><div class="err">Home department is required.</div></div>
+    <div class="f" data-req="1"><label for="adp-loc">Work location<span class="rq">*</span></label><select id="adp-loc"><option value="">Select</option><option>AUS · Austin, TX</option><option>SFO · San Francisco, CA</option><option>NYC · New York, NY</option><option>REM · Remote, US</option></select><div class="err">Work location is required.</div></div>
+    <div class="f"><label for="adp-mgr">Reports to</label><input type="text" id="adp-mgr" autocomplete="off" list="mgrs" placeholder="Search by name"><datalist id="mgrs"><option>David Chen</option><option>Angella Smith</option><option>Priya Nair</option><option>Marcus Lee</option></datalist></div>
+    <div class="f"><label for="adp-flsa">FLSA status</label><select id="adp-flsa"><option value="">Select</option><option>Exempt</option><option>Non-exempt</option></select></div>
+    <div class="f"><label for="adp-wemail">Work email</label><input type="email" id="adp-wemail" autocomplete="off"></div>
+   </div>
+  
+   <div class="sub">Pay</div>
+   <div class="fg">
+    <div class="f" data-req="1"><label for="adp-group">Pay group<span class="rq">*</span></label><select id="adp-group"><option value="">Select</option><option>NDW-BW · Bi-weekly salaried</option><option>NDW-BH · Bi-weekly hourly</option><option>NDW-SM · Semi-monthly</option></select><div class="err">Pay group is required.</div></div>
+    <div class="f"><label for="adp-freq">Pay frequency</label><input type="text" id="adp-freq" readonly placeholder="Set by pay group"></div>
+    <div class="f"><label>Rate type</label><div class="seg" role="radiogroup" aria-label="Rate type"><label><input type="radio" name="rtype" value="Salary" id="adp-rt-sal" checked><span>Salary</span></label><label><input type="radio" name="rtype" value="Hourly" id="adp-rt-hr"><span>Hourly</span></label></div></div>
+    <div class="f" data-req="1"><label for="adp-rate">Annual salary (USD)<span class="rq">*</span></label><input type="text" id="adp-rate" inputmode="decimal" autocomplete="off" placeholder="0.00"><div class="err">Annual salary is required.</div></div>
+    <div class="f"><label for="adp-hours">Standard hours per pay period</label><input type="text" id="adp-hours" value="80.00" autocomplete="off"></div>
+    <div class="f"><label for="adp-first-pay">First pay date</label><input type="text" id="adp-first-pay" readonly placeholder="Calculated from hire date"></div>
+   </div>
+   <div class="sub">Direct deposit</div>
+   <div class="ck"><input type="checkbox" id="adp-dd"><label for="adp-dd">Employee adds direct deposit in self service<small>Until bank details are added, pay is issued as a paper check.</small></label></div>
+  </div>
+
+  <div class="cb ws" data-s="2" hidden>
+   <div class="sub">Federal tax</div>
+   <div class="ck"><input type="checkbox" id="adp-w4"><label for="adp-w4">Employee completes Form W-4 online<small>Filing status and withholding are entered in ADP self service before the first pay date.</small></label></div>
+   <div class="sub">State and local tax</div>
+   <div class="fg">
+    <div class="f"><label for="adp-wstate">Worked-in state</label><input type="text" id="adp-wstate" readonly placeholder="From work location"></div>
+    <div class="f"><label for="adp-lstate">Lived-in state</label><input type="text" id="adp-lstate" readonly placeholder="From home address"></div>
+    <div class="f"><label for="adp-sui">SUI/SDI tax jurisdiction</label><input type="text" id="adp-sui" readonly placeholder="From worked-in state"></div>
+   </div>
+   <div class="sub">Employee self service</div>
+   <div class="ck"><input type="checkbox" id="adp-invite"><label for="adp-invite">Send a registration invitation to the personal email<small>The employee registers for ADP to see pay statements, tax forms and onboarding tasks.</small></label></div>
+   <div class="ck"><input type="checkbox" id="adp-i9"><label for="adp-i9">Start Form I-9 Section 1 in onboarding<small>Section 2 is due within three business days of the hire date.</small></label></div>
+  
+   <div class="sub">Review before you hire</div>
+   <div class="rv" id="review"></div>
+  </div>
+
+
+  <div class="wfoot">
+   <button class="btn lnk" id="adpCancel">Cancel</button><span class="sp"></span><small id="wpos"></small>
+   <button class="btn" id="adpBack">Back</button>
+   <button class="btn pri" id="adpNext">Next</button>
+   <button class="btn pri" id="adpSave" hidden>Hire employee</button>
+  </div>
+ </div>
+</section>
+
+<!-- SUCCESS -->
+<section class="pg" id="p-done">
+ <div class="card"><div class="cb" style="text-align:center;padding:32px 24px">
+  <div class="done-ic"><svg class="i"><use href="#i-check"/></svg></div>
+  <h1 style="margin:0 0 4px;font-size:22px;font-weight:600" id="doneTitle"></h1>
+  <div style="color:var(--mu)" id="doneSub"></div>
+  <div class="ids" id="doneIds"></div>
+  <div id="doneNext" style="text-align:left;max-width:760px;margin:0 auto 18px"></div>
+  <button class="btn pri" id="viewProfile">View profile</button> <button class="btn" data-go="hire" id="hireAnother">Hire another</button> <button class="btn lnk" data-go="people">Go to employees</button>
+ </div></div>
+</section>
+
+<!-- PROFILE -->
+<section class="pg" id="p-emp">
+ <div class="crumb"><a data-go="people">People</a> › Employment › Employees</div>
+ <div class="card" style="margin-top:6px"><div id="profHead"></div><div class="tabs" id="ptabs"></div><div class="cb" id="profBody"></div></div>
+</section>
+
+</main>
+<footer>© ADP, Inc. · Privacy · Legal</footer>
+
+<script>
+/* nw runtime: browser-based dates, cross-tab events, hidden reset */
+(function(){
+  var NW=window.NW={};
+  NW.now=new Date();
+  NW.ago=function(min){return new Date(Date.now()-min*60000)};
+  NW.days=function(n){var d=new Date();d.setDate(d.getDate()+n);return d};
+  NW.t=function(d){return d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"})};
+  NW.md=function(d){return d.toLocaleDateString("en-US",{month:"short",day:"numeric"})};
+  NW.long=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric",year:"numeric"})};
+  NW.dayName=function(d){return d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})};
+  NW.gfull=function(d){return d.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"}).replace(",","")+", "+NW.t(d)};
+  NW.us=function(d){return ("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2)+"/"+d.getFullYear()};
+  NW.iso=function(d){return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)};
+  NW.isoT=function(d){return NW.iso(d)+" "+("0"+d.getHours()).slice(-2)+":"+("0"+d.getMinutes()).slice(-2)+":"+("0"+d.getSeconds()).slice(-2)};
+  NW.usT=function(d){return NW.us(d)+" "+NW.t(d).replace(/^(\d):/,"0$1:")};
+  NW.sameDay=function(a,b){return a.toDateString()===b.toDateString()};
+  NW.since=function(d){var m=Math.max(0,Math.round((Date.now()-d.getTime())/60000));if(m<60)return m+(m===1?" minute ago":" minutes ago");var h=Math.round(m/60);if(h<24)return h+(h===1?" hour ago":" hours ago");var dd=Math.round(h/24);return dd+(dd===1?" day ago":" days ago")};
+  NW.greet=function(){var h=new Date().getHours();return h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening"};
+  NW.lastWeekday=function(dow){var d=new Date();var diff=(d.getDay()-dow+7)%7||7;d.setDate(d.getDate()-diff);return d};
+  NW.nextBiweekly=function(anchor){var a=new Date(anchor);var n=new Date();n.setHours(0,0,0,0);while(a<=n)a.setDate(a.getDate()+14);while(a.getTime()-14*864e5>n.getTime())a.setDate(a.getDate()-14);return a};
+  /* cross-tab events (same origin) */
+  var P="nodeway:";
+  NW.get=function(k){try{var v=localStorage.getItem(P+k);return v?JSON.parse(v):null}catch(e){return null}};
+  NW.set=function(k,v){try{localStorage.setItem(P+k,JSON.stringify(v))}catch(e){}};
+  NW.push=function(k,v){var a=NW.get(k)||[];a.push(v);NW.set(k,a)};
+  var subs=[];NW.on=function(cb){subs.push(cb)};
+  window.addEventListener("storage",function(e){if(!e.key||e.key.indexOf(P)!==0)return;
+    if(e.key===P+"reset"){location.replace(location.pathname);return}
+    var k=e.key.slice(P.length);subs.forEach(function(cb){try{cb(k)}catch(x){}})});
+  NW.reset=function(){try{Object.keys(localStorage).forEach(function(k){if(k.indexOf(P)===0)localStorage.removeItem(k)});localStorage.setItem(P+"reset",String(Date.now()))}catch(e){}location.replace(location.pathname)};
+  /* hidden reset: double-click the bottom-left corner, or press Ctrl+Shift+Alt+R */
+  function mount(){var h=document.createElement("div");h.setAttribute("aria-hidden","true");
+    h.style.cssText="position:fixed;left:0;bottom:0;width:22px;height:22px;z-index:99999;background:transparent;cursor:default";
+    h.addEventListener("dblclick",function(){NW.reset()});document.body.appendChild(h)}
+  if(document.body)mount();else document.addEventListener("DOMContentLoaded",mount);
+  document.addEventListener("keydown",function(e){if(e.ctrlKey&&e.shiftKey&&e.altKey&&(e.key==="R"||e.key==="r"||e.code==="KeyR")){e.preventDefault();NW.reset()}});
+})();
+</script>
+<script>
+function el(i){return document.getElementById(i)}
+function $$(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(t){var e=el("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("on")},2800)}
+var STEPS=["Personal details","Job and pay","Tax and review"];
+var BASE=[
+ ["Aaron Brooks","G3K7R2M9Q","004112","Senior Software Engineer","004410 · Platform Engineering","Austin, TX","03/02/2021","#3367d6"],
+ ["Angella Smith","G3H2P8W4L","003207","HR Business Partner","006100 · People Operations","Austin, TX","07/15/2019","#7a3eb1"],
+ ["Dana Whitfield","G3B9T6N1X","003391","HR Operations Specialist","006100 · People Operations","Austin, TX","01/06/2020","#0f7b6c"],
+ ["David Chen","G3M4D7K2S","003860","Engineering Manager","004410 · Platform Engineering","Austin, TX","09/14/2020","#00796b"],
+ ["Elena Torres","G3Q1F5V8C","004533","Product Designer","004510 · Design","San Francisco, CA","05/23/2022","#c2185b"],
+ ["Marcus Lee","G3W8J3R6T","004290","Staff Software Engineer","004410 · Platform Engineering","Remote, US","11/01/2021","#5b5fc7"],
+ ["Priya Nair","G3N5C2H9D","003512","People Operations Manager","006100 · People Operations","Austin, TX","04/12/2020","#00897b"],
+ ["Sarah Palmer","G3T6L4B7Y","004377","Senior Software Engineer","004410 · Platform Engineering","Austin, TX","02/07/2022","#e65100"],
+ ["Tom Becker","G3R2X9M5F","004718","Software Engineer II","004420 · Product Engineering","New York, NY","06/03/2024","#455a64"]
+];
+var TOTAL=1284,S;
+var FIELDS=["wdid","first","middle","last","pref","ssn","dob","gender","addr1","addr2","city","state","zip","email","phone","hiredate","reason","wtype","job","dept","loc","mgr","flsa","wemail","group","rate","hours"];
+function v(id){var e=el("adp-"+id);return e?(e.type==="checkbox"?e.checked:e.value.trim()):""}
+function go(p){
+  $$(".pg").forEach(function(s){s.classList.toggle("on",s.id==="p-"+p)});
+  var top={home:"home",people:"people",emp:"people",process:"process",hire:"process",done:"process"}[p];
+  $$("#menu button").forEach(function(b){b.classList.toggle("on",b.dataset.go===top)});
+  if(p==="people")renderPeople();if(p==="home")renderHome();if(p==="emp")renderProfile();if(p==="hire")drawSteps();
+  window.scrollTo(0,0);
+}
+function renderHome(){el("greet").textContent=NW.greet().replace("Good M","Good m").replace("Good A","Good a").replace("Good E","Good e")+", Dana";var pd=NW.nextBiweekly(new Date(2026,10,6)),pp=new Date(pd);pp.setDate(pp.getDate()-4);var t0=new Date();t0.setHours(0,0,0,0);el("payTile").textContent="Pay group NDW-BW · Pay date "+NW.md(pd)+", "+pd.getFullYear()+" · "+(pp<=t0?"Pre-process is open.":"Pre-process opens "+NW.md(pp)+".");
+  var items=[["Approve timecards for the period ending "+NW.md(NW.lastWeekday(6)),"Pay group NDW-BH · 12 timecards","Review"],["Review benefits enrollment changes","3 life events submitted","Review"]];
+  if(S.hired&&S.data.i9)items.unshift(["Complete Form I-9 Section 2 for "+S.name,"Due within three business days of "+S.data.hiredate,"Start"]);
+  el("todos").innerHTML=items.map(function(t){return '<div class="todo"><div class="t"><b>'+esc(t[0])+'</b><small>'+esc(t[1])+'</small></div><button class="btn lnk" data-na="1">'+t[2]+'</button></div>'}).join("");
+  el("todoCount").textContent="("+items.length+")";
+}
+function rows(){var r=BASE.slice();if(S.hired)r.unshift([S.name,S.aid,S.data.file,S.data.job,S.data.dept,S.data.locName,S.data.hiredate,"#e8710a",1]);return r}
+function renderPeople(){
+  var q=(el("pq").value||"").toLowerCase(),R=rows().filter(function(r){return !q||(r[0]+" "+r[1]+" "+r[2]).toLowerCase().indexOf(q)>=0});
+  el("pcount").textContent="Showing "+R.length+" of "+(TOTAL+(S.hired?1:0))+" employees";
+  el("ptbl").innerHTML=R.length?R.map(function(r){var ini=r[0].split(" ").map(function(x){return x[0]}).join("").slice(0,2);return '<tr'+(r[8]?' class="new"':'')+'><td><div class="pp"><span class="av" style="background:'+r[7]+'">'+ini+'</span>'+(r[8]?'<a data-prof="1" tabindex="0">'+esc(r[0])+'</a> <span class="chip ok">New hire</span>':'<span>'+esc(r[0])+'</span>')+'</div></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td><td>'+esc(r[5])+'</td><td>'+r[6]+'</td><td><span class="chip ok">Active</span></td></tr>'}).join(""):'<tr><td colspan="8"><div class="empty">No employees match “'+esc(q)+'”.</div></td></tr>';
+}
+
+/* wizard */
+function drawSteps(){el("steps").innerHTML=STEPS.map(function(s,i){var c=i<S.step?"done":i===S.step?"cur":"";return '<button class="st '+c+'" data-step="'+i+'"'+(i<S.step?'':' tabindex="-1"')+'><i>'+(i<S.step?'✓':i+1)+'</i><span>'+s+'</span></button>'}).join("");
+  $$(".ws").forEach(function(w){w.hidden=+w.dataset.s!==S.step});
+  el("adpBack").hidden=S.step===0;el("adpNext").hidden=S.step===2;el("adpSave").hidden=S.step!==2;
+  el("wpos").textContent="Step "+(S.step+1)+" of "+STEPS.length;
+  if(S.step===2)renderReview();
+}
+function validate(step){
+  var bad=[];
+  $$('.ws[data-s="'+step+'"] .f[data-req]').forEach(function(f){var inp=f.querySelector("input,select"),val=inp.value.trim(),ok=!!val;
+    if(ok&&f.dataset.ssn)ok=val.replace(/\D/g,"").length===9;
+    f.classList.toggle("bad",!ok);if(!ok)bad.push(f.querySelector("label").firstChild.textContent)});
+  el("hireErr").innerHTML=bad.length?'<div class="alert er" role="alert"><svg class="i"><use href="#i-err"/></svg><div><b>Fix '+bad.length+(bad.length>1?' errors':' error')+' to continue.</b> '+esc(bad.join(", "))+'</div></div>':"";
+  if(bad.length){var f=document.querySelector('.ws[data-s="'+step+'"] .f.bad input,.ws[data-s="'+step+'"] .f.bad select');if(f)f.focus()}
+  return !bad.length;
+}
+function derive(){
+  var g=v("group");el("adp-freq").value=g?(g.indexOf("SM")>=0?"Semi-monthly":"Bi-weekly"):"";
+  var loc=v("loc"),st=loc?{AUS:"Texas",SFO:"California",NYC:"New York",REM:v("state")||""}[loc.slice(0,3)]:"";
+  el("adp-wstate").value=st||"";el("adp-lstate").value=v("state");el("adp-sui").value=st?(st==="Texas"?"TX · No state income tax":st+" SUI"):"";
+  var hd=v("hiredate");el("adp-first-pay").value=hd&&g?firstPay(hd,g):"";
+}
+function parseD(s){var m=String(s).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/)||String(s).match(/([A-Za-z]{3})[a-z]*\.? (\d{1,2}),? (\d{4})/);if(!m)return null;
+  if(isNaN(+m[1])){var mo="JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(m[1].slice(0,1).toUpperCase()+m[1].slice(1,3).toLowerCase())/3;return new Date(+m[3],mo,+m[2])}return new Date(+m[3],+m[1]-1,+m[2])}
+function fmt(d){return ("0"+(d.getMonth()+1)).slice(-2)+"/"+("0"+d.getDate()).slice(-2)+"/"+d.getFullYear()}
+function firstPay(hd,g){var d=parseD(hd);if(!d)return "";
+  if(g.indexOf("SM")>=0){var p=new Date(d.getFullYear(),d.getMonth(),15);if(p<=d)p=new Date(d.getFullYear(),d.getMonth()+1,0);return fmt(p)}
+  var a=new Date(2026,10,6);while(a-d<7*864e5)a.setDate(a.getDate()+14);return fmt(a)}
+function maskSSN(s){var d=s.replace(/\D/g,"");return d.length>=4?"XXX-XX-"+d.slice(-4):""}
+function money(s){var n=parseFloat(String(s).replace(/[^0-9.]/g,""));return isNaN(n)?s:"$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function data(){derive();var d={};FIELDS.forEach(function(f){d[f]=v(f)});d.file=el("adp-file").value;d.pos=el("adp-pos").value;d.freq=el("adp-freq").value;d.firstpay=el("adp-first-pay").value;
+  d.rtype=document.querySelector('input[name=rtype]:checked').value;d.dd=v("dd");d.w4=v("w4");d.invite=v("invite");d.i9=v("i9");d.wstate=el("adp-wstate").value;d.sui=el("adp-sui").value;
+  d.locName=d.loc?d.loc.split(" · ")[1]:"";return d}
+function renderReview(){var d=data();
+  function sec(t,s,rows){return '<section><h3>'+t+'<button data-step="'+s+'">Edit</button></h3><dl>'+rows.map(function(r){return '<dt>'+r[0]+'</dt><dd>'+(r[1]?esc(r[1]):'<span style="color:var(--mu2)">Not entered</span>')+'</dd>'}).join("")+'</dl></section>'}
+  el("review").innerHTML=
+   sec("Personal profile",0,[["Legal name",[d.first,d.middle,d.last].filter(Boolean).join(" ")],["Preferred name",d.pref],["SSN",maskSSN(d.ssn)],["Birth date",d.dob],["Home address",[d.addr1,d.addr2,d.city,d.state&&(d.state+" "+d.zip)].filter(Boolean).join(", ")],["Personal email",d.email],["Mobile phone",d.phone]])+
+   sec("Employment and job",1,[["Employee ID (Workday)",d.wdid],["Hire date",d.hiredate],["Hire reason",d.reason],["Worker category",d.wtype],["File number",d.file],["Position ID",d.pos],["Job title",d.job],["Home department",d.dept],["Work location",d.loc],["Reports to",d.mgr],["FLSA status",d.flsa],["Work email",d.wemail]])+
+   sec("Pay",1,[["Pay group",d.group],["Pay frequency",d.freq],["Rate type",d.rtype],["Annual salary",d.rate&&money(d.rate)],["Standard hours",d.hours],["First pay date",d.firstpay],["Direct deposit",d.dd?"Employee adds in self service":"Paper check until set up"]])+
+   sec("Tax and onboarding",2,[["Federal W-4",d.w4?"Employee completes online":"Practitioner enters"],["Worked-in state",d.wstate],["Lived-in state",d.state],["SUI/SDI",d.sui],["Registration invite",d.invite?"Send to "+(d.email||"personal email"):"Don’t send"],["Form I-9",d.i9?"Start Section 1 in onboarding":"Not started"]]);
+}
+function resetWizard(){
+  FIELDS.forEach(function(f){var e=el("adp-"+f);if(e&&!e.readOnly)e.value=f==="hours"?"80.00":""});
+  ["dd","w4","invite","i9"].forEach(function(f){el("adp-"+f).checked=false});
+  el("adp-rt-sal").checked=true;$$(".f.bad").forEach(function(f){f.classList.remove("bad")});
+  var n=4821+(S.hired?1:0);el("adp-file").value=("00000"+n).slice(-6);el("adp-pos").value="NDW"+el("adp-file").value;
+  derive();S.step=0;S.dirty=false;el("hireErr").innerHTML="";drawSteps();
+}
+function hire(){
+  for(var i=0;i<2;i++){if(!validate(i)){S.step=i;drawSteps();toast("Some required fields are missing");return}}
+  var d=data();S.hired=true;S.data=d;S.name=[d.pref||d.first,d.last].join(" ");S.legal=[d.first,d.middle,d.last].filter(Boolean).join(" ");
+  S.aid="G3"+"JRFK".charAt(d.last.length%4)+"8W2N5P"+String(d.file).slice(-1);
+  el("doneTitle").textContent=S.name+" is hired";
+  el("doneSub").textContent="Effective "+d.hiredate+" · "+(d.job||"Job title not set")+(d.dept?", "+d.dept.split(" · ")[1]:"");
+  el("doneIds").innerHTML=[["Associate ID",S.aid],["File number",d.file],["Workday employee ID",d.wdid],["First pay date",d.firstpay||"Not set"]].map(function(x){return '<div><span>'+x[0]+'</span><b>'+esc(x[1])+'</b></div>'}).join("");
+  var nx=[];if(d.invite)nx.push("Registration invitation sent to "+d.email+".");if(d.w4)nx.push("Form W-4 added to the employee’s onboarding tasks.");if(d.dd)nx.push("Direct deposit setup requested in self service.");if(d.i9)nx.push("Form I-9 Section 1 started. Section 2 is due within three business days of the hire date.");
+  el("doneNext").innerHTML=nx.length?'<div class="alert in"><svg class="i"><use href="#i-info"/></svg><div>'+nx.map(esc).join("<br>")+'</div></div>':"";
+  S.tab="personal";S.dirty=false;go("done");toast("Employee hired");
+}
+function renderProfile(){
+  if(!S.hired){el("profHead").innerHTML="";el("ptabs").innerHTML="";el("profBody").innerHTML='<div class="empty">Select an employee from the list.</div>';return}
+  var d=S.data,ini=(S.name.split(" ").map(function(x){return x[0]}).join("")).slice(0,2);
+  el("profHead").innerHTML='<div class="prof"><div class="av">'+ini+'</div><div><h2>'+esc(S.name)+' <span class="chip ok">Active</span></h2><div class="meta">'+esc(d.job||"")+(d.dept?' · '+esc(d.dept.split(" · ")[1]):'')+(d.locName?' · '+esc(d.locName):'')+'</div><div class="meta">Associate ID '+S.aid+' · File # '+d.file+' · Position ID '+d.pos+'</div></div></div>';
+  var T=[["personal","Personal"],["employment","Employment"],["pay","Pay"],["tax","Tax"],["onboarding","Onboarding"]];
+  el("ptabs").innerHTML=T.map(function(t){return '<button data-tab="'+t[0]+'" class="'+(S.tab===t[0]?'on':'')+'">'+t[1]+'</button>'}).join("");
+  function kv(r){return '<div class="kv">'+r.map(function(x){return '<div><span>'+x[0]+'</span><b>'+(x[1]?esc(x[1]):'—')+'</b></div>'}).join("")+'</div>'}
+  var B={
+   personal:kv([["Legal name",S.legal],["Preferred name",d.pref],["SSN",maskSSN(d.ssn)],["Birth date",d.dob?d.dob.replace(/\/\d{4}$/,"/****"):""],["Gender",d.gender],["Personal email",d.email],["Mobile phone",d.phone],["Home address",[d.addr1,d.addr2].filter(Boolean).join(", ")],["City, state ZIP",[d.city,d.state&&d.state+" "+d.zip].filter(Boolean).join(", ")]]),
+   employment:kv([["Employee ID (Workday)",d.wdid],["Hire date",d.hiredate],["Hire reason",d.reason],["Worker category",d.wtype],["Job title",d.job],["Home department",d.dept],["Work location",d.loc],["Reports to",d.mgr],["FLSA status",d.flsa],["Work email",d.wemail]]),
+   pay:kv([["Pay group",d.group],["Pay frequency",d.freq],["Rate type",d.rtype],["Annual salary",d.rate?"••••••":""],["Standard hours",d.hours],["First pay date",d.firstpay],["Direct deposit",d.dd?"Pending employee setup":"Paper check"]]),
+   tax:kv([["Federal W-4",d.w4?"Pending employee":"Not started"],["Worked-in state",d.wstate],["Lived-in state",d.state],["SUI/SDI",d.sui]]),
+   onboarding:'<div class="tw"><table class="tbl"><thead><tr><th>Task</th><th>Owner</th><th>Status</th></tr></thead><tbody>'+[["Register for ADP self service","Employee",d.invite?"Invitation sent":"Not sent",d.invite],["Complete Form W-4","Employee",d.w4?"Pending":"Not assigned",d.w4],["Add direct deposit","Employee",d.dd?"Pending":"Not assigned",d.dd],["Form I-9 Section 1","Employee",d.i9?"Pending":"Not started",d.i9],["Form I-9 Section 2","Practitioner",d.i9?"Due within 3 business days of hire":"Not started",0]].map(function(r){return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td><span class="chip '+(r[3]?'bl':'')+'">'+r[2]+'</span></td></tr>'}).join("")+'</tbody></table></div>'
+  };
+  el("profBody").innerHTML=B[S.tab];
+}
+
+/* events */
+document.addEventListener("click",function(e){
+  var t=e.target,b=t.closest("button,a")||t;
+  if(b.dataset&&b.dataset.na){toast("You don’t have access to this feature.");return}
+  if(b.dataset&&b.dataset.go){if(b.dataset.go==="hire"&&(S.page==="done"||!S.dirty))resetWizard();S.page=b.dataset.go;go(b.dataset.go);return}
+  if(b.dataset&&b.dataset.step!==undefined&&b.closest("#steps,#review")){var s=+b.dataset.step;if(s<S.step||(s===S.step&&b.closest("#review"))){S.step=s;el("hireErr").innerHTML="";drawSteps();el("wiz").scrollIntoView({block:"start"})}return}
+  if(b.dataset&&b.dataset.prof){S.page="emp";go("emp");return}
+  if(b.dataset&&b.dataset.tab){S.tab=b.dataset.tab;renderProfile();return}
+  switch(b.id){
+    case "adpNext":if(validate(S.step)){S.step++;derive();drawSteps();el("wiz").scrollIntoView({block:"start"})}break;
+    case "adpBack":S.step=Math.max(0,S.step-1);el("hireErr").innerHTML="";drawSteps();break;
+    case "adpSave":hire();S.page="done";break;
+    case "adpCancel":resetWizard();S.page="process";go("process");toast("Hire cancelled. Nothing was saved.");break;
+    case "viewProfile":S.tab="personal";S.page="emp";go("emp");break;
+    case "reset":init();break;
+  }
+});
+el("adp-ssn").addEventListener("input",function(e){var d=e.target.value.replace(/\D/g,"").slice(0,9);e.target.value=d.length>5?d.slice(0,3)+"-"+d.slice(3,5)+"-"+d.slice(5):d.length>3?d.slice(0,3)+"-"+d.slice(3):d});
+document.addEventListener("input",function(e){if(!e.target.id||e.target.id.indexOf("adp-")!==0)return;S.dirty=true;var f=e.target.closest(".f.bad");if(f&&e.target.value.trim())f.classList.remove("bad");derive()});
+document.addEventListener("change",function(e){if(!e.target.id||e.target.id.indexOf("adp-")!==0)return;S.dirty=true;if(S.step===2)setTimeout(renderReview,0);var f=e.target.closest(".f.bad");if(f&&e.target.value)f.classList.remove("bad");derive()});
+el("pq").addEventListener("input",renderPeople);
+var PAGES=["hire","people","process","home"];
+function init(){S={step:0,hired:false,dirty:false,tab:"personal",page:"home"};el("pq").value="";resetWizard();var h=(location.hash||"").slice(1);S.page=PAGES.indexOf(h)>=0?h:"home";go(S.page)}
+init();
+window.addEventListener("hashchange",function(){var h=(location.hash||"").slice(1);if(PAGES.indexOf(h)>=0){S.page=h;go(h)}});
+</script>
+</body>
+</html>
